@@ -9,9 +9,6 @@ const port = process.env.PORT || 3001;
 // initialize server
 const server = http.createServer(app)
 
-app.get('/',(req,res)=>{
-	res.send('hello')
-})
 server.listen(port,()=>{
 	console.log(` server is running on port : ${port} `.black.bgGreen.bold)
 })
