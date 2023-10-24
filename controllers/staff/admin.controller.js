@@ -1,9 +1,12 @@
 //@desc Register Admin
 //@route POST /api/v1/admin/register
+
+const { registerAdminServices } = require("../../services/staff/admin.services");
+
 //@access Private
 exports.registerAdminController=async(req,res)=>{
 	try {
-		const result = await 
+		const result = await registerAdminServices(req.body)
 		res.status(200).json({
 			status:"success",
 			data:result

@@ -5,7 +5,8 @@ const path = require('path')
 
 // initialize application
 const app = express();
-
+// parsing json
+app.use(express.json());
 // middleware
 app.use(morgan('dev')); // log requests to the console (Express4)
 
@@ -15,5 +16,8 @@ readdirSync(staffPath).map(fileName =>app.use('/api/v1',require('../routes/staff
 // initialize academic route
 const academicPath = path.join(__dirname,'../routes/academic')
 readdirSync(academicPath).map(fileName =>app.use('/api/v1',require('../routes/academic/'+fileName)));
+app.get('/',(req,res)=>{
+	res.send('Server is running !')
+})
 
 module.exports=app
