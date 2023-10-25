@@ -1,4 +1,6 @@
 const Admin = require('../../models/Staff/admin.model');
+const generateToken = require('../../utils/tokenGenerator');
+const verifyToken = require('../../utils/verifyToken');
 
 // register admin services
 exports.registerAdminServices=async(data)=>{
@@ -15,10 +17,12 @@ exports.loginAdminServices = async(data)=>{
 	
 	const user = await Admin.findOne({email})
 	if(!user) return "Invalid login credentials"
-	
+
 	const isPassValid = await user.verifyPassword(password)
 	if(isPassValid){
-		return user
+		const token = generateToken(user._id)
+		const verify= verifyToken(token)
+		return {user,token,verify}
 	}else{
 		return "Invalid login credentials";	
 	}
