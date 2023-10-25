@@ -11,6 +11,17 @@ exports.registerAdminServices=async(data)=>{
 }
 // login admin
 exports.loginAdminServices = async(data)=>{
+	const {email,password} = data;
+	
+	const user = await Admin.findOne({email})
+	if(!user) return "Invalid login credentials"
+	
+	const isPassValid = await user.verifyPassword(password)
+	if(isPassValid){
+		return user
+	}else{
+		return "Invalid login credentials";	
+	}
 
 }
 

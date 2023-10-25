@@ -1,8 +1,7 @@
+const { registerAdminServices, getAdminsServices, loginAdminServices } = require("../../services/staff/admin.services");
+
 //@desc Register Admin
 //@route POST /api/v1/admin/register
-
-const { registerAdminServices, getAdminsServices } = require("../../services/staff/admin.services");
-
 //@access Private
 exports.registerAdminController=async(req,res)=>{
 	try {
@@ -27,7 +26,7 @@ exports.loginAdminController = async(req, res) => {
 		const result = await loginAdminServices(req.body);
 	  res.status(201).json({
 		status: "success",
-		data: "Admin has been login",
+		data:result,
 	  });
 	} catch (error) {
 	  res.json({

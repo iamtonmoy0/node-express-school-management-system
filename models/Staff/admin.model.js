@@ -78,7 +78,7 @@ next();
   next();
 })
 // compare password
-adminSchema.methods.verifyPassword= async function(enteredPassword){
+adminSchema.methods.verifyPassword = async function(enteredPassword){
   return await bcrypt.compare(enteredPassword,this.password)
 }
 
