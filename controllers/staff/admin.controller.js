@@ -1,7 +1,7 @@
 //@desc Register Admin
 //@route POST /api/v1/admin/register
 
-const { registerAdminServices } = require("../../services/staff/admin.services");
+const { registerAdminServices, getAdminsServices } = require("../../services/staff/admin.services");
 
 //@access Private
 exports.registerAdminController=async(req,res)=>{
@@ -22,8 +22,9 @@ exports.registerAdminController=async(req,res)=>{
 //@desc     login admins
 //@route    POST /api/v1/admins/login
 //@access   Private
-exports.loginAdminController = (req, res) => {
+exports.loginAdminController = async(req, res) => {
 	try {
+		const result = await loginAdminServices(req.body);
 	  res.status(201).json({
 		status: "success",
 		data: "Admin has been login",
@@ -40,11 +41,12 @@ exports.loginAdminController = (req, res) => {
   //@route    GET /api/v1/admins
   //@access   Private
   
-  exports.getAdminsController = (req, res) => {
+  exports.getAdminsController =async (req, res) => {
 	try {
+		const result = await getAdminsServices()
 	  res.status(201).json({
 		status: "success",
-		data: "All admins",
+		data:result,
 	  });
 	} catch (error) {
 	  res.json({
