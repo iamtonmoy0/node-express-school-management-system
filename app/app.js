@@ -1,8 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
-const { readdirSync } = require('fs');
-const path = require('path');
-const routeSync = require('../utils/routeSync');
+const routeSync = require('../handlers/routeSync.handler');
 
 // Initialize the Express application
 const app = express();
@@ -12,9 +10,9 @@ app.use(express.json());
 app.use(morgan('dev')); // Log requests to the console (Express 4)
 
 // Initialize staff route
-// routeSync(app,'staff')
+routeSync(app,'staff')
 // Initialize academic route
-routeSync(app,'academy')
+// routeSync(app,'academic')
 
 
 // Define a default route
