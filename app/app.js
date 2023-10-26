@@ -1,26 +1,36 @@
 const express = require('express');
 const morgan = require('morgan');
-const {readdirSync} = require('fs')
-const path = require('path')
+const { readdirSync } = require('fs');
+const path = require('path');
 
-// initialize application
+// Initialize the Express application
 const app = express();
-// parsing json
+
+// Middleware
 app.use(express.json());
-// middleware
-app.use(morgan('dev')); // log requests to the console (Express4)
+app.use(morgan('dev')); // Log requests to the console (Express 4)
 
-// initialize staff route
-const staffPath = path.join(__dirname,'../routes/staff')
-readdirSync(staffPath).map(fileName =>app.use('/api/v1',require(staffPath+fileName)));
-// initialize academic route
-// const academicPath = path.join(__dirname,'../routes/academic')
-// readdirSync(academicPath).map(fileName =>app.use('/api/v1',require(academicPath+fileName)));
-app.get('/',(req,res)=>{
-	res.send('Server is running !')
-})
-app.all('*',(req,res)=>{
-	res.send('Invalid Route')
-})
+// Initialize staff route
+const staffPath = path.join(__dirname, '../routes/staff');
 
-module.exports=app
+// Use readdirSync to read the files in the staff directory
+readdirSync(staffPath).forEach((fileName) => {
+  // Construct the full path to the route file
+  const routeFilePath = path.join(staffPath, fileName);
+
+  // Require the route file and use it with '/api/v1' as the base path
+  app.use('/api/v1', require(routeFilePath));
+});
+
+// const academicPath = path.join(__dirname,"../routes/academic")
+// Define a default route
+app.get('/', (req, res) => {
+  res.send('Server is running!');
+});
+
+// Handle invalid routes
+app.all('*', (req, res) => {
+  res.send('Invalid Route');
+});
+
+module.exports = app;
