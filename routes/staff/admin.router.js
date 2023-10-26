@@ -1,5 +1,5 @@
 const express = require('express');
-const { registerAdminController, loginAdminController, getAdminsController } = require('../../controllers/staff/admin.controller');
+const { registerAdminController, loginAdminController, getAdminsController, getAdminController, updateAdminController, deleteAdminController, adminSuspendTeacherController, adminUnSuspendTeacherController, adminWithdrawTeacherController, adminUnWithdrawTeacherController, adminUnPublishResultsController } = require('../../controllers/staff/admin.controller');
 const adminRouter = express.Router();
 // middleware
 const isLoggedIn = require('../../middlewares/isLoggedIn');
@@ -11,7 +11,31 @@ adminRouter.route('/admin/register')
 adminRouter.route('/admin/login')
  .post(loginAdminController) 
 // get all admin
-adminRouter.route('/admin')
+adminRouter.route('/admins')
  .get(isLoggedIn,getAdminsController)
- 
+// get single admin/update admin/delete admin
+adminRouter.route('/admins/:id')
+ .get(getAdminController)
+ .put(updateAdminController)
+ .delete(deleteAdminController)
+// admin suspend a teacher
+adminRouter.route('/admins/suspend/teacher/:id')
+ .put(adminSuspendTeacherController)
+// admin unsuspend a teacher
+ adminRouter.route('/admins/unsuspend/teacher/:id')
+ .put(adminUnSuspendTeacherController)
+//  admin withdraws a teacher
+adminRouter.route('/admins/withdraw/teacher/:id')
+ .put(adminWithdrawTeacherController)
+// admin un-withdraws a teacher
+adminRouter.route('/admins/unwithdraw/teacher/:id')
+ .put(adminUnWithdrawTeacherController)
+// admin publish result 
+adminRouter.route('/admins/publish/result/:id')
+ .put(adminUnPublishResultsController)
+// admin un-publish result 
+adminRouter.route('/admins/unpublish/result/:id')
+ .put(adminUnPublishResultsController)
+
+
 module.exports=adminRouter;

@@ -6,7 +6,7 @@ const verifyToken = require('../../utils/verifyToken');
 exports.registerAdminServices=async(data)=>{
 	const {name,email,password} = data;
 	const isAdminExist = await Admin.findOne({email});
-	if(isAdminExist) return "Email already exist!"
+	if(isAdminExist) return "Email already in use! please sign in"
 	const result = await Admin.create({name,email,password})
 	return result;
 

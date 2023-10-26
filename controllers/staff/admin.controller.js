@@ -1,3 +1,4 @@
+const responseStatus = require("../../handlers/responseStatus.handler");
 const { registerAdminServices, getAdminsServices, loginAdminServices } = require("../../services/staff/admin.services");
 
 //@desc Register Admin
@@ -5,16 +6,10 @@ const { registerAdminServices, getAdminsServices, loginAdminServices } = require
 //@access Private
 exports.registerAdminController=async(req,res)=>{
 	try {
-		const result = await registerAdminServices(req.body)
-		res.status(200).json({
-			status:"success",
-			data:result
-		})
+	 const result=await registerAdminServices(req.body);
+	 responseStatus(res,201,'success',result);
 	} catch (error) {
-	res.status(400).json({
-		status:'fail',
-		message: error.toString()
-	})	
+		responseStatus(res,400,'failed',error.message);
 	}
 }
 
@@ -24,15 +19,9 @@ exports.registerAdminController=async(req,res)=>{
 exports.loginAdminController = async(req, res) => {
 	try {
 		const result = await loginAdminServices(req.body);
-	  res.status(201).json({
-		status: "success",
-		data:result,
-	  });
+	  responseStatus(res,201,'success',result);
 	} catch (error) {
-	  res.json({
-		status: "failed",
-		error: error.message,
-	  });
+	  responseStatus(res,400,'failed',error.message);
 	}
   };
   
@@ -43,15 +32,9 @@ exports.loginAdminController = async(req, res) => {
   exports.getAdminsController =async (req, res) => {
 	try {
 		const result = await getAdminsServices()
-	  res.status(201).json({
-		status: "success",
-		data:result,
-	  });
+	  responseStatus(res,201,'success',result);
 	} catch (error) {
-	  res.json({
-		status: "failed",
-		error: error.message,
-	  });
+	  responseStatus(res,400,'failed',error.message);
 	}
   };
   //@desc     Get single admin
@@ -65,14 +48,11 @@ exports.loginAdminController = async(req, res) => {
 		data: "single admin",
 	  });
 	} catch (error) {
-	  res.json({
-		status: "failed",
-		error: error.message,
-	  });
+	  responseStatus(res,400,'failed',error.message);
 	}
   };
   //@desc    update admin
-  //@route    UPDATE /api/v1/admins/:id
+  //@route    PUT /api/v1/admins/:id
   //@access   Private
   exports.updateAdminController = (req, res) => {
 	try {
@@ -81,10 +61,7 @@ exports.loginAdminController = async(req, res) => {
 		data: "update admin",
 	  });
 	} catch (error) {
-	  res.json({
-		status: "failed",
-		error: error.message,
-	  });
+	  responseStatus(res,400,'failed',error.message);
 	}
   };
   
@@ -98,10 +75,7 @@ exports.loginAdminController = async(req, res) => {
 		data: "delete admin",
 	  });
 	} catch (error) {
-	  res.json({
-		status: "failed",
-		error: error.message,
-	  });
+	  responseStatus(res,400,'failed',error.message);
 	}
   };
   
@@ -116,10 +90,7 @@ exports.loginAdminController = async(req, res) => {
 		data: " admin suspend teacher",
 	  });
 	} catch (error) {
-	  res.json({
-		status: "failed",
-		error: error.message,
-	  });
+	  responseStatus(res,400,'failed',error.message);
 	}
   };
   //@desc     admin unsuspend a teacher
@@ -132,10 +103,7 @@ exports.loginAdminController = async(req, res) => {
 		data: " admin Unsuspend teacher",
 	  });
 	} catch (error) {
-	  res.json({
-		status: "failed",
-		error: error.message,
-	  });
+	  responseStatus(res,400,'failed',error.message);
 	}
   };
   //@desc     admin withdraws a teacher
@@ -148,14 +116,11 @@ exports.loginAdminController = async(req, res) => {
 		data: " admin withdraw teacher",
 	  });
 	} catch (error) {
-	  res.json({
-		status: "failed",
-		error: error.message,
-	  });
+	  responseStatus(res,400,'failed',error.message);
 	}
   };
   //@desc     admin Un-withdraws a teacher
-  //@route    PUT /api/v1/admins/withdraw/teacher/:id
+  //@route    PUT /api/v1/admins/unwithdraw/teacher/:id
   //@access   Private
   exports.adminUnWithdrawTeacherController = (req, res) => {
 	try {
@@ -164,14 +129,11 @@ exports.loginAdminController = async(req, res) => {
 		data: " admin Un-withdraw teacher",
 	  });
 	} catch (error) {
-	  res.json({
-		status: "failed",
-		error: error.message,
-	  });
+	  responseStatus(res,400,'failed',error.message);
 	}
   };
   //@desc     admin public exam result
-  //@route    PUT /api/v1/admins/publish/exam/:id
+  //@route    PUT /api/v1/admins/publish/result/:id
   //@access   Private
   exports.adminPublishResultsController = (req, res) => {
 	try {
@@ -180,15 +142,12 @@ exports.loginAdminController = async(req, res) => {
 		data: " admin publish exam",
 	  });
 	} catch (error) {
-	  res.json({
-		status: "failed",
-		error: error.message,
-	  });
+	  responseStatus(res,400,'failed',error.message);
 	}
   };
   
   //@desc     admin unpublish exam result
-  //@route    PUT /api/v1/admins/unpublish/exam/:id
+  //@route    PUT /api/v1/admins/unpublish/result/:id
   //@access   Private
   exports.adminUnPublishResultsController = (req, res) => {
 	try {
@@ -197,10 +156,7 @@ exports.loginAdminController = async(req, res) => {
 		data: " admin unpublish exam",
 	  });
 	} catch (error) {
-	  res.json({
-		status: "failed",
-		error: error.message,
-	  });
+	  responseStatus(res,400,'failed',error.message);
 	}
   };
   
