@@ -32,4 +32,4 @@ exports.loginAdminServices = async(data)=>{
 // get all admins
 exports.getAdminsServices = async()=>{
 	return Admin.find({})
-}
+} 

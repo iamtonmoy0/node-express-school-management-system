@@ -13,4 +13,5 @@ adminRouter.route('/admin/login')
 // get all admin
 adminRouter.route('/admin')
  .get(isLoggedIn,getAdminsController)
+ 
 module.exports=adminRouter;
