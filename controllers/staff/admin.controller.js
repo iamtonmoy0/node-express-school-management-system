@@ -1,5 +1,5 @@
 const responseStatus = require("../../handlers/responseStatus.handler");
-const { registerAdminServices, getAdminsServices, loginAdminServices } = require("../../services/staff/admin.services");
+const { registerAdminServices, getAdminsServices, loginAdminServices, getSingleProfileService } = require("../../services/staff/admin.services");
 
 //@desc Register Admin
 //@route POST /api/v1/admin/register
@@ -37,16 +37,14 @@ exports.loginAdminController = async(req, res) => {
 	  responseStatus(res,400,'failed',error.message);
 	}
   };
-  //@desc     Get single admin
-  //@route    GET /api/v1/admins/:id
+  //@desc     Get current admin
+  //@route    GET /api/v1/admin/profile
   //@access   Private
   
-  exports.getAdminController = (req, res) => {
+  exports.getAdminProfileController = async(req, res) => {
 	try {
-	  res.status(201).json({
-		status: "success",
-		data: "single admin",
-	  });
+		const result =  await getSingleProfileService(req.userAuth.id)
+	  responseStatus(res,201,'success',result);
 	} catch (error) {
 	  responseStatus(res,400,'failed',error.message);
 	}
