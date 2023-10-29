@@ -1,5 +1,5 @@
 const express = require('express');
-const { registerAdminController, loginAdminController, getAdminsController, getAdminController, updateAdminController, deleteAdminController, adminSuspendTeacherController, adminUnSuspendTeacherController, adminWithdrawTeacherController, adminUnWithdrawTeacherController, adminUnPublishResultsController } = require('../../controllers/staff/admin.controller');
+const { registerAdminController, loginAdminController, getAdminsController,  updateAdminController, deleteAdminController, adminSuspendTeacherController, adminUnSuspendTeacherController, adminWithdrawTeacherController, adminUnWithdrawTeacherController, adminUnPublishResultsController, getAdminProfileController } = require('../../controllers/staff/admin.controller');
 const adminRouter = express.Router();
 // middleware
 const isLoggedIn = require('../../middlewares/isLoggedIn');
@@ -13,9 +13,11 @@ adminRouter.route('/admin/login')
 // get all admin
 adminRouter.route('/admins')
  .get(isLoggedIn,getAdminsController)
-// get single admin/update admin/delete admin
+//get current admin profile
+adminRouter.route('/admin/profile')
+ .get(isLoggedIn,getAdminProfileController)
+// update admin/delete admin
 adminRouter.route('/admins/:id')
- .get(getAdminController)
  .put(updateAdminController)
  .delete(deleteAdminController)
 // admin suspend a teacher

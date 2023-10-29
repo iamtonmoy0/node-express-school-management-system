@@ -33,3 +33,13 @@ exports.loginAdminServices = async(data)=>{
 exports.getAdminsServices = async()=>{
 	return Admin.find({})
 } 
+// get single admin profile
+exports.getSingleProfileService = async (id)=> {
+	const user = await Admin.findOne({_id:id});
+	if(!user){
+		return "Admin not found"
+	}else{
+		return user;
+	}
+
+}
