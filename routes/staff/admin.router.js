@@ -3,6 +3,7 @@ const { registerAdminController, loginAdminController, getAdminsController,  upd
 const adminRouter = express.Router();
 // middleware
 const isLoggedIn = require('../../middlewares/isLoggedIn');
+const isAdmin = require('../../middlewares/isAdmin');
 
 // register
 adminRouter.route('/admin/register')
@@ -12,7 +13,7 @@ adminRouter.route('/admin/login')
  .post(loginAdminController) 
 // get all admin
 adminRouter.route('/admins')
- .get(isLoggedIn,getAdminsController)
+ .get(isLoggedIn, isAdmin,getAdminsController)
 //get current admin profile
 adminRouter.route('/admin/profile')
  .get(isLoggedIn,getAdminProfileController)
