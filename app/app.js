@@ -9,10 +9,10 @@ const app = express();
 app.use(express.json());
 app.use(morgan('dev')); // Log requests to the console (Express 4)
 
-// Initialize staff route
+// // Initialize staff route
 routeSync(app,'staff')
-// Initialize academic route
-// routeSync(app,'academic')
+// initialize academic route
+routeSync(app,'academic')
 
 
 // Define a default route

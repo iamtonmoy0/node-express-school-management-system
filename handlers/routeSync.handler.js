@@ -1,8 +1,8 @@
 const {readdirSync} = require('fs');
 const path = require('path')
 
-const routeSync=(app,directory)=>{
-const routePath = path.join(__dirname,`../routes/${directory}`);
+const routeSync=(app,pathName)=>{
+const routePath = path.join(__dirname,`../routes/${pathName}`)
 
 readdirSync(routePath).map(fileName=>{
 const routeFilePath = path.join(routePath,fileName);
