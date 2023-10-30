@@ -19,7 +19,7 @@ adminRouter.route('/admin/profile')
  .get(isLoggedIn,getAdminProfileController)
 // update admin/delete admin
 adminRouter.route('/admins/:id')
- .put(updateAdminController)
+ .put(isLoggedIn,isAdmin,updateAdminController)
  .delete(deleteAdminController)
 // admin suspend a teacher
 adminRouter.route('/admins/suspend/teacher/:id')

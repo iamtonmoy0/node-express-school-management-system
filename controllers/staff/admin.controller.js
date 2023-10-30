@@ -1,5 +1,5 @@
 const responseStatus = require("../../handlers/responseStatus.handler");
-const { registerAdminServices, getAdminsServices, loginAdminServices, getSingleProfileService } = require("../../services/staff/admin.services");
+const { registerAdminServices, getAdminsServices, loginAdminServices, getSingleProfileService, updateAdminServices } = require("../../services/staff/admin.services");
 
 //@desc Register Admin
 //@route POST /api/v1/admin/register
@@ -52,12 +52,10 @@ exports.loginAdminController = async(req, res) => {
   //@desc    update admin
   //@route    PUT /api/v1/admins/:id
   //@access   Private
-  exports.updateAdminController = (req, res) => {
+  exports.updateAdminController = async(req, res) => {
 	try {
-	  res.status(201).json({
-		status: "success",
-		data: "update admin",
-	  });
+		const result = await updateAdminServices(req.userAuth.id,req.body) 
+	  responseStatus(res,201,'success',result)
 	} catch (error) {
 	  responseStatus(res,400,'failed',error.message);
 	}
