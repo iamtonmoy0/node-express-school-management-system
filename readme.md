@@ -49,7 +49,9 @@ Before you begin, ensure you have met the following requirements:
 
   #  git clone https://github.com/iamtonmoy0/node-express-school-management-system.git
 
-SCHOOL-MANAGEMENT-SERVER/
+SCHOOL-MANAGEMENT-SERVER
+Navigate to the project directory:
+
 ├── app/
 │   ├── app.js
 ├── config/
