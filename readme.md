@@ -51,7 +51,8 @@ Before you begin, ensure you have met the following requirements:
 
 SCHOOL-MANAGEMENT-SERVER
 Navigate to the project directory:
-
+```sh
+.
 ├── app/
 │   ├── app.js
 ├── config/
@@ -136,5 +137,5 @@ Navigate to the project directory:
 ├── README.md
 ├── Server.js  //root file
 
-
+```
 
