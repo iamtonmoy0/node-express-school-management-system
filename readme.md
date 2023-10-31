@@ -1,4 +1,4 @@
-# SCHOOL MANAGEMENT SERVER
+# SCHOOL MANAGEMENT SYSTEM
 
 This is the backend server for the School Management System. It provides the necessary APIs and functionality to manage student and teacher , staff  information, courses, attendance, grades, and more.
 
@@ -38,7 +38,7 @@ This is the backend server for the School Management System. It provides the nec
 
 Before you begin, ensure you have met the following requirements:
 
-- Node.js and npm installed on your development machine.
+- Node.js 14 + and npm installed on your development machine.
 - MongoDB installed and running.
 
 ### Installation
