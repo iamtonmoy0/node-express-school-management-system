@@ -1,5 +1,3 @@
-## Database Relation Diagram 
-
 # SCHOOL MANAGEMENT SERVER
 
 This is the backend server for the School Management System. It provides the necessary APIs and functionality to manage student and teacher , staff  information, courses, attendance, grades, and more.
@@ -46,8 +44,10 @@ Before you begin, ensure you have met the following requirements:
 ### Installation
 
 1. Clone this repository:
+```sh
+  git clone https://github.com/iamtonmoy0/node-express-school-management-system.git
 
-  #  git clone https://github.com/iamtonmoy0/node-express-school-management-system.git
+```
 
 SCHOOL-MANAGEMENT-SERVER
 Navigate to the project directory:
