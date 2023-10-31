@@ -1,6 +1,6 @@
 const AcademicYear = require("../../models/Academic/academicYear.model");
 
-const Admin = require("../../models/Staff/Admin");
+const Admin = require("../../models/Staff/admin.model");
 
 // create academic years 
 exports.createAcademicYearServices = async ( data,userId) => {
