@@ -1,0 +1,61 @@
+const Program = require("../../models/Academic/program.model");
+const ClassLevel = require("../../models/Academic/class.model");
+const Admin = require('../../models/Staff/admin.model');
+
+// create program services
+exports.createProgramServices=async(data,userId)=>{
+	const { name, description } = data;
+	//check if exists
+	const programFound = await Program.findOne({ name });
+	if (programFound) {
+	  return "Program  already exists";
+	}
+	//create
+	const programCreated = await Program.create({
+	  name,
+	  description,
+	  createdBy: userId,
+	});
+	//push program into admin
+	const admin = await Admin.findById(req.userAuth._id);
+	admin.programs.push(programCreated._id);
+	//save
+	await admin.save();
+	return programCreated;
+
+}
+// get all programs
+exports.getAllProgramsService = async () =>{
+	return await Program.find();
+}
+// get single program by id
+exports.getProgramsServices=async(id)=>{
+	return await Program.findById(id);
+}
+// update program data
+exports.updateProgramServices=async(data,id,userId)=>{
+	const { name, description } = data;
+	//check name exists
+	const classFound = await ClassLevel.findOne({ name });
+	if (classFound) {
+	 return "program already exists";
+	}
+	const programs = await Program.findByIdAndUpdate(
+	  id,
+	  {
+		name,
+		description,
+		createdBy: userId,
+	  },
+	  {
+		new: true,
+	  }
+	);	
+return programs;
+}
+
+
+// delete program data
+exports.deleteProgramServices=async(id)=>{
+	return await Program.findByIdAndDelete(id);
+}
