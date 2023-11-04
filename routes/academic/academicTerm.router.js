@@ -10,6 +10,6 @@ academicTermRouter.route('/academic-term')
  .post( isLoggedIn, isAdmin, createAcademicTermController)
 academicTermRouter.route('/academic-term/:id')
  .get( isLoggedIn, isAdmin, getAcademicTermController)
- .put( isLoggedIn, isAdmin, updateAcademicTermController)
+ .patch( isLoggedIn, isAdmin, updateAcademicTermController)
  .delete( isLoggedIn, isAdmin, deleteAcademicTermController)
 module.exports = academicTermRouter;

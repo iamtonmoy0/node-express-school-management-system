@@ -6,6 +6,7 @@ const academicYearSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      index:true
     },
     fromYear: {
       type: Date,
