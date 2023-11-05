@@ -39,7 +39,7 @@ exports.getAcademicYearController = async (req, res) => {
 };
 
 //@desc   Update  Academic Year
-//@route  PUT /api/v1/academic-years/:id
+//@route  Patch /api/v1/academic-years/:id
 //@access  Private
 exports.updateAcademicYearController = async (req, res) => {
 	try {
@@ -51,7 +51,7 @@ exports.updateAcademicYearController = async (req, res) => {
 };
 
 //@desc   Update  Academic Year
-//@route  PUT /api/v1/academic-years/:id
+//@route  Delete /api/v1/academic-years/:id
 //@access  Private
 exports.deleteAcademicYearController = async (req, res) => {
 	try {

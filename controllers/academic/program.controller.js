@@ -41,7 +41,7 @@ exports.getProgramController = async (req, res) => {
 };
 
 //@desc   Update  Program 
-//@route  PUT /api/v1/programs/:id
+//@route  Patch /api/v1/programs/:id
 //@access  Private
 
 exports.updateProgramController = async (req, res) => {
@@ -54,7 +54,7 @@ exports.updateProgramController = async (req, res) => {
 };
 
 //@desc   Delete  class level
-//@route  PUT /api/v1/programs/:id
+//@route  Delete /api/v1/programs/:id
 //@access  Private
 exports.deleteProgramController = async (req, res) => {
 	try {
