@@ -81,19 +81,19 @@ Navigate to the project directory:
 │   │   ├── isLoggedIn.js
 ├── models/
 │   ├── academic/
-│   │   ├── academicTerm.admin.js
-│   │   ├── academicYear.admin.js
-│   │   ├── class.admin.js
-│   │   ├── exams.admin.js
-│   │   ├── programs.admin.js
-│   │   ├── questions.admin.js
-│   │   ├── results.admin.js
-│   │   ├── students.admin.js
-│   │   ├── subject.admin.js
-│   │   ├── yearGroup.admin.js
+│   │   ├── academicTerm.model.js
+│   │   ├── academicYear.model.js
+│   │   ├── class.model.js
+│   │   ├── exams.model.js
+│   │   ├── programs.model.js
+│   │   ├── questions.model.js
+│   │   ├── results.model.js
+│   │   ├── students.model.js
+│   │   ├── subject.model.js
+│   │   ├── yearGroup.model.js
 │   ├── staff/
-│   │   ├── admin.admin.js
-│   │   ├── teacher.admin.js
+│   │   ├── admin.model.js
+│   │   ├── teacher.model.js
 ├── node_modules/
 ├── routes/
 │   ├── academic/
