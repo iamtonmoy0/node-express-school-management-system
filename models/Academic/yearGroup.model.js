@@ -6,6 +6,7 @@ const yearGroupSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      index:true
     },
     createdBy: {
       type: ObjectId,

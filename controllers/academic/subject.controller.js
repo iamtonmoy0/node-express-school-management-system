@@ -27,7 +27,7 @@ exports.getSubjectsController = async (req, res) => {
 };
 
 //@desc  get single Subject
-//@route GET /api/v1/Subject/:id
+//@route GET /api/v1/subject/:id
 //@access  Private
 exports.getSubjectController = async (req, res) => {
 	try {
@@ -40,7 +40,7 @@ exports.getSubjectController = async (req, res) => {
 };
 
 //@desc   Update  Subject
-//@route  Patch /api/v1/Subject/:id
+//@route  Patch /api/v1/subject/:id
 //@access  Private
 
 exports.updateSubjectController = async (req, res) => {
@@ -53,7 +53,7 @@ exports.updateSubjectController = async (req, res) => {
 };
 
 //@desc   Delete  Subject
-//@route  Delete /api/v1/Subject/:id
+//@route  Delete /api/v1/subject/:id
 //@access  Private
 exports.deleteSubjectController = async (req, res) => {
 	try {
