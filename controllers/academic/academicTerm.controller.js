@@ -38,7 +38,7 @@ exports.getAcademicTermController = async (req, res) => {
 };
 
 //@desc   Update  Academic Term
-//@route  PUT /api/v1/academic-Terms/:id
+//@route  Patch /api/v1/academic-Terms/:id
 //@access  Private
 exports.updateAcademicTermController = async (req, res) => {
 	try {
@@ -50,7 +50,7 @@ exports.updateAcademicTermController = async (req, res) => {
 };
 
 //@desc   Update  Academic Term
-//@route  PUT /api/v1/academic-Terms/:id
+//@route  Delete /api/v1/academic-Terms/:id
 //@access  Private
 exports.deleteAcademicTermController = async (req, res) => {
 	try {

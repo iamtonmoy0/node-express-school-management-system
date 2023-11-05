@@ -41,7 +41,7 @@ exports.getClassLevelController = async (req, res) => {
 };
 
 //@desc   Update  Class Level
-//@route  PUT /api/v1/class-levels/:id
+//@route  Patch /api/v1/class-levels/:id
 //@access  Private
 
 exports.updateClassLevelController = async (req, res) => {
@@ -54,7 +54,7 @@ exports.updateClassLevelController = async (req, res) => {
 };
 
 //@desc   Delete  class level
-//@route  PUT /api/v1/class-levels/:id
+//@route  Delete /api/v1/class-levels/:id
 //@access  Private
 exports.deleteClassLevelController = async (req, res) => {
 	try {
