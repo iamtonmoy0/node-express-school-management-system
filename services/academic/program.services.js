@@ -17,7 +17,7 @@ exports.createProgramServices=async(data,userId)=>{
 	  createdBy: userId,
 	});
 	//push program into admin
-	const admin = await Admin.findById(req.userAuth._id);
+	const admin = await Admin.findById(userId);
 	admin.programs.push(programCreated._id);
 	//save
 	await admin.save();
