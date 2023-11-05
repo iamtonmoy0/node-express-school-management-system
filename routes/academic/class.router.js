@@ -11,7 +11,7 @@ classRouter.route('/class-levels')
  .post( isLoggedIn, isAdmin, createClassLevelController)
 classRouter.route('/class-levels/:id')
  .get( isLoggedIn, isAdmin, getClassLevelController)
- .put( isLoggedIn, isAdmin, updateClassLevelController)
+ .patch( isLoggedIn, isAdmin, updateClassLevelController)
  .delete( isLoggedIn, isAdmin, deleteClassLevelController)
 
 module.exports = classRouter;

@@ -16,7 +16,7 @@ exports.createClassLevelServices=async(data,userId)=>{
 	  createdBy: userId,
 	});
 	//push class into admin
-	const admin = await Admin.findById(req.userAuth._id);
+	const admin = await Admin.findById(userId);
 	admin.classLevels.push(classCreated._id);
 	//save
 	await admin.save();
@@ -50,6 +50,7 @@ exports.updateClassLevelServices=async(data,id,userId)=>{
 		new: true,
 	  }
 	);	
+	return classLevel;
 
 }
 
