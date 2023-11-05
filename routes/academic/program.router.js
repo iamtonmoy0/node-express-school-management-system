@@ -10,7 +10,7 @@ programRouter.route('/programs')
  .post(isLoggedIn,isAdmin,createProgramController)
 programRouter.route('/programs/:id')
  .get(isLoggedIn,isAdmin,getProgramController)
- .post(isLoggedIn,isAdmin,updateProgramController)
+ .patch(isLoggedIn,isAdmin,updateProgramController)
  .delete(isLoggedIn,isAdmin,deleteProgramController)
  
 module.exports = programRouter;
