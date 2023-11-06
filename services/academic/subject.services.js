@@ -1,6 +1,6 @@
 
 const Subject = require("../../models/Academic/subject.model");
-const ClassLevel = require("../../models/Academic/class.model");
+// const ClassLevel = require("../../models/Academic/class.model");
 const Program = require('../../models/Academic/program.model');
 
 // create Subject services

@@ -2,11 +2,11 @@ const responseStatus = require("../../handlers/responseStatus.handler");
 const { createSubjectServices, getAllSubjectsService, getSubjectsServices, deleteSubjectServices, updateSubjectServices } = require("../../services/academic/subject.services");
 
 //@desc  Create Subject
-//@route POST /api/v1/subject-create/:programId
+//@route POST /api/v1/create-subject/:programId
 //@access  Private
 exports.createSubjectController = async (req, res) => {
 try {
-	const result = await createSubjectServices(req.body,req.params.id,req.userAuth.id)
+	const result = await createSubjectServices(req.body,req.params.programId,req.userAuth.id)
 	responseStatus(res,200,"success",result)
 } catch (error) {
 	responseStatus(res,400,"failed",error.message)
