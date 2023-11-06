@@ -1,5 +1,5 @@
 const responseStatus = require("../../handlers/responseStatus.handler")
-const { createTeacherServices } = require("../../services/staff/teachers.services")
+const { createTeacherServices, teacherLoginService } = require("../../services/staff/teachers.services")
 
 
 //@desc Admin create teacher
@@ -11,5 +11,16 @@ exports.createTeacherController = async (req, res) => {
 		responseStatus(res,200,"success",result);
 	} catch (error) {
 		responseStatus(res,400,"failed",error.message);
+	}
+}
+//@desc  teacher login
+//@route POST /api/v1/teacher/login
+//@access Public
+exports.teacherLoginController = async (req, res) => {
+	try {
+		const result = await teacherLoginService(req.body);
+		responseStatus(res,200,"success",result);
+	} catch (error) {
+			responseStatus(res,400,"failed",error.message);
 	}
 }
