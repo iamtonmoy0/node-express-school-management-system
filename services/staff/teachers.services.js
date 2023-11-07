@@ -39,3 +39,11 @@ const response = {teacher:teacherFound,token:generateToken(teacherFound._id)}
 
 return response;
 }
+// get all teachers
+exports.getAllTeachersService = async ()=>{
+	return await Teacher.find()
+}
+// get teacher profile 
+exports.getTeacherProfileService = async (teacherId)=>{
+	return await Teacher.findById(teacherId).select("-createdAt -updatedAt -password")
+}
