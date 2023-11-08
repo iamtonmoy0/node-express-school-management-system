@@ -1,5 +1,5 @@
 const responseStatus = require("../../handlers/responseStatus.handler")
-const { createTeacherServices, teacherLoginService, getTeacherProfileService } = require("../../services/staff/teachers.services")
+const { createTeacherServices, teacherLoginService, getTeacherProfileService, updateTeacherProfileService } = require("../../services/staff/teachers.services")
 
 
 //@desc Admin create teacher
@@ -47,11 +47,11 @@ exports.getTeacherProfileController = async (req, res) => {
 			}
 }
 //@desc  update teacher profile
-//@route POST /api/v1/teacher/:id/profile
-//@access Private (Admin)
+//@route POST /api/v1/teacher/update-profile
+//@access Private (Teacher)
 exports.updateTeacherProfileController = async (req, res) => {
 	try {
-		const result = await updateTeacherProfileService(req.params.id, req.body);
+		const result = await updateTeacherProfileService( req.body,req.userAuth.id);
 		responseStatus(res,200,"success",result);
 		} catch (error) {
 			responseStatus(res,400,"failed",error.message);

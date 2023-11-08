@@ -47,3 +47,25 @@ exports.getAllTeachersService = async ()=>{
 exports.getTeacherProfileService = async (teacherId)=>{
 	return await Teacher.findById(teacherId).select("-createdAt -updatedAt -password")
 }
+// update teacher profile 
+exports.updateTeacherProfileService = async (data,teacherId)=>{
+	const {name,email,password} = data;
+	// checking  is email exist
+	const emailExist = await Teacher.findOne({email});
+	if(emailExist ) return 'Email already used';
+	if(password){
+		return await Teacher.findByIdAndUpdate(teacherId,{
+			name,
+			password:await hashPassword(password),
+			email,
+		},{new:true})
+	}else{
+		return await Teacher.findByIdAndUpdate(teacherId,{
+			name,
+			email,
+			},{new:true})
+	}
+}
+
+	
+	
