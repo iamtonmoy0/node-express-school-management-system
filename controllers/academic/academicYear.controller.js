@@ -1,5 +1,5 @@
 const responseStatus = require("../../handlers/responseStatus.handler");
-const { createAcademicYearServices, getAcademicYearsServices, getAcademicYearServices, updateAcademicYearServices, deleteAcademicYearServices } = require("../../services/academic/academicYear.services");
+const { createAcademicYearService, getAcademicYearsService, getAcademicYearService, updateAcademicYearService, deleteAcademicYearService } = require("../../services/academic/academicYear.service");
 
 
 //@desc Create Academic Year
@@ -7,7 +7,7 @@ const { createAcademicYearServices, getAcademicYearsServices, getAcademicYearSer
 //@access  Private
 exports.createAcademicYearController = async (req, res) => {
   try {
-	const result = await createAcademicYearServices(req.body,req.userAuth.id)
+	const result = await createAcademicYearService(req.body,req.userAuth.id)
 	responseStatus(res,201,"success",result)
   } catch (error) {
 	responseStatus(res,400,"failed",error.message)
@@ -19,7 +19,7 @@ exports.createAcademicYearController = async (req, res) => {
 //@access  Private
 exports.getAcademicYearsController = async (req, res) => {
 	try {
-		const result = await getAcademicYearsServices()
+		const result = await getAcademicYearsService()
 		responseStatus(res,201,"success",result)
 	  } catch (error) {
 		responseStatus(res,400,"failed",error.message)
@@ -31,7 +31,7 @@ exports.getAcademicYearsController = async (req, res) => {
 //@access  Private
 exports.getAcademicYearController = async (req, res) => {
 	try {
-		const result = await  getAcademicYearServices(req.params.id)
+		const result = await  getAcademicYearService(req.params.id)
 		responseStatus(res,201,"success",result)
 	  } catch (error) {
 		responseStatus(res,400,"failed",error.message)
@@ -43,7 +43,7 @@ exports.getAcademicYearController = async (req, res) => {
 //@access  Private
 exports.updateAcademicYearController = async (req, res) => {
 	try {
-		const result = await updateAcademicYearServices(req.body,req.params.id,req.userAuth.id)
+		const result = await updateAcademicYearService(req.body,req.params.id,req.userAuth.id)
 		responseStatus(res,201,"success",result)
 	  } catch (error) {
 		responseStatus(res,400,"failed",error.message)
@@ -55,7 +55,7 @@ exports.updateAcademicYearController = async (req, res) => {
 //@access  Private
 exports.deleteAcademicYearController = async (req, res) => {
 	try {
-		const result = await deleteAcademicYearServices(req.params.id)
+		const result = await deleteAcademicYearService(req.params.id)
 		responseStatus(res,201,"success",result)
 	  } catch (error) {
 		responseStatus(res,400,"failed",error.message)

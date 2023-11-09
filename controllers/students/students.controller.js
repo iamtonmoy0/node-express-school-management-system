@@ -1,6 +1,6 @@
 const Student = require("../../models/Students/students.model");
 const responseStatus = require('../../handlers/responseStatus.handler');
-const { adminRegisterStudentService, studentLoginService, getStudentsProfileService, getAllStudentsByAdminService, getStudentByAdminService, studentUpdateProfileService, adminUpdateStudentService } = require("../../services/students/students.services");
+const { adminRegisterStudentService, studentLoginService, getStudentsProfileService, getAllStudentsByAdminService, getStudentByAdminService, studentUpdateProfileService, adminUpdateStudentService } = require("../../services/students/students.service");
 
 //@desc  Admin Register Student
 //@route POST /api/students/admin/register
