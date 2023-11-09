@@ -2,7 +2,7 @@ const Teacher = require('../../models/Staff/teachers.model')
 const Exams = require('../../models/Academic/exams.model')
 // create exam by teacher
 exports.createExamService = async(data,teacherId)=>{
-const {name,description,subject,program,passMark,totalMark,academicTerm,duration,examDate,examTime,createdBy}=data;
+const {name,description,subject,program,passMark,totalMark,academicTerm,duration,examDate,examTime,createdBy} = data;
 // finding the teacher
 const teacherExist = await Teacher.findById(teacherId)
 if(!teacherExist) return  "Teacher not found !"
