@@ -34,3 +34,11 @@ if(!isQuestion) return responseStatus(res,405,"failed" ,"This Question already e
 	await exam.save()
 	return responseStatus(res,201,"success",createQuestions)
 }
+// get all questions
+exports.getAllQuestionsService = async () =>{
+return await Questions.find();
+}
+// get questions by id
+exports.getQuestionsByIdService = async (questionId) => {
+	return await Questions.findById(questionId)
+}
