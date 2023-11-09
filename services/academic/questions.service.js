@@ -10,7 +10,6 @@ exports.createQuestionsService = async(data,examId,teacherId,res)=>{
 		optionC,
 		optionD,
 		correctAnswer,
-		createdBy
 	} = data;
 	// finding the exam
 	const exam = await Exam.findById(examId)
@@ -41,4 +40,29 @@ return await Questions.find();
 // get questions by id
 exports.getQuestionsByIdService = async (questionId) => {
 	return await Questions.findById(questionId)
+}
+// update questions 
+exports.updateQuestionsService = async(data,questionId,userID,res)=> {
+	const { question, optionA, optionB, optionC, optionD, correctAnswer } =
+    data;
+  //check name exists
+  const questionFound = await Questions.findOne({ question });
+  if (questionFound) return responseStatus(res,401,"failed","Question already exists")
+  const questionCreate = await Questions.findByIdAndUpdate(
+    questionId,
+    {
+      question,
+      optionA,
+      optionB,
+      optionC,
+      optionD,
+      correctAnswer,
+      createdBy: userId,
+    },
+    {
+      new: true,
+    }
+  );
+  return responseStatus(res,201,"success",questionCreate)
+
 }

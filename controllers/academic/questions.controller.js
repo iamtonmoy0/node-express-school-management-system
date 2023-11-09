@@ -1,5 +1,5 @@
 const responseStatus = require("../../handlers/responseStatus.handler")
-const { createExamService, getAllQuestionsService, getQuestionsByIdService } = require("../../services/academic/questions.service")
+const { createExamService, getAllQuestionsService, getQuestionsByIdService, updateQuestionsService } = require("../../services/academic/questions.service")
 // @desc Create Question
 // @route POST /questions/:examId
 //@access Private (Teachers Only)
@@ -23,11 +23,21 @@ exports.getAllQuestionsController = async(req,res)=>{
 }
 //@desc  get all questions
 //@route GET /api/v1/questions/:id
-//@access  Private - Teacher only
+//@access  Private 
 exports.getQuestionByIdController=async(req,res)=>{
 	try {
 		const result = await getQuestionsByIdService(req,params.id)
 		responseStatus(res,200,"success",result)
+	} catch (error) {
+		responseStatus(res,400,"failed",error.message)
+	}
+}
+//@desc   Update  Question
+//@route  PUT /api/v1/questions/:id
+//@access  Private Teacher only
+exports.updateQuestionController = async(req,res)=>{
+	try {
+		await updateQuestionsService(req.body,req,params.id,res)
 	} catch (error) {
 		responseStatus(res,400,"failed",error.message)
 	}
