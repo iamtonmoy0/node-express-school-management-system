@@ -1,9 +1,9 @@
 const express = require('express');
 const programRouter = express.Router();
 // middleware
-const isAdmin = require('../../middlewares/isAdmin');
-const isLoggedIn = require('../../middlewares/isLoggedIn');
-const { getProgramsController, createProgramController, getProgramController, updateProgramController, deleteProgramController } = require('../../controllers/academic/program.controller');
+const isAdmin = require('../../../middlewares/isAdmin');
+const isLoggedIn = require('../../../middlewares/isLoggedIn');
+const { getProgramsController, createProgramController, getProgramController, updateProgramController, deleteProgramController } = require('../../../controllers/academic/program.controller');
 // controllers
 programRouter.route('/programs')
  .get(isLoggedIn,isAdmin,getProgramsController)
