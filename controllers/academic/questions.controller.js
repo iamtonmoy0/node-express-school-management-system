@@ -1,7 +1,7 @@
 const responseStatus = require("../../handlers/responseStatus.handler")
 const { createExamService, getAllQuestionsService, getQuestionsByIdService, updateQuestionsService } = require("../../services/academic/questions.service")
 // @desc Create Question
-// @route POST /questions/:examId
+// @route POST /questions/:examId/create
 //@access Private (Teachers Only)
 exports.createQuestionsController = async(req,res)=>{
 	try {
@@ -33,7 +33,7 @@ exports.getQuestionByIdController=async(req,res)=>{
 	}
 }
 //@desc   Update  Question
-//@route  PUT /api/v1/questions/:id
+//@route  PATCH /api/v1/questions/:id
 //@access  Private Teacher only
 exports.updateQuestionController = async(req,res)=>{
 	try {
