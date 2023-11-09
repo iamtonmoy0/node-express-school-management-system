@@ -13,6 +13,8 @@ app.use(morgan('dev')); // Log requests to the console (Express 4)
 routeSync(app,'staff')
 // initialize academic route
 routeSync(app,'academic')
+// initialize student route
+routeSync(app,'students')
 
 
 // Define a default route

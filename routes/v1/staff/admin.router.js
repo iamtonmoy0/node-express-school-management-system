@@ -1,9 +1,9 @@
 const express = require('express');
-const { registerAdminController, loginAdminController, getAdminsController,  updateAdminController, deleteAdminController, adminSuspendTeacherController, adminUnSuspendTeacherController, adminWithdrawTeacherController, adminUnWithdrawTeacherController, adminUnPublishResultsController, getAdminProfileController } = require('../../controllers/staff/admin.controller');
+const { registerAdminController, loginAdminController, getAdminsController,  updateAdminController, deleteAdminController, adminSuspendTeacherController, adminUnSuspendTeacherController, adminWithdrawTeacherController, adminUnWithdrawTeacherController, adminUnPublishResultsController, getAdminProfileController } = require('../../../controllers/staff/admin.controller');
 const adminRouter = express.Router();
 // middleware
-const isLoggedIn = require('../../middlewares/isLoggedIn');
-const isAdmin = require('../../middlewares/isAdmin');
+const isLoggedIn = require('../../../middlewares/isLoggedIn');
+const isAdmin = require('../../../middlewares/isAdmin');
 
 // register
 adminRouter.route('/admin/register')
@@ -17,7 +17,7 @@ adminRouter.route('/admins')
 //get current admin profile
 adminRouter.route('/admin/profile')
  .get(isLoggedIn,getAdminProfileController)
-// update admin/delete admin
+// update/delete admin
 adminRouter.route('/admins/:id')
  .put(isLoggedIn,isAdmin,updateAdminController)
  .delete(deleteAdminController)

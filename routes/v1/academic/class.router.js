@@ -1,10 +1,10 @@
 const express = require('express');
 const classRouter = express.Router();
 // middleware
-const isAdmin = require('../../middlewares/isAdmin');
-const isLoggedIn = require('../../middlewares/isLoggedIn');
+const isAdmin = require('../../../middlewares/isAdmin');
+const isLoggedIn = require('../../../middlewares/isLoggedIn');
 // controllers
-const { getClassLevelsController, createClassLevelController, getClassLevelController, updateClassLevelController, deleteClassLevelController } = require('../../controllers/academic/class.controller');
+const { getClassLevelsController, createClassLevelController, getClassLevelController, updateClassLevelController, deleteClassLevelController } = require('../../../controllers/academic/class.controller');
 
 classRouter.route('/class-levels')
  .get( isLoggedIn, isAdmin, getClassLevelsController)

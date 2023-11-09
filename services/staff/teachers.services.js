@@ -66,6 +66,39 @@ exports.updateTeacherProfileService = async (data,teacherId)=>{
 			},{new:true})
 	}
 }
+// admin update teacher profile
+exports.adminUpdateTeacherProfileService = async (data,teacherId)=>{
+	const {program,classLevel,academicYear,subject} = data;
+	// checking  is teacher exist
+	const teacherExist = await Teacher.findById(teacherId);
+	if(!teacherExist) return 'No such teacher found';
+	 //Check if teacher is withdrawn
+	 if (teacherExist.isWithdrawn) return "Action denied, teacher is withdraw";
+	//  updating program
+	 if (program) {
+		teacherExist.program = program;
+		await teacherExist.save();
+	}
+	// update classLevel
+	if (classLevel) {
+		teacherExist.classLevel = classLevel;
+		await teacherExist.save();
+	}
+	// update academic year
+	if (academicYear) {
+		teacherExist.academicYear = academicYear;
+		await teacherExist.save();
+	}
+	// update subject
+	if (subject) {
+		teacherExist.subject = subject;
+		await teacherExist.save();
+	}
+	return teacherExist;
+}
+
+
+// delete teacher account
 
 	
 	

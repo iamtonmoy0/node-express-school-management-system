@@ -8,6 +8,7 @@ const examSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      index:true
     },
     description: {
       type: String,
@@ -74,7 +75,7 @@ const examSchema = new mongoose.Schema(
       type: ObjectId,
       ref: "ClassLevel",
       required: true,
-    },
+     },
     createdBy: {
       type: ObjectId,
       ref: "Teacher",

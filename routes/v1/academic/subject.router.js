@@ -1,10 +1,10 @@
 const express = require('express');
 const subjectRouter = express.Router();
 // middlewares
-const isAdmin = require('../../middlewares/isAdmin');
-const isLoggedIn = require('../../middlewares/isLoggedIn');
+const isAdmin = require('../../../middlewares/isAdmin');
+const isLoggedIn = require('../../../middlewares/isLoggedIn');
 // controllers
-const { getSubjectsController, getSubjectController, updateSubjectController, deleteSubjectController, createSubjectController } = require('../../controllers/academic/subject.controller');
+const { getSubjectsController, getSubjectController, updateSubjectController, deleteSubjectController, createSubjectController } = require('../../../controllers/academic/subject.controller');
 
 subjectRouter.route('/subject')
  .get(isLoggedIn,isAdmin,getSubjectsController)

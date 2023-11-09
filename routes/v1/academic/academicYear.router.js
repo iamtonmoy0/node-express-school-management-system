@@ -1,9 +1,9 @@
 const express = require('express');
 const academicYearRouter = express.Router();
 // middleware
-const isAdmin = require('../../middlewares/isAdmin');
-const isLoggedIn = require('../../middlewares/isLoggedIn');
-const { getAcademicYearsController, createAcademicYearController, getAcademicYearController, updateAcademicYearController, deleteAcademicYearController } = require('../../controllers/academic/academicYear.controller');
+const isAdmin = require('../../../middlewares/isAdmin');
+const isLoggedIn = require('../../../middlewares/isLoggedIn');
+const { getAcademicYearsController, createAcademicYearController, getAcademicYearController, updateAcademicYearController, deleteAcademicYearController } = require('../../../controllers/academic/academicYear.controller');
 
 academicYearRouter.route('/academic-years')
  .get( isLoggedIn, isAdmin, getAcademicYearsController)

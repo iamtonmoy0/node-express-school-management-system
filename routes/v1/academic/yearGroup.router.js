@@ -1,10 +1,10 @@
 const express = require('express');
 const yearGroupRouter = express.Router();
 // middlewares
-const isAdmin = require('../../middlewares/isAdmin');
-const isLoggedIn = require('../../middlewares/isLoggedIn');
+const isAdmin = require('../../../middlewares/isAdmin');
+const isLoggedIn = require('../../../middlewares/isLoggedIn');
 // controller
-const { getYearGroupsController, createYearGroupController, getYearGroupController, updateYearGroupController, deleteYearGroupController } = require('../../controllers/academic/yearGroup.controller');
+const { getYearGroupsController, createYearGroupController, getYearGroupController, updateYearGroupController, deleteYearGroupController } = require('../../../controllers/academic/yearGroup.controller');
 
 yearGroupRouter.route('/year-group')
  .get(isLoggedIn,isAdmin,getYearGroupsController)
