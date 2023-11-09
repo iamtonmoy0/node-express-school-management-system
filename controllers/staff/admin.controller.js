@@ -1,12 +1,12 @@
 const responseStatus = require("../../handlers/responseStatus.handler");
-const { registerAdminServices, getAdminsServices, loginAdminServices, getSingleProfileService, updateAdminServices } = require("../../services/staff/admin.services");
+const { registerAdminService, getAdminsService, loginAdminService, getSingleProfileService, updateAdminService } = require("../../services/staff/admin.service");
 
 //@desc Register Admin
 //@route POST /api/v1/admin/register
 //@access Private
 exports.registerAdminController=async(req,res)=>{
 	try {
-	 const result=await registerAdminServices(req.body);
+	 const result=await registerAdminService(req.body);
 	 responseStatus(res,201,'success',result);
 	} catch (error) {
 		responseStatus(res,400,'failed',error.message);
@@ -18,7 +18,7 @@ exports.registerAdminController=async(req,res)=>{
 //@access   Private
 exports.loginAdminController = async(req, res) => {
 	try {
-		const result = await loginAdminServices(req.body);
+		const result = await loginAdminService(req.body);
 	  responseStatus(res,201,'success',result);
 	} catch (error) {
 	  responseStatus(res,400,'failed',error.message);
@@ -31,7 +31,7 @@ exports.loginAdminController = async(req, res) => {
   
   exports.getAdminsController =async (req, res) => {
 	try {
-		const result = await getAdminsServices()
+		const result = await getAdminsService()
 	  responseStatus(res,201,'success',result);
 	} catch (error) {
 	  responseStatus(res,400,'failed',error.message);
@@ -54,7 +54,7 @@ exports.loginAdminController = async(req, res) => {
   //@access   Private
   exports.updateAdminController = async(req, res) => {
 	try {
-		const result = await updateAdminServices(req.userAuth.id,req.body) 
+		const result = await updateAdminService(req.userAuth.id,req.body) 
 	  responseStatus(res,201,'success',result)
 	} catch (error) {
 	  responseStatus(res,400,'failed',error.message);

@@ -1,8 +1,8 @@
 const ClassLevel = require("../../models/Academic/class.model");
 const Admin = require('../../models/Staff/admin.model');
 
-// create class services
-exports.createClassLevelServices=async(data,userId)=>{
+// create class Service
+exports.createClassLevelService=async(data,userId)=>{
 	const { name, description } = data;
 	//check if exists
 	const classFound = await ClassLevel.findOne({ name });
@@ -28,11 +28,11 @@ exports.getAllClassesService = async () =>{
 	return await ClassLevel.find();
 }
 // get single class by id
-exports.getClassLevelsServices=async(id)=>{
+exports.getClassLevelsService=async(id)=>{
 	return await ClassLevel.findById(id);
 }
 // update class data
-exports.updateClassLevelServices=async(data,id,userId)=>{
+exports.updateClassLevelService=async(data,id,userId)=>{
 	const { name, description } = data;
 	//check name exists
 	const classFound = await ClassLevel.findOne({ name });
@@ -56,6 +56,6 @@ exports.updateClassLevelServices=async(data,id,userId)=>{
 
 
 // delete class data
-exports.deleteClassLevelServices=async(id)=>{
+exports.deleteClassLevelService=async(id)=>{
 	return await ClassLevel.findByIdAndDelete(id);
 }

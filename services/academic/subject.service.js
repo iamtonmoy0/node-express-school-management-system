@@ -3,8 +3,8 @@ const Subject = require("../../models/Academic/subject.model");
 // const ClassLevel = require("../../models/Academic/class.model");
 const Program = require('../../models/Academic/program.model');
 
-// create Subject services
-exports.createSubjectServices=async(data,programId,userId)=>{
+// create Subject Service
+exports.createSubjectService=async(data,programId,userId)=>{
 	const { name, description,academicTerm } = data;
 	const programFound = await Program.findById(programId);
 	if (!programFound) return "Program not found";
@@ -32,11 +32,11 @@ exports.getAllSubjectsService = async () =>{
 	return await Subject.find();
 }
 // get single Subject by id
-exports.getSubjectsServices=async(id)=>{
+exports.getSubjectsService=async(id)=>{
 	return await Subject.findById(id);
 }
 // update Subject data
-exports.updateSubjectServices=async(data,id,userId)=>{
+exports.updateSubjectService=async(data,id,userId)=>{
 	const { name, description,academicTerm } = data;
 	//check name exists
 	const classFound = await Subject.findOne({ name });
@@ -60,6 +60,6 @@ return Subjects;
 
 
 // delete Subject data
-exports.deleteSubjectServices=async(id)=>{
+exports.deleteSubjectService=async(id)=>{
 	return await Subject.findByIdAndDelete(id);
 }

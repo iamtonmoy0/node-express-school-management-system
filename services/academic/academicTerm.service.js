@@ -3,7 +3,7 @@ const AcademicTerm = require("../../models/Academic/academicTerm.model");
 const Admin = require("../../models/Staff/admin.model");
 
 // create academic terms 
-exports.createAcademicTermServices = async ( data,userId) => {
+exports.createAcademicTermService = async ( data,userId) => {
 	const { name ,description ,duration } = data;
 	//check if exists
 	const academicTerm = await AcademicTerm.findOne({ name });
@@ -25,16 +25,16 @@ exports.createAcademicTermServices = async ( data,userId) => {
 	
   };
 //   get all academic terms
-  exports.getAcademicTermsServices = async ( ) => {
+  exports.getAcademicTermsService = async ( ) => {
 	return await AcademicTerm.find();
   };
   
 //   get academic term by id
-  exports.getAcademicTermServices = async (id ) => {
+  exports.getAcademicTermService = async (id ) => {
  return await AcademicTerm.findById(id);
   };
 //  update academic term
-  exports.updateAcademicTermServices = async (data,academicId,userId) => {
+  exports.updateAcademicTermService = async (data,academicId,userId) => {
 	const { name ,description, duration } = data;
 	//check name exists
 	const createAcademicTermFound = await AcademicTerm.findOne({ name });
@@ -48,6 +48,6 @@ exports.createAcademicTermServices = async ( data,userId) => {
   
   };
 // delete academic term
-  exports.deleteAcademicTermServices = async (id) => {
+  exports.deleteAcademicTermService = async (id) => {
 	return await AcademicTerm.findByIdAndDelete(id);
   };

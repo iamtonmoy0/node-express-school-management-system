@@ -2,8 +2,8 @@
 const YearGroup = require("../../models/Academic/yearGroup.model");
 const Admin = require("../../models/Staff/admin.model");
 
-// create YearGroup services
-exports.createYearGroupServices=async(data,userId)=>{
+// create YearGroup Service
+exports.createYearGroupService=async(data,userId)=>{
 	const { name, academicYear } = data;
 	//check if exists
 	const YearGroupFound = await YearGroup.findOne({ name });
@@ -29,11 +29,11 @@ exports.getAllYearGroupsService = async () =>{
 	return await YearGroup.find();
 }
 // get single Year Group by id
-exports.getYearGroupsServices=async(id)=>{
+exports.getYearGroupsService=async(id)=>{
 	return await YearGroup.findById(id);
 }
 // update YearGroup data
-exports.updateYearGroupServices=async(data,id,userId)=>{
+exports.updateYearGroupService=async(data,id,userId)=>{
 	const { name, academicYear } = data;
 	//check name exists
 	const classFound = await YearGroup.findOne({ name });
@@ -56,6 +56,6 @@ return YearGroups;
 
 
 // delete YearGroup data
-exports.deleteYearGroupServices=async(id)=>{
+exports.deleteYearGroupService=async(id)=>{
 	return await YearGroup.findByIdAndDelete(id);
 }

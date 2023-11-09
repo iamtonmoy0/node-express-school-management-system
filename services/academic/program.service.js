@@ -2,8 +2,8 @@ const Program = require("../../models/Academic/program.model");
 const ClassLevel = require("../../models/Academic/class.model");
 const Admin = require('../../models/Staff/admin.model');
 
-// create program services
-exports.createProgramServices=async(data,userId)=>{
+// create program Service
+exports.createProgramService=async(data,userId)=>{
 	const { name, description } = data;
 	//check if exists
 	const programFound = await Program.findOne({ name });
@@ -29,11 +29,11 @@ exports.getAllProgramsService = async () =>{
 	return await Program.find();
 }
 // get single program by id
-exports.getProgramsServices=async(id)=>{
+exports.getProgramsService=async(id)=>{
 	return await Program.findById(id);
 }
 // update program data
-exports.updateProgramServices=async(data,id,userId)=>{
+exports.updateProgramService=async(data,id,userId)=>{
 	const { name, description } = data;
 	//check name exists
 	const classFound = await ClassLevel.findOne({ name });
@@ -56,6 +56,6 @@ return programs;
 
 
 // delete program data
-exports.deleteProgramServices=async(id)=>{
+exports.deleteProgramService=async(id)=>{
 	return await Program.findByIdAndDelete(id);
 }

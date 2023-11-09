@@ -3,7 +3,7 @@ const AcademicYear = require("../../models/Academic/academicYear.model");
 const Admin = require("../../models/Staff/admin.model");
 
 // create academic years 
-exports.createAcademicYearServices = async ( data,userId) => {
+exports.createAcademicYearService = async ( data,userId) => {
 	const { name ,fromYear ,toYear } = data;
 	//check if exists
 	const academicYear = await AcademicYear.findOne({ name });
@@ -25,16 +25,16 @@ exports.createAcademicYearServices = async ( data,userId) => {
 	
   };
 //   get all academic years
-  exports.getAcademicYearsServices = async ( ) => {
+  exports.getAcademicYearsService = async ( ) => {
 	return await AcademicYear.find();
   };
   
 //   get academic year by id
-  exports.getAcademicYearServices = async (id ) => {
+  exports.getAcademicYearService = async (id ) => {
  return await AcademicYear.findById(id);
   };
 //  update academic year
-  exports.updateAcademicYearServices = async (data,academicId,userId) => {
+  exports.updateAcademicYearService = async (data,academicId,userId) => {
 	const { name ,fromYear, toYear } = data;
 	//check name exists
 	const createAcademicYearFound = await AcademicYear.findOne({ name });
@@ -48,6 +48,6 @@ exports.createAcademicYearServices = async ( data,userId) => {
   
   };
 // delete academic year
-  exports.deleteAcademicYearServices = async (id) => {
+  exports.deleteAcademicYearService = async (id) => {
 	return await AcademicYear.findByIdAndDelete(id);
   };

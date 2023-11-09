@@ -3,8 +3,8 @@ const Admin = require('../../models/Staff/admin.model');
 const generateToken = require('../../utils/tokenGenerator');
 const verifyToken = require('../../utils/verifyToken');
 
-// register admin services
-exports.registerAdminServices=async(data)=>{
+// register admin Service
+exports.registerAdminService=async(data)=>{
 	const {name,email,password} = data;
 	const isAdminExist = await Admin.findOne({email});
 	if(isAdminExist) return "Email already in use! please sign in"
@@ -13,7 +13,7 @@ exports.registerAdminServices=async(data)=>{
 
 }
 // login admin
-exports.loginAdminServices = async(data)=>{
+exports.loginAdminService = async(data)=>{
 	const {email,password} = data;
 	
 	const user = await Admin.findOne({email})
@@ -31,7 +31,7 @@ exports.loginAdminServices = async(data)=>{
 }
 
 // get all admins
-exports.getAdminsServices = async()=>{
+exports.getAdminsService = async()=>{
 	return Admin.find({})
 } 
 // get single admin profile
@@ -45,7 +45,7 @@ exports.getSingleProfileService = async (id)=> {
 
 }
 // update single admin
-exports.updateAdminServices=async(id,data)=>{
+exports.updateAdminService=async(id,data)=>{
 	const {email,name,password} = data
 	const emailTaken = await Admin.findOne({email});
 	if(emailTaken){

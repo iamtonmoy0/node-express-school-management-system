@@ -19,7 +19,7 @@ exports.adminRegisterStudentService=async(data)=>{
 	});
 return studentRegistered;
 }
-// student login services
+// student login Service
 exports.studentLoginService = async(data)=>{
 
 	const { email, password } = data;

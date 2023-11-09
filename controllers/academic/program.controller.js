@@ -1,5 +1,5 @@
 const responseStatus = require("../../handlers/responseStatus.handler");
-const { createProgramServices, getAllProgramsService, getProgramsServices, updateProgramServices, deleteProgramServices } = require("../../services/academic/program.services");
+const { createProgramService, getAllProgramsService, getProgramsService, updateProgramService, deleteProgramService } = require("../../services/academic/program.service");
 
 
 //@desc  Create Program 
@@ -7,7 +7,7 @@ const { createProgramServices, getAllProgramsService, getProgramsServices, updat
 //@access  Private
 exports.createProgramController = async (req, res) => {
 try {
-	const result = await createProgramServices(req.body,req.userAuth.id)
+	const result = await createProgramService(req.body,req.userAuth.id)
 	responseStatus(res,200,"success",result)
 } catch (error) {
 	responseStatus(res,400,"failed",error.message)
@@ -32,7 +32,7 @@ exports.getProgramsController = async (req, res) => {
 //@access  Private
 exports.getProgramController = async (req, res) => {
 	try {
-		const result = await getProgramsServices(req.params.id)
+		const result = await getProgramsService(req.params.id)
 		responseStatus(res,200,"success",result)
 	} catch (error) {
 		responseStatus(res,400,"failed",error.message)
@@ -46,7 +46,7 @@ exports.getProgramController = async (req, res) => {
 
 exports.updateProgramController = async (req, res) => {
   try {
-	const result = await  updateProgramServices(req.body,req.params.id,req.userAuth.id);
+	const result = await  updateProgramService(req.body,req.params.id,req.userAuth.id);
 	responseStatus(res,200,"success",result)
 } catch (error) {
 	responseStatus(res,400,"failed",error.message)
@@ -58,7 +58,7 @@ exports.updateProgramController = async (req, res) => {
 //@access  Private
 exports.deleteProgramController = async (req, res) => {
 	try {
-		const result = await deleteProgramServices(req.params.id)
+		const result = await deleteProgramService(req.params.id)
 		responseStatus(res,200,"success",result)
 	} catch (error) {
 		responseStatus(res,400,"failed",error.message)

@@ -1,5 +1,5 @@
 const responseStatus = require('../../handlers/responseStatus.handler')
-const { getAllExamService, createExamService, getExamByIdService, updateExamService } = require('../../services/academic/exams.services')
+const { getAllExamService, createExamService, getExamByIdService, updateExamService } = require('../../services/academic/exams.service')
 //@desc Create new exam
 //@route POST /api/v1/exams
 //@access Private (Teacher Only)

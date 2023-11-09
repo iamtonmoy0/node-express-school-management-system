@@ -1,5 +1,5 @@
 const responseStatus = require("../../handlers/responseStatus.handler");
-const { createClassLevelServices, getAllClassesService, getClassLevelsServices, deleteClassLevelServices, updateClassLevelServices } = require("../../services/academic/class.services");
+const { createClassLevelService, getAllClassesService, getClassLevelsService, deleteClassLevelService, updateClassLevelService } = require("../../services/academic/class.service");
 
 
 //@desc  Create Class Level
@@ -7,7 +7,7 @@ const { createClassLevelServices, getAllClassesService, getClassLevelsServices, 
 //@access  Private
 exports.createClassLevelController = async (req, res) => {
 try {
-	const result = await createClassLevelServices(req.body,req.userAuth.id)
+	const result = await createClassLevelService(req.body,req.userAuth.id)
 	responseStatus(res,200,"success",result)
 } catch (error) {
 	responseStatus(res,400,"failed",error.message)
@@ -32,7 +32,7 @@ exports.getClassLevelsController = async (req, res) => {
 //@access  Private
 exports.getClassLevelController = async (req, res) => {
 	try {
-		const result = await getClassLevelsServices(req.params.id)
+		const result = await getClassLevelsService(req.params.id)
 		responseStatus(res,200,"success",result)
 	} catch (error) {
 		responseStatus(res,400,"failed",error.message)
@@ -46,7 +46,7 @@ exports.getClassLevelController = async (req, res) => {
 
 exports.updateClassLevelController = async (req, res) => {
   try {
-	const result = await  updateClassLevelServices(req.body,req.params.id,req.userAuth.id);
+	const result = await  updateClassLevelService(req.body,req.params.id,req.userAuth.id);
 	responseStatus(res,200,"success",result)
 } catch (error) {
 	responseStatus(res,400,"failed",error.message)
@@ -58,7 +58,7 @@ exports.updateClassLevelController = async (req, res) => {
 //@access  Private
 exports.deleteClassLevelController = async (req, res) => {
 	try {
-		const result = await deleteClassLevelServices(req.params.id)
+		const result = await deleteClassLevelService(req.params.id)
 		responseStatus(res,200,"success",result)
 	} catch (error) {
 		responseStatus(res,400,"failed",error.message)

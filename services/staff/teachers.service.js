@@ -3,8 +3,8 @@ const Teacher = require('../../models/Staff/teachers.model');
 const Admin = require('../../models/Staff/admin.model');
 const generateToken = require('../../utils/tokenGenerator');
 
-// create teacher services
-exports.createTeacherServices = async (data,adminId) => {
+// create teacher Service
+exports.createTeacherService = async (data,adminId) => {
 	const {name,email,password} = data;
 	// check if teacher already exist
 	const existTeacher = await Teacher.findOne({email});
