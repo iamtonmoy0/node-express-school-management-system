@@ -7,8 +7,7 @@ const { createTeacherService, teacherLoginService, getTeacherProfileService, upd
 //@access Private (admin)
 exports.createTeacherController = async (req, res) => {
 	try {
-		const result = await createTeacherService(req.body,req.userAuth.id);
-		responseStatus(res,200,"success",result);
+		await createTeacherServices(req.body, req.userAuth.id, res);
 	} catch (error) {
 		responseStatus(res,400,"failed",error.message);
 	}
@@ -18,8 +17,7 @@ exports.createTeacherController = async (req, res) => {
 //@access Public
 exports.teacherLoginController = async (req, res) => {
 	try {
-		const result = await teacherLoginService(req.body);
-		responseStatus(res,200,"success",result);
+		await teacherLoginService(req.body, res);
 	} catch (error) {
 			responseStatus(res,400,"failed",error.message);
 	}
@@ -51,7 +49,7 @@ exports.getTeacherProfileController = async (req, res) => {
 //@access Private (Teacher)
 exports.updateTeacherProfileController = async (req, res) => {
 	try {
-		const result = await updateTeacherProfileService( req.body,req.userAuth.id);
+		const result = await updateTeacherProfileService( req.body, req.userAuth.id, res);
 		responseStatus(res,200,"success",result);
 		} catch (error) {
 			responseStatus(res,400,"failed",error.message);
