@@ -8,8 +8,7 @@ const { adminRegisterStudentService, studentLoginService, getStudentsProfileServ
  **/
 exports.adminRegisterStudentController = async (req, res) => {
   try {
-    const result = await adminRegisterStudentService();
-    responseStatus(res, 200, 'success', result);
+    await adminRegisterStudentService(req.body, res);
   } catch (error) {
     responseStatus(res, 400, 'failed', error.message);
   }
@@ -22,8 +21,7 @@ exports.adminRegisterStudentController = async (req, res) => {
  **/
 exports.studentLoginController = async (req, res) => {
   try {
-    const result = await studentLoginService(req.body);
-    responseStatus(res, 200, 'success', result);
+    await studentLoginService(req.body, res)
   } catch (error) {
     responseStatus(res, 400, 'failed', error.message);
   }
@@ -36,8 +34,7 @@ exports.studentLoginController = async (req, res) => {
  **/
 exports.getStudentProfileController = async (req, res) => {
   try {
-    const result = await getStudentsProfileService(req.userAuth.id);
-    responseStatus(res, 200, 'success', result);
+   await getStudentsProfileService(req.userAuth.id, res)
   } catch (error) {
     responseStatus(res, 400, 'failed', error.message);
   }
@@ -50,8 +47,7 @@ exports.getStudentProfileController = async (req, res) => {
  **/
 exports.getAllStudentsByAdminController = async (req, res) => {
   try {
-    const result = await getAllStudentsByAdminService();
-    responseStatus(res, 200, 'success', result);
+    await getStudentByAdminService(req.userAuth.id, res)
   } catch (error) {
     responseStatus(res, 400, 'failed', error.message);
   }
@@ -78,8 +74,7 @@ exports.getStudentByAdminController = async (req, res) => {
  **/
 exports.studentUpdateProfileController = async (req, res) => {
   try {
-    const result = await studentUpdateProfileService(req.body, req.userAuth.id);
-    responseStatus(res, 200, 'success', result);
+   await studentUpdateProfileService(req.body,req.userAuth.id, res)
   } catch (error) {
     responseStatus(res, 400, 'failed', error.message);
   }
@@ -92,8 +87,7 @@ exports.studentUpdateProfileController = async (req, res) => {
  **/
 exports.adminUpdateStudentController = async (req, res) => {
   try {
-    const result = await adminUpdateStudentService(req.body, req.params.studentId);
-    responseStatus(res, 200, 'success', result);
+    await adminUpdateStudentService(req.body,req.params.studentId)
   } catch (error) {
     responseStatus(res, 400, 'failed', error.message);
   }

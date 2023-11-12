@@ -8,7 +8,7 @@ exports.createYearGroupService=async(data,userId)=>{
 	//check if exists
 	const YearGroupFound = await YearGroup.findOne({ name });
 	if (YearGroupFound) {
-	  return "Year Group  already exists";
+	  return responseStatus(res, 402, "failed", "Year Group  already exists");
 	}
 	//create
 	const YearGroupCreated = await YearGroup.create({
@@ -18,10 +18,10 @@ exports.createYearGroupService=async(data,userId)=>{
 	});
 // push object id to admin
 const admin = await Admin.findById(userId);
-if(!admin) return "Admin does not exist"
+if(!admin) return responseStatus(res, 401, "failed", "Admin does not exist"); 
 admin.yearGroups.push(YearGroupCreated);
 await admin.save(); //saving the  data
-	return YearGroupCreated;
+	return responseStatus(res, 200, "success",  YearGroupCreated);
 
 }
 // get all YearGroups
@@ -38,7 +38,7 @@ exports.updateYearGroupService=async(data,id,userId)=>{
 	//check name exists
 	const classFound = await YearGroup.findOne({ name });
 	if (classFound) {
-	 return "Year Group already exists";
+	 return responseStatus(res, 402, "failed", "Year Group already exists");
 	}
 	const YearGroups = await YearGroup.findByIdAndUpdate(
 	  id,
@@ -51,7 +51,7 @@ exports.updateYearGroupService=async(data,id,userId)=>{
 		new: true,
 	  }
 	);	
-return YearGroups;
+return responseStatus(res, 200, "success", YearGroups);
 }
 
 

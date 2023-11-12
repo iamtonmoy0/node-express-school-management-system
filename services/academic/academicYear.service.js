@@ -8,7 +8,7 @@ exports.createAcademicYearService = async ( data,userId) => {
 	//check if exists
 	const academicYear = await AcademicYear.findOne({ name });
 	if (academicYear) {
-	  return "Academic year already exists";
+	  return responseStatus(res, 402, "failed",  "Academic year already exists");
 	}
 	//create
 	const academicYearCreated = await AcademicYear.create({
@@ -21,7 +21,7 @@ exports.createAcademicYearService = async ( data,userId) => {
 	const admin = await Admin.findById(userId);
 	admin.academicYears.push(academicYearCreated._id);
 	await admin.save();
-	return academicYearCreated;
+	return responseStatus(res, 201, "success", academicYearCreated);
 	
   };
 //   get all academic years
@@ -39,12 +39,12 @@ exports.createAcademicYearService = async ( data,userId) => {
 	//check name exists
 	const createAcademicYearFound = await AcademicYear.findOne({ name });
 	if (createAcademicYearFound) {
-	  return "Academic year already exists";
+	  return responseStatus(res, 402, "failed", "Academic year already exists");
 	}
 	const academicYear = await AcademicYear.findByIdAndUpdate(academicId,{name,fromYear,toYear,createdBy: userId},
 	  {new: true}
 	);
-	return academicYear;
+	return responseStatus(res, 201, "success", academicYear);
   
   };
 // delete academic year

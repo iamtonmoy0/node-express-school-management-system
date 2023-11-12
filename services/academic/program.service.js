@@ -8,7 +8,7 @@ exports.createProgramService=async(data,userId)=>{
 	//check if exists
 	const programFound = await Program.findOne({ name });
 	if (programFound) {
-	  return "Program  already exists";
+	  return  responseStatus(res, 402, "failed", "Program  already exists"); 
 	}
 	//create
 	const programCreated = await Program.create({
@@ -21,24 +21,27 @@ exports.createProgramService=async(data,userId)=>{
 	admin.programs.push(programCreated._id);
 	//save
 	await admin.save();
-	return programCreated;
+	return responseStatus(res, 200, "success", programCreated); 
 
 }
+
 // get all programs
 exports.getAllProgramsService = async () =>{
 	return await Program.find();
 }
+
 // get single program by id
 exports.getProgramsService=async(id)=>{
 	return await Program.findById(id);
 }
+
 // update program data
 exports.updateProgramService=async(data,id,userId)=>{
 	const { name, description } = data;
 	//check name exists
 	const classFound = await ClassLevel.findOne({ name });
 	if (classFound) {
-	 return "program already exists";
+	 return responseStatus(res, 402, "failed", "program already exists");
 	}
 	const programs = await Program.findByIdAndUpdate(
 	  id,
@@ -51,7 +54,7 @@ exports.updateProgramService=async(data,id,userId)=>{
 		new: true,
 	  }
 	);	
-return programs;
+return responseStatus(res, 200, "success", programs); 
 }
 
 

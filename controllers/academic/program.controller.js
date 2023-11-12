@@ -8,8 +8,7 @@ const { createProgramService, getAllProgramsService, getProgramsService, updateP
  **/
 exports.createProgramController = async (req, res) => {
   try {
-    const result = await createProgramService(req.body, req.userAuth.id);
-    responseStatus(res, 200, "success", result);
+    await createProgramService(req.body, req.userAuth.id, res);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }
@@ -50,8 +49,7 @@ exports.getProgramController = async (req, res) => {
  **/
 exports.updateProgramController = async (req, res) => {
   try {
-    const result = await updateProgramService(req.body, req.params.id, req.userAuth.id);
-    responseStatus(res, 200, "success", result);
+    await updateProgramService(req.body, req.params.id, req.userAuth.id, res);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }

@@ -8,8 +8,7 @@ const { createAcademicYearService, getAcademicYearsService, getAcademicYearServi
  **/
 exports.createAcademicYearController = async (req, res) => {
   try {
-    const result = await createAcademicYearService(req.body, req.userAuth.id);
-    responseStatus(res, 201, "success", result);
+    await createAcademicYearService(req.body, req.userAuth.id, res);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }
@@ -50,8 +49,7 @@ exports.getAcademicYearController = async (req, res) => {
  **/
 exports.updateAcademicYearController = async (req, res) => {
   try {
-    const result = await updateAcademicYearService(req.body, req.params.id, req.userAuth.id);
-    responseStatus(res, 201, "success", result);
+    await updateAcademicYearService(req.body, req.params.id, req.userAuth.id);  
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }

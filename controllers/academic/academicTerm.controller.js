@@ -8,8 +8,8 @@ const { createAcademicTermService, getAcademicTermsService, getAcademicTermServi
  **/
 exports.createAcademicTermController = async (req, res) => {
   try {
-    const result = await createAcademicTermService(req.body, req.userAuth.id);
-    responseStatus(res, 201, "success", result);
+    createAcademicTermService(req.body, req.userAuth.id, res);
+   
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }
@@ -50,8 +50,7 @@ exports.getAcademicTermController = async (req, res) => {
  **/
 exports.updateAcademicTermController = async (req, res) => {
   try {
-    const result = await updateAcademicTermService(req.body, req.params.id, req.userAuth.id);
-    responseStatus(res, 201, "success", result);
+    await updateAcademicTermService(req.body, req.params.id, req.userAuth.id, res);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }

@@ -8,8 +8,7 @@ const { getAllExamService, createExamService, getExamByIdService, updateExamServ
  **/
 exports.createExamController = async (req, res) => {
   try {
-    const result = await createExamService(req.body, req.userAuth.id);
-    responseStatus(res, 200, "success", result);
+    await createExamService(req.body, req.userAuth.id, res);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }
@@ -50,8 +49,7 @@ exports.getExamByIdController = async (req, res) => {
  **/
 exports.updateExamController = async (req, res) => {
   try {
-    const result = await updateExamService(req.body, req.params.examId);
-    responseStatus(res, 200, "success", result);
+    await updateExamService(req.body, req.params.examId, res);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }

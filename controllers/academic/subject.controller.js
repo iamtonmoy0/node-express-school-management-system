@@ -8,8 +8,7 @@ const { createSubjectService, getAllSubjectsService, getSubjectsService, deleteS
  **/
 exports.createSubjectController = async (req, res) => {
   try {
-    const result = await createSubjectService(req.body, req.params.programId, req.userAuth.id);
-    responseStatus(res, 200, "success", result);
+    await createSubjectService(req.body, req.params.programId, req.userAuth.id, res);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }
@@ -50,8 +49,7 @@ exports.getSubjectController = async (req, res) => {
  **/
 exports.updateSubjectController = async (req, res) => {
   try {
-    const result = await updateSubjectService(req.body, req.params.id, req.userAuth.id);
-    responseStatus(res, 200, "success", result);
+    await updateSubjectService(req.body, req.params.id, req.userAuth.id, res);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }

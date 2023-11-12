@@ -7,7 +7,7 @@ exports.createClassLevelService=async(data,userId)=>{
 	//check if exists
 	const classFound = await ClassLevel.findOne({ name });
 	if (classFound) {
-	  return "Class  already exists";
+	  return responseStatus(res, 400, "failed", "Class  already exists"); 
 	}
 	//create
 	const classCreated = await ClassLevel.create({
@@ -20,7 +20,7 @@ exports.createClassLevelService=async(data,userId)=>{
 	admin.classLevels.push(classCreated._id);
 	//save
 	await admin.save();
-	return classCreated;
+	return  responseStatus(res, 200, "success", classCreated);
 
 }
 // get all classes
@@ -37,7 +37,7 @@ exports.updateClassLevelService=async(data,id,userId)=>{
 	//check name exists
 	const classFound = await ClassLevel.findOne({ name });
 	if (classFound) {
-	 return "Class already exists";
+	 return responseStatus(res, 400, "failed", "Class already exists");
 	}
 	const classLevel = await ClassLevel.findByIdAndUpdate(
 	  id,
@@ -50,7 +50,7 @@ exports.updateClassLevelService=async(data,id,userId)=>{
 		new: true,
 	  }
 	);	
-	return classLevel;
+	return responseStatus(res, 200, "success",  classLevel);
 
 }
 
