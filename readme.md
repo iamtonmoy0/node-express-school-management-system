@@ -72,6 +72,8 @@ Navigate to the project directory:
 │   ├── staff/
 │   │   ├── admin.controller.js
 │   │   ├── teacher.controller.js
+|   ├── students/
+|   │   ├── students.controller.js
 ├── handlers/
 │   │   ├── passHash.handler.js
 │   │   ├── responseStatus.handler.js
@@ -79,6 +81,8 @@ Navigate to the project directory:
 ├── middlewares/
 │   │   ├── isAdmin.js
 │   │   ├── isLoggedIn.js
+│   │   ├── isTeacher.js
+│   │   ├── isStudent.js
 ├── models/
 │   ├── academic/
 │   │   ├── academicTerm.model.js
@@ -94,22 +98,27 @@ Navigate to the project directory:
 │   ├── staff/
 │   │   ├── admin.model.js
 │   │   ├── teacher.model.js
+|   ├── students/
+|   │   ├── students.model.js
 ├── node_modules/
 ├── routes/
-│   ├── academic/
-│   │   ├── academicTerm.router.js
-│   │   ├── academicYear.router.js
-│   │   ├── class.router.js
-│   │   ├── exams.router.js
-│   │   ├── programs.router.js
-│   │   ├── questions.router.js
-│   │   ├── results.router.js
-│   │   ├── students.router.js
-│   │   ├── subject.router.js
-│   │   ├── yearGroup.router.js
-│   ├── staff/
-│   │   ├── admin.router.js
-│   │   ├── teacher.router.js
+│   ├── v1/
+│   |   ├── academic/
+│   |   │   ├── academicTerm.router.js
+│   |   │   ├── academicYear.router.js
+│   |   │   ├── class.router.js
+│   |   │   ├── exams.router.js
+│   |   │   ├── programs.router.js
+│   |   │   ├── questions.router.js
+│   |   │   ├── results.router.js
+│   |   │   ├── students.router.js
+│   |   │   ├── subject.router.js
+│   |   │   ├── yearGroup.router.js
+│   |   ├── staff/
+│   |   │   ├── admin.router.js
+│   |   │   ├── teacher.router.js
+│   |   ├── students/
+│   |   │   ├── student.router.js
 ├── services/
 │   ├── academic/
 │   │   ├── academicTerm.service.js
@@ -125,9 +134,11 @@ Navigate to the project directory:
 │   ├── staff/
 │   │   ├── admin.service.js
 │   │   ├── teacher.service.js
-│   ├── utils/
-│   │   ├── tokenGenerator.js
-│   │   ├── verifyToken.js
+|   ├── students/
+|   │   ├── students.service.js
+├── utils/
+│   ├── tokenGenerator.js
+│   ├── verifyToken.js
 ├── .env
 ├── .env.example
 ├── .gitignore
