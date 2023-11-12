@@ -7,11 +7,11 @@ const Program = require('../../models/Academic/program.model');
 exports.createSubjectService=async(data,programId,userId)=>{
 	const { name, description,academicTerm } = data;
 	const programFound = await Program.findById(programId);
-	if (!programFound) return "Program not found";
+	if (!programFound) return responseStatus(res, 402, "failed", "Program not found");
 	//check if exists
 	const SubjectFound = await Subject.findOne({ name });
 	if (SubjectFound) {
-	  return "Subject  already exists";
+	  return responseStatus(res, 402, "failed", "Subject  already exists"); 
 	}
 	//create
 	const SubjectCreated = await Subject.create({
@@ -24,7 +24,7 @@ exports.createSubjectService=async(data,programId,userId)=>{
 programFound.subjects.push(SubjectCreated._id);
 await programFound.save();
 
-	return SubjectCreated;
+	return responseStatus(res, 200, "success", SubjectCreated); 
 
 }
 // get all Subjects
@@ -41,7 +41,7 @@ exports.updateSubjectService=async(data,id,userId)=>{
 	//check name exists
 	const classFound = await Subject.findOne({ name });
 	if (classFound) {
-	 return "Subject already exists";
+	 return  responseStatus(res, 402, "failed", "Subject already exists");
 	}
 	const Subjects = await Subject.findByIdAndUpdate(
 	  id,
@@ -55,7 +55,7 @@ exports.updateSubjectService=async(data,id,userId)=>{
 		new: true,
 	  }
 	);	
-return Subjects;
+return responseStatus(res, 200, "success", Subjects); 
 }
 
 

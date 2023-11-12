@@ -8,8 +8,7 @@ const { createClassLevelService, getAllClassesService, getClassLevelsService, de
  **/
 exports.createClassLevelController = async (req, res) => {
   try {
-    const result = await createClassLevelService(req.body, req.userAuth.id);
-    responseStatus(res, 200, "success", result);
+    await createClassLevelService(req.body, req.userAuth.id, res);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }
@@ -50,8 +49,7 @@ exports.getClassLevelController = async (req, res) => {
  **/
 exports.updateClassLevelController = async (req, res) => {
   try {
-    const result = await updateClassLevelService(req.body, req.params.id, req.userAuth.id);
-    responseStatus(res, 200, "success", result);
+    await updateClassLevelService(req.body, req.params.id, req.userAuth.id, res);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }

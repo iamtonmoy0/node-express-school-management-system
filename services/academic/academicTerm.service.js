@@ -8,7 +8,7 @@ exports.createAcademicTermService = async ( data,userId) => {
 	//check if exists
 	const academicTerm = await AcademicTerm.findOne({ name });
 	if (academicTerm) {
-	  return "Academic term already exists";
+	  return responseStatus(res, 402, "failed", "Academic term already exists");
 	}
 	//create
 	const academicTermCreated = await AcademicTerm.create({
@@ -21,7 +21,7 @@ exports.createAcademicTermService = async ( data,userId) => {
 	const admin = await Admin.findById(userId);
 	admin.academicTerms.push(academicTermCreated._id);
 	await admin.save();
-	return academicTermCreated;
+	return responseStatus(res, 200, "success", academicTermCreated);
 	
   };
 //   get all academic terms
@@ -33,19 +33,19 @@ exports.createAcademicTermService = async ( data,userId) => {
   exports.getAcademicTermService = async (id ) => {
  return await AcademicTerm.findById(id);
   };
+
 //  update academic term
   exports.updateAcademicTermService = async (data,academicId,userId) => {
 	const { name ,description, duration } = data;
 	//check name exists
 	const createAcademicTermFound = await AcademicTerm.findOne({ name });
 	if (createAcademicTermFound) {
-	  return "Academic term already exists";
+	  return responseStatus(res, 402, "failed", "Academic term already exists");
 	}
 	const academicTerm = await AcademicTerm.findByIdAndUpdate(academicId,{name,description,duration,createdBy: userId},
 	  {new: true}
 	);
-	return academicTerm;
-  
+	return  responseStatus(res, 201, "success", academicTerm); 
   };
 // delete academic term
   exports.deleteAcademicTermService = async (id) => {

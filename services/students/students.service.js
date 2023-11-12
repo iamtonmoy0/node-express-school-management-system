@@ -31,8 +31,8 @@ exports.studentLoginService = async(data, res)=>{
 	const isMatched = await isPassMatched(password, student?.password);
 	if (!isMatched) return responseStatus(res,401,"failed","Invalid login credentials"); 
 	
-	 const data = {student,token:generateToken(student._id)}
-	 return responseStatus(res,200,"success", data);	
+	 const responseData = {student,token:generateToken(student._id)}
+	 return responseStatus(res,200,"success", responseData);	
 }
 
 // get student profile
