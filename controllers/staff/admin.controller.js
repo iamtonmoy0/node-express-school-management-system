@@ -168,7 +168,7 @@ exports.adminPublishResultsController = (req, res) => {
 };
 
 /**
- * @desc Admin unpublishes exam result
+ * @desc Admin un-publishes exam result
  * @route PUT /api/v1/admins/unpublish/result/:id
  * @access Private
  **/
