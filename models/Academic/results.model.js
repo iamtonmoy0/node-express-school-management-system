@@ -44,7 +44,7 @@ const examResultSchema = new mongoose.Schema(
     },
     position: {
       type: Number,
-      required: true,
+      // required: true,
     },
 
     subject: {

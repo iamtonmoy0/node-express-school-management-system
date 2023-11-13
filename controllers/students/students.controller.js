@@ -1,5 +1,5 @@
 const responseStatus = require('../../handlers/responseStatus.handler');
-const { adminRegisterStudentService, studentLoginService, getStudentsProfileService, getAllStudentsByAdminService, getStudentByAdminService, studentUpdateProfileService, adminUpdateStudentService } = require("../../services/students/students.service");
+const { adminRegisterStudentService, studentLoginService, getStudentsProfileService, getAllStudentsByAdminService, getStudentByAdminService, studentUpdateProfileService, adminUpdateStudentService, studentWriteExamService } = require("../../services/students/students.service");
 
 /**
  * @desc Admin Register Student
@@ -92,3 +92,16 @@ exports.adminUpdateStudentController = async (req, res) => {
     responseStatus(res, 400, 'failed', error.message);
   }
 };
+
+/**
+ * @desc Students taking exams
+ * @route POST /api/v1/students/:examId/exam-write
+ * @access Private Students only
+ **/
+exports.studentWriteExamController=async(req,res)=>{
+  try {
+    await studentWriteExamService(req.body,req.userAuth.id,req.params.examId,res)
+  } catch (error) {
+    responseStatus(res, 400, 'failed', error.message);
+  }
+}
