@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const {ObjectId} =mongoose.Schema;
+const { ObjectId } = mongoose.Schema;
 
 const teacherSchema = new mongoose.Schema(
   {
@@ -10,7 +10,7 @@ const teacherSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
-      index:true
+      index: true,
     },
     password: {
       type: String,
@@ -30,7 +30,7 @@ const teacherSchema = new mongoose.Schema(
           Date.now().toString().slice(2, 4) +
           this.name
             .split(" ")
-            .map(name => name[0])
+            .map((name) => name[0])
             .join("")
             .toUpperCase()
         );

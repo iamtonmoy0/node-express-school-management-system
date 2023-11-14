@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
-const {ObjectId} = mongoose.Schema;
+const { ObjectId } = mongoose.Schema;
 
 const ClassLevelSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
-      index:true
+      index: true,
     },
     description: {
       type: String,

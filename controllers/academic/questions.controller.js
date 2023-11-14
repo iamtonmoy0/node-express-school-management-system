@@ -1,5 +1,10 @@
 const responseStatus = require("../../handlers/responseStatus.handler");
-const { createExamService, getAllQuestionsService, getQuestionsByIdService, updateQuestionsService } = require("../../services/academic/questions.service");
+const {
+  createExamService,
+  getAllQuestionsService,
+  getQuestionsByIdService,
+  updateQuestionsService,
+} = require("../../services/academic/questions.service");
 
 /**
  * @desc Create Question

@@ -1,5 +1,14 @@
-const responseStatus = require('../../handlers/responseStatus.handler');
-const { adminRegisterStudentService, studentLoginService, getStudentsProfileService, getAllStudentsByAdminService, getStudentByAdminService, studentUpdateProfileService, adminUpdateStudentService, studentWriteExamService } = require("../../services/students/students.service");
+const responseStatus = require("../../handlers/responseStatus.handler");
+const {
+  adminRegisterStudentService,
+  studentLoginService,
+  getStudentsProfileService,
+  getAllStudentsByAdminService,
+  getStudentByAdminService,
+  studentUpdateProfileService,
+  adminUpdateStudentService,
+  studentWriteExamService,
+} = require("../../services/students/students.service");
 
 /**
  * @desc Admin Register Student
@@ -10,7 +19,7 @@ exports.adminRegisterStudentController = async (req, res) => {
   try {
     await adminRegisterStudentService(req.body, res);
   } catch (error) {
-    responseStatus(res, 400, 'failed', error.message);
+    responseStatus(res, 400, "failed", error.message);
   }
 };
 
@@ -21,9 +30,9 @@ exports.adminRegisterStudentController = async (req, res) => {
  **/
 exports.studentLoginController = async (req, res) => {
   try {
-    await studentLoginService(req.body, res)
+    await studentLoginService(req.body, res);
   } catch (error) {
-    responseStatus(res, 400, 'failed', error.message);
+    responseStatus(res, 400, "failed", error.message);
   }
 };
 
@@ -34,9 +43,9 @@ exports.studentLoginController = async (req, res) => {
  **/
 exports.getStudentProfileController = async (req, res) => {
   try {
-   await getStudentsProfileService(req.userAuth.id, res)
+    await getStudentsProfileService(req.userAuth.id, res);
   } catch (error) {
-    responseStatus(res, 400, 'failed', error.message);
+    responseStatus(res, 400, "failed", error.message);
   }
 };
 
@@ -47,9 +56,9 @@ exports.getStudentProfileController = async (req, res) => {
  **/
 exports.getAllStudentsByAdminController = async (req, res) => {
   try {
-    await getStudentByAdminService(req.userAuth.id, res)
+    await getStudentByAdminService(req.userAuth.id, res);
   } catch (error) {
-    responseStatus(res, 400, 'failed', error.message);
+    responseStatus(res, 400, "failed", error.message);
   }
 };
 
@@ -61,9 +70,9 @@ exports.getAllStudentsByAdminController = async (req, res) => {
 exports.getStudentByAdminController = async (req, res) => {
   try {
     const result = await getStudentByAdminService(req.userAuth.id);
-    responseStatus(res, 200, 'success', result);
+    responseStatus(res, 200, "success", result);
   } catch (error) {
-    responseStatus(res, 400, 'failed', error.message);
+    responseStatus(res, 400, "failed", error.message);
   }
 };
 
@@ -74,9 +83,9 @@ exports.getStudentByAdminController = async (req, res) => {
  **/
 exports.studentUpdateProfileController = async (req, res) => {
   try {
-   await studentUpdateProfileService(req.body,req.userAuth.id, res)
+    await studentUpdateProfileService(req.body, req.userAuth.id, res);
   } catch (error) {
-    responseStatus(res, 400, 'failed', error.message);
+    responseStatus(res, 400, "failed", error.message);
   }
 };
 
@@ -87,9 +96,9 @@ exports.studentUpdateProfileController = async (req, res) => {
  **/
 exports.adminUpdateStudentController = async (req, res) => {
   try {
-    await adminUpdateStudentService(req.body,req.params.studentId)
+    await adminUpdateStudentService(req.body, req.params.studentId);
   } catch (error) {
-    responseStatus(res, 400, 'failed', error.message);
+    responseStatus(res, 400, "failed", error.message);
   }
 };
 
@@ -98,10 +107,15 @@ exports.adminUpdateStudentController = async (req, res) => {
  * @route POST /api/v1/students/:examId/exam-write
  * @access Private Students only
  **/
-exports.studentWriteExamController=async(req,res)=>{
+exports.studentWriteExamController = async (req, res) => {
   try {
-    await studentWriteExamService(req.body,req.userAuth.id,req.params.examId,res)
+    await studentWriteExamService(
+      req.body,
+      req.userAuth.id,
+      req.params.examId,
+      res
+    );
   } catch (error) {
-    responseStatus(res, 400, 'failed', error.message);
+    responseStatus(res, 400, "failed", error.message);
   }
-}
+};

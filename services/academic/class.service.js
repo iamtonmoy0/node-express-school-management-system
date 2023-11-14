@@ -1,8 +1,8 @@
 // Import necessary models
 const ClassLevel = require("../../models/Academic/class.model");
-const Admin = require('../../models/Staff/admin.model');
+const Admin = require("../../models/Staff/admin.model");
 // Import responseStatus handler
-const responseStatus = require('../../handlers/responseStatus.handler');
+const responseStatus = require("../../handlers/responseStatus.handler");
 /**
  * Create class service.
  *
@@ -13,29 +13,29 @@ const responseStatus = require('../../handlers/responseStatus.handler');
  * @returns {Object} - The response object indicating success or failure.
  */
 exports.createClassLevelService = async (data, userId) => {
-    const { name, description } = data;
+  const { name, description } = data;
 
-    // Check if the class already exists
-    const classFound = await ClassLevel.findOne({ name });
-    if (classFound) {
-        return responseStatus(res, 400, "failed", "Class already exists");
-    }
+  // Check if the class already exists
+  const classFound = await ClassLevel.findOne({ name });
+  if (classFound) {
+    return responseStatus(res, 400, "failed", "Class already exists");
+  }
 
-    // Create the class
-    const classCreated = await ClassLevel.create({
-        name,
-        description,
-        createdBy: userId,
-    });
+  // Create the class
+  const classCreated = await ClassLevel.create({
+    name,
+    description,
+    createdBy: userId,
+  });
 
-    // Push the class into the admin's classLevels array
-    const admin = await Admin.findById(userId);
-    admin.classLevels.push(classCreated._id);
-    // Save the changes
-    await admin.save();
+  // Push the class into the admin's classLevels array
+  const admin = await Admin.findById(userId);
+  admin.classLevels.push(classCreated._id);
+  // Save the changes
+  await admin.save();
 
-    // Send the response
-    return responseStatus(res, 200, "success", classCreated);
+  // Send the response
+  return responseStatus(res, 200, "success", classCreated);
 };
 
 /**
@@ -44,7 +44,7 @@ exports.createClassLevelService = async (data, userId) => {
  * @returns {Array} - An array of all classes.
  */
 exports.getAllClassesService = async () => {
-    return await ClassLevel.find();
+  return await ClassLevel.find();
 };
 
 /**
@@ -54,7 +54,7 @@ exports.getAllClassesService = async () => {
  * @returns {Object} - The class object.
  */
 exports.getClassLevelsService = async (id) => {
-    return await ClassLevel.findById(id);
+  return await ClassLevel.findById(id);
 };
 
 /**
@@ -68,29 +68,29 @@ exports.getClassLevelsService = async (id) => {
  * @returns {Object} - The response object indicating success or failure.
  */
 exports.updateClassLevelService = async (data, id, userId) => {
-    const { name, description } = data;
+  const { name, description } = data;
 
-    // Check if the updated name already exists
-    const classFound = await ClassLevel.findOne({ name });
-    if (classFound) {
-        return responseStatus(res, 400, "failed", "Class already exists");
+  // Check if the updated name already exists
+  const classFound = await ClassLevel.findOne({ name });
+  if (classFound) {
+    return responseStatus(res, 400, "failed", "Class already exists");
+  }
+
+  // Update the class
+  const classLevel = await ClassLevel.findByIdAndUpdate(
+    id,
+    {
+      name,
+      description,
+      createdBy: userId,
+    },
+    {
+      new: true,
     }
+  );
 
-    // Update the class
-    const classLevel = await ClassLevel.findByIdAndUpdate(
-        id,
-        {
-            name,
-            description,
-            createdBy: userId,
-        },
-        {
-            new: true,
-        }
-    );
-
-    // Send the response
-    return responseStatus(res, 200, "success", classLevel);
+  // Send the response
+  return responseStatus(res, 200, "success", classLevel);
 };
 
 /**
@@ -100,5 +100,5 @@ exports.updateClassLevelService = async (data, id, userId) => {
  * @returns {Object} - The deleted class object.
  */
 exports.deleteClassLevelService = async (id) => {
-    return await ClassLevel.findByIdAndDelete(id);
+  return await ClassLevel.findByIdAndDelete(id);
 };

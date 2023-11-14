@@ -1,7 +1,7 @@
 // Import necessary models
 const responseStatus = require("../../handlers/responseStatus.handler");
-const Exam = require("../../models/Academic/exams.model")
-const Questions = require("../../models/Academic/questions.model")
+const Exam = require("../../models/Academic/exams.model");
+const Questions = require("../../models/Academic/questions.model");
 
 /**
  * Create questions service.
@@ -18,40 +18,34 @@ const Questions = require("../../models/Academic/questions.model")
  * @param {Object} res - The response object.
  * @returns {Object} - The response object indicating success or failure.
  */
-exports.createQuestionsService = async(data, examId, teacherId, res) => {
-    const {
-        question,
-        optionA,
-        optionB,
-        optionC,
-        optionD,
-        correctAnswer,
-    } = data;
+exports.createQuestionsService = async (data, examId, teacherId, res) => {
+  const { question, optionA, optionB, optionC, optionD, correctAnswer } = data;
 
-    // Finding the exam
-    const exam = await Exam.findById(examId);
-    // If exam not found
-    if (!exam) return responseStatus(res, 404, "failed", "Exam not found");
+  // Finding the exam
+  const exam = await Exam.findById(examId);
+  // If exam not found
+  if (!exam) return responseStatus(res, 404, "failed", "Exam not found");
 
-    // Finding duplicate question
-    const isQuestion = await Questions.findOne({ question });
-    if (!isQuestion) return responseStatus(res, 405, "failed", "This Question already exists");
+  // Finding duplicate question
+  const isQuestion = await Questions.findOne({ question });
+  if (!isQuestion)
+    return responseStatus(res, 405, "failed", "This Question already exists");
 
-    // Create question
-    const createQuestions = await Questions.create({
-        question,
-        optionA,
-        optionB,
-        optionC,
-        optionD,
-        correctAnswer,
-        createdBy: teacherId,
-    });
+  // Create question
+  const createQuestions = await Questions.create({
+    question,
+    optionA,
+    optionB,
+    optionC,
+    optionD,
+    correctAnswer,
+    createdBy: teacherId,
+  });
 
-    // If question is created successfully
-    exam.questions.push(createQuestions._id);
-    await exam.save();
-    return responseStatus(res, 201, "success", createQuestions);
+  // If question is created successfully
+  exam.questions.push(createQuestions._id);
+  await exam.save();
+  return responseStatus(res, 201, "success", createQuestions);
 };
 
 /**
@@ -60,7 +54,7 @@ exports.createQuestionsService = async(data, examId, teacherId, res) => {
  * @returns {Array} - An array of all questions.
  */
 exports.getAllQuestionsService = async () => {
-    return await Questions.find();
+  return await Questions.find();
 };
 
 /**
@@ -70,7 +64,7 @@ exports.getAllQuestionsService = async () => {
  * @returns {Object} - The question object.
  */
 exports.getQuestionsByIdService = async (questionId) => {
-    return await Questions.findById(questionId);
+  return await Questions.findById(questionId);
 };
 
 /**
@@ -88,29 +82,30 @@ exports.getQuestionsByIdService = async (questionId) => {
  * @param {Object} res - The response object.
  * @returns {Object} - The response object indicating success or failure.
  */
-exports.updateQuestionsService = async(data, questionId, userId, res) => {
-    const { question, optionA, optionB, optionC, optionD, correctAnswer } = data;
+exports.updateQuestionsService = async (data, questionId, userId, res) => {
+  const { question, optionA, optionB, optionC, optionD, correctAnswer } = data;
 
-    // Check if the updated question already exists
-    const questionFound = await Questions.findOne({ question });
-    if (questionFound) return responseStatus(res, 401, "failed", "Question already exists");
+  // Check if the updated question already exists
+  const questionFound = await Questions.findOne({ question });
+  if (questionFound)
+    return responseStatus(res, 401, "failed", "Question already exists");
 
-    // Update the question
-    const questionCreate = await Questions.findByIdAndUpdate(
-        questionId,
-        {
-            question,
-            optionA,
-            optionB,
-            optionC,
-            optionD,
-            correctAnswer,
-            createdBy: userId,
-        },
-        {
-            new: true,
-        }
-    );
+  // Update the question
+  const questionCreate = await Questions.findByIdAndUpdate(
+    questionId,
+    {
+      question,
+      optionA,
+      optionB,
+      optionC,
+      optionD,
+      correctAnswer,
+      createdBy: userId,
+    },
+    {
+      new: true,
+    }
+  );
 
-    return responseStatus(res, 201, "success", questionCreate);
+  return responseStatus(res, 201, "success", questionCreate);
 };

@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 
-const { ObjectId } = mongoose;
+const { ObjectId } = mongoose.Schema;
 
 //exam result schema
 const examResultSchema = new mongoose.Schema(
   {
     student: {
-      type: Schema.Types.ObjectId,
+      type: ObjectId,
       ref: "Student",
       required: true,
     },

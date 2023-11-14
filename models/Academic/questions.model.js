@@ -8,8 +8,8 @@ const questionSchema = new mongoose.Schema(
     question: {
       type: String,
       required: true,
-      index:true,
-      text:true
+      index: true,
+      text: true,
     },
     optionA: {
       type: String,

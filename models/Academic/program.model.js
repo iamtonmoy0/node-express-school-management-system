@@ -7,7 +7,7 @@ const ProgramSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      index:true
+      index: true,
     },
     description: {
       type: String,
@@ -25,7 +25,7 @@ const ProgramSchema = new mongoose.Schema(
         return (
           this.name
             .split(" ")
-            .map(name => name[0])
+            .map((name) => name[0])
             .join("")
             .toUpperCase() +
           Math.floor(10 + Math.random() * 90) +
@@ -51,7 +51,7 @@ const ProgramSchema = new mongoose.Schema(
         default: [],
       },
     ],
-	subjects: [
+    subjects: [
       {
         type: ObjectId,
         ref: "Subject",

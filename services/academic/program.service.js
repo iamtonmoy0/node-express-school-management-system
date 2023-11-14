@@ -1,9 +1,9 @@
 // Import necessary models
 const Program = require("../../models/Academic/program.model");
 const ClassLevel = require("../../models/Academic/class.model");
-const Admin = require('../../models/Staff/admin.model');
+const Admin = require("../../models/Staff/admin.model");
 // Import responseStatus handler
-const responseStatus = require('../../handlers/responseStatus.handler');
+const responseStatus = require("../../handlers/responseStatus.handler");
 
 /**
  * Create program service.
@@ -15,29 +15,29 @@ const responseStatus = require('../../handlers/responseStatus.handler');
  * @returns {Object} - The response object indicating success or failure.
  */
 exports.createProgramService = async (data, userId) => {
-    const { name, description } = data;
+  const { name, description } = data;
 
-    // Check if the program already exists
-    const programFound = await Program.findOne({ name });
-    if (programFound) {
-        return responseStatus(res, 402, "failed", "Program already exists");
-    }
+  // Check if the program already exists
+  const programFound = await Program.findOne({ name });
+  if (programFound) {
+    return responseStatus(res, 402, "failed", "Program already exists");
+  }
 
-    // Create the program
-    const programCreated = await Program.create({
-        name,
-        description,
-        createdBy: userId,
-    });
+  // Create the program
+  const programCreated = await Program.create({
+    name,
+    description,
+    createdBy: userId,
+  });
 
-    // Push the program into the admin's programs array
-    const admin = await Admin.findById(userId);
-    admin.programs.push(programCreated._id);
-    // Save the changes
-    await admin.save();
+  // Push the program into the admin's programs array
+  const admin = await Admin.findById(userId);
+  admin.programs.push(programCreated._id);
+  // Save the changes
+  await admin.save();
 
-    // Send the response
-    return responseStatus(res, 200, "success", programCreated);
+  // Send the response
+  return responseStatus(res, 200, "success", programCreated);
 };
 
 /**
@@ -46,7 +46,7 @@ exports.createProgramService = async (data, userId) => {
  * @returns {Array} - An array of all programs.
  */
 exports.getAllProgramsService = async () => {
-    return await Program.find();
+  return await Program.find();
 };
 
 /**
@@ -56,7 +56,7 @@ exports.getAllProgramsService = async () => {
  * @returns {Object} - The program object.
  */
 exports.getProgramsService = async (id) => {
-    return await Program.findById(id);
+  return await Program.findById(id);
 };
 
 /**
@@ -70,29 +70,29 @@ exports.getProgramsService = async (id) => {
  * @returns {Object} - The response object indicating success or failure.
  */
 exports.updateProgramService = async (data, id, userId) => {
-    const { name, description } = data;
+  const { name, description } = data;
 
-    // Check if the updated name already exists
-    const classFound = await ClassLevel.findOne({ name });
-    if (classFound) {
-        return responseStatus(res, 402, "failed", "Program already exists");
+  // Check if the updated name already exists
+  const classFound = await ClassLevel.findOne({ name });
+  if (classFound) {
+    return responseStatus(res, 402, "failed", "Program already exists");
+  }
+
+  // Update the program
+  const programs = await Program.findByIdAndUpdate(
+    id,
+    {
+      name,
+      description,
+      createdBy: userId,
+    },
+    {
+      new: true,
     }
+  );
 
-    // Update the program
-    const programs = await Program.findByIdAndUpdate(
-        id,
-        {
-            name,
-            description,
-            createdBy: userId,
-        },
-        {
-            new: true,
-        }
-    );
-
-    // Send the response
-    return responseStatus(res, 200, "success", programs);
+  // Send the response
+  return responseStatus(res, 200, "success", programs);
 };
 
 /**
@@ -102,5 +102,5 @@ exports.updateProgramService = async (data, id, userId) => {
  * @returns {Object} - The deleted program object.
  */
 exports.deleteProgramService = async (id) => {
-    return await Program.findByIdAndDelete(id);
+  return await Program.findByIdAndDelete(id);
 };

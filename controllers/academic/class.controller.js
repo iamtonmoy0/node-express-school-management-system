@@ -1,5 +1,11 @@
 const responseStatus = require("../../handlers/responseStatus.handler");
-const { createClassLevelService, getAllClassesService, getClassLevelsService, deleteClassLevelService, updateClassLevelService } = require("../../services/academic/class.service");
+const {
+  createClassLevelService,
+  getAllClassesService,
+  getClassLevelsService,
+  deleteClassLevelService,
+  updateClassLevelService,
+} = require("../../services/academic/class.service");
 
 /**
  * @desc Create Class Level
@@ -49,7 +55,12 @@ exports.getClassLevelController = async (req, res) => {
  **/
 exports.updateClassLevelController = async (req, res) => {
   try {
-    await updateClassLevelService(req.body, req.params.id, req.userAuth.id, res);
+    await updateClassLevelService(
+      req.body,
+      req.params.id,
+      req.userAuth.id,
+      res
+    );
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }

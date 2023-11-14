@@ -1,5 +1,11 @@
 const responseStatus = require("../../handlers/responseStatus.handler");
-const { createProgramService, getAllProgramsService, getProgramsService, updateProgramService, deleteProgramService } = require("../../services/academic/program.service");
+const {
+  createProgramService,
+  getAllProgramsService,
+  getProgramsService,
+  updateProgramService,
+  deleteProgramService,
+} = require("../../services/academic/program.service");
 
 /**
  * @desc Create Program

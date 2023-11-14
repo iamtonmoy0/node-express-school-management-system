@@ -1,5 +1,12 @@
 const responseStatus = require("../../handlers/responseStatus.handler");
-const { createTeacherService, teacherLoginService, getAllTeachersService, getTeacherProfileService, updateTeacherProfileService, adminUpdateTeacherProfileService } = require("../../services/staff/teachers.service");
+const {
+  createTeacherService,
+  teacherLoginService,
+  getAllTeachersService,
+  getTeacherProfileService,
+  updateTeacherProfileService,
+  adminUpdateTeacherProfileService,
+} = require("../../services/staff/teachers.service");
 
 /**
  * @desc Admin create teacher
@@ -62,7 +69,11 @@ exports.getTeacherProfileController = async (req, res) => {
  **/
 exports.updateTeacherProfileController = async (req, res) => {
   try {
-    const result = await updateTeacherProfileService(req.body, req.userAuth.id, res);
+    const result = await updateTeacherProfileService(
+      req.body,
+      req.userAuth.id,
+      res
+    );
     responseStatus(res, 200, "success", result);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
@@ -76,7 +87,10 @@ exports.updateTeacherProfileController = async (req, res) => {
  **/
 exports.adminUpdateTeacherProfileController = async (req, res) => {
   try {
-    const result = await adminUpdateTeacherProfileService(req.body, req.params.teachersId);
+    const result = await adminUpdateTeacherProfileService(
+      req.body,
+      req.params.teachersId
+    );
     responseStatus(res, 200, "success", result);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);

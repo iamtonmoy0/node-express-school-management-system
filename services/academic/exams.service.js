@@ -1,8 +1,8 @@
 // Import necessary models
-const Teacher = require('../../models/Staff/teachers.model');
-const Exams = require('../../models/Academic/exams.model');
+const Teacher = require("../../models/Staff/teachers.model");
+const Exams = require("../../models/Academic/exams.model");
 // Import responseStatus handler
-const responseStatus = require('../../handlers/responseStatus.handler');
+const responseStatus = require("../../handlers/responseStatus.handler");
 
 /**
  * Create exam service by a teacher.
@@ -22,48 +22,50 @@ const responseStatus = require('../../handlers/responseStatus.handler');
  * @returns {Object} - The response object indicating success or failure.
  */
 exports.createExamService = async (data, teacherId) => {
-    const {
-        name,
-        description,
-        subject,
-        program,
-        passMark,
-        totalMark,
-        academicTerm,
-        duration,
-        examDate,
-        examTime,
-    } = data;
+  const {
+    name,
+    description,
+    subject,
+    program,
+    passMark,
+    totalMark,
+    academicTerm,
+    duration,
+    examDate,
+    examTime,
+  } = data;
 
-    // Find the teacher
-    const teacherExist = await Teacher.findById(teacherId);
-    if (!teacherExist) return responseStatus(res, 401, "failed", "Teacher not found!");
+  // Find the teacher
+  const teacherExist = await Teacher.findById(teacherId);
+  if (!teacherExist)
+    return responseStatus(res, 401, "failed", "Teacher not found!");
 
-    // Check if the exam already exists
-    const examExist = await Exams.findOne({ name });
-    if (examExist) return responseStatus(res, 402, "failed", "Exam already exists");
+  // Check if the exam already exists
+  const examExist = await Exams.findOne({ name });
+  if (examExist)
+    return responseStatus(res, 402, "failed", "Exam already exists");
 
-    // Create the exam
-    const examCreate = await Exams.create({
-        name,
-        description,
-        subject,
-        program,
-        passMark,
-        totalMark,
-        academicTerm,
-        duration,
-        examDate,
-        examTime,
-        createdBy: teacherExist._id,
-    });
+  // Create the exam
+  const examCreate = await Exams.create({
+    name,
+    description,
+    subject,
+    program,
+    passMark,
+    totalMark,
+    academicTerm,
+    duration,
+    examDate,
+    examTime,
+    createdBy: teacherExist._id,
+  });
 
-    // Save exam ID to the teacher collection
-    teacherExist.examsCreated.push(examCreate._id);
-    await teacherExist.save();
+  // Save exam ID to the teacher collection
+  teacherExist.examsCreated.push(examCreate._id);
+  await teacherExist.save();
 
-    // Send the response
-    return responseStatus(res, 200, "success", examCreate);
+  // Send the response
+  return responseStatus(res, 200, "success", examCreate);
 };
 
 /**
@@ -72,7 +74,7 @@ exports.createExamService = async (data, teacherId) => {
  * @returns {Array} - An array of all exams.
  */
 exports.getAllExamService = async () => {
-    return await Exams.find();
+  return await Exams.find();
 };
 
 /**
@@ -82,7 +84,7 @@ exports.getAllExamService = async () => {
  * @returns {Object} - The exam object.
  */
 exports.getExamByIdService = async (id) => {
-    return await Exams.findById(id);
+  return await Exams.findById(id);
 };
 
 /**
@@ -105,49 +107,49 @@ exports.getExamByIdService = async (id) => {
  * @returns {Object} - The response object indicating success or failure.
  */
 exports.updateExamService = async (data, examId) => {
-    const {
-        name,
-        description,
-        subject,
-        program,
-        academicTerm,
-        duration,
-        examDate,
-        examTime,
-        examType,
-        createdBy,
-        academicYear,
-        classLevel,
-    } = data;
+  const {
+    name,
+    description,
+    subject,
+    program,
+    academicTerm,
+    duration,
+    examDate,
+    examTime,
+    examType,
+    createdBy,
+    academicYear,
+    classLevel,
+  } = data;
 
-    // Check if the updated name already exists
-    const examFound = await Exams.findOne({ name });
-    if (examFound) {
-        return responseStatus(res, 402, "failed", "Exam already exists");
+  // Check if the updated name already exists
+  const examFound = await Exams.findOne({ name });
+  if (examFound) {
+    return responseStatus(res, 402, "failed", "Exam already exists");
+  }
+
+  // Update the exam
+  const examUpdated = await Exams.findByIdAndUpdate(
+    examId,
+    {
+      name,
+      description,
+      subject,
+      program,
+      academicTerm,
+      duration,
+      examDate,
+      examTime,
+      examType,
+      createdBy,
+      academicYear,
+      classLevel,
+    },
+    {
+      new: true,
     }
+  );
 
-    // Update the exam
-    const examUpdated = await Exams.findByIdAndUpdate(
-        examId,
-        {
-            name,
-            description,
-            subject,
-            program,
-            academicTerm,
-            duration,
-            examDate,
-            examTime,
-            examType,
-            createdBy,
-            academicYear,
-            classLevel,
-        },
-        {
-            new: true,
-        }
-    );
-
-    // Send the response
-    return responseStatus(res, 200, "success", examUpdated);
+  // Send the response
+  return responseStatus(res, 200, "success", examUpdated);
 };

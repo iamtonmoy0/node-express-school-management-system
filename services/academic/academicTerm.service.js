@@ -2,7 +2,7 @@
 const AcademicTerm = require("../../models/Academic/academicTerm.model");
 const Admin = require("../../models/Staff/admin.model");
 // Import responseStatus handler
-const responseStatus = require('../../handlers/responseStatus.handler');
+const responseStatus = require("../../handlers/responseStatus.handler");
 
 /**
  * Create academic terms service.
@@ -15,29 +15,29 @@ const responseStatus = require('../../handlers/responseStatus.handler');
  * @returns {Object} - The response object indicating success or failure.
  */
 exports.createAcademicTermService = async (data, userId) => {
-    const { name, description, duration } = data;
+  const { name, description, duration } = data;
 
-    // Check if the academic term already exists
-    const academicTerm = await AcademicTerm.findOne({ name });
-    if (academicTerm) {
-        return responseStatus(res, 402, "failed", "Academic term already exists");
-    }
+  // Check if the academic term already exists
+  const academicTerm = await AcademicTerm.findOne({ name });
+  if (academicTerm) {
+    return responseStatus(res, 402, "failed", "Academic term already exists");
+  }
 
-    // Create the academic term
-    const academicTermCreated = await AcademicTerm.create({
-        name,
-        description,
-        duration,
-        createdBy: userId
-    });
+  // Create the academic term
+  const academicTermCreated = await AcademicTerm.create({
+    name,
+    description,
+    duration,
+    createdBy: userId,
+  });
 
-    // Push the academic term into the admin's academicTerms array
-    const admin = await Admin.findById(userId);
-    admin.academicTerms.push(academicTermCreated._id);
-    await admin.save();
+  // Push the academic term into the admin's academicTerms array
+  const admin = await Admin.findById(userId);
+  admin.academicTerms.push(academicTermCreated._id);
+  await admin.save();
 
-    // Send the response
-    return responseStatus(res, 200, "success", academicTermCreated);
+  // Send the response
+  return responseStatus(res, 200, "success", academicTermCreated);
 };
 
 /**
@@ -46,7 +46,7 @@ exports.createAcademicTermService = async (data, userId) => {
  * @returns {Array} - An array of all academic terms.
  */
 exports.getAcademicTermsService = async () => {
-    return await AcademicTerm.find();
+  return await AcademicTerm.find();
 };
 
 /**
@@ -56,7 +56,7 @@ exports.getAcademicTermsService = async () => {
  * @returns {Object} - The academic term object.
  */
 exports.getAcademicTermService = async (id) => {
-    return await AcademicTerm.findById(id);
+  return await AcademicTerm.findById(id);
 };
 
 /**
@@ -71,23 +71,23 @@ exports.getAcademicTermService = async (id) => {
  * @returns {Object} - The response object indicating success or failure.
  */
 exports.updateAcademicTermService = async (data, academicId, userId) => {
-    const { name, description, duration } = data;
+  const { name, description, duration } = data;
 
-    // Check if the updated name already exists
-    const createAcademicTermFound = await AcademicTerm.findOne({ name });
-    if (createAcademicTermFound) {
-        return responseStatus(res, 402, "failed", "Academic term already exists");
-    }
+  // Check if the updated name already exists
+  const createAcademicTermFound = await AcademicTerm.findOne({ name });
+  if (createAcademicTermFound) {
+    return responseStatus(res, 402, "failed", "Academic term already exists");
+  }
 
-    // Update the academic term
-    const academicTerm = await AcademicTerm.findByIdAndUpdate(
-        academicId,
-        { name, description, duration, createdBy: userId },
-        { new: true }
-    );
+  // Update the academic term
+  const academicTerm = await AcademicTerm.findByIdAndUpdate(
+    academicId,
+    { name, description, duration, createdBy: userId },
+    { new: true }
+  );
 
-    // Send the response
-    return responseStatus(res, 201, "success", academicTerm);
+  // Send the response
+  return responseStatus(res, 201, "success", academicTerm);
 };
 
 /**
@@ -97,5 +97,5 @@ exports.updateAcademicTermService = async (data, academicId, userId) => {
  * @returns {Object} - The deleted academic term object.
  */
 exports.deleteAcademicTermService = async (id) => {
-    return await AcademicTerm.findByIdAndDelete(id);
+  return await AcademicTerm.findByIdAndDelete(id);
 };
