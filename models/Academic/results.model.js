@@ -11,7 +11,7 @@ const examResultSchema = new mongoose.Schema(
       required: true,
     },
     exam: {
-      type: Schema.Types.ObjectId,
+      type: ObjectId,
       ref: "Exam",
       required: true,
     },
