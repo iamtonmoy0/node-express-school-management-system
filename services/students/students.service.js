@@ -210,5 +210,6 @@ const createResult = await Results.create({
   remarks:result.remarks,
 
 })
-return responseStatus(res,200,"success",createResult);
+// TODO:need to add some changed in future
+return responseStatus(res,200,"success","Answer Submitted");
 }

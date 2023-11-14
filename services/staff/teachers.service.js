@@ -2,7 +2,8 @@ const { hashPassword, isPassMatched } = require('../../handlers/passHash.handler
 const Teacher = require('../../models/Staff/teachers.model');
 const Admin = require('../../models/Staff/admin.model');
 const generateToken = require('../../utils/tokenGenerator');
-
+// Import responseStatus handler
+const responseStatus = require('../../handlers/responseStatus.handler');
 // create teacher Service
 exports.createTeacherServices = async (data,adminId) => {
 	const {name,email,password} = data;
