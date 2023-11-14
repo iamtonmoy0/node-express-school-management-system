@@ -34,12 +34,6 @@ const examSchema = new mongoose.Schema(
       required: true,
       default: 100,
     },
-
-    academicTerm: {
-      type: ObjectId,
-      ref: "AcademicTerm",
-      required: true,
-    },
     duration: {
       type: String,
       required: true,
