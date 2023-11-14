@@ -1,5 +1,11 @@
 const responseStatus = require("../../handlers/responseStatus.handler");
-const { createAcademicYearService, getAcademicYearsService, getAcademicYearService, updateAcademicYearService, deleteAcademicYearService } = require("../../services/academic/academicYear.service");
+const {
+  createAcademicYearService,
+  getAcademicYearsService,
+  getAcademicYearService,
+  updateAcademicYearService,
+  deleteAcademicYearService,
+} = require("../../services/academic/academicYear.service");
 
 /**
  * @desc Create Academic Year
@@ -49,7 +55,7 @@ exports.getAcademicYearController = async (req, res) => {
  **/
 exports.updateAcademicYearController = async (req, res) => {
   try {
-    await updateAcademicYearService(req.body, req.params.id, req.userAuth.id);  
+    await updateAcademicYearService(req.body, req.params.id, req.userAuth.id);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }

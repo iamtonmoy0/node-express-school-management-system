@@ -1,5 +1,11 @@
 const responseStatus = require("../../handlers/responseStatus.handler");
-const { createSubjectService, getAllSubjectsService, getSubjectsService, deleteSubjectService, updateSubjectService } = require("../../services/academic/subject.service");
+const {
+  createSubjectService,
+  getAllSubjectsService,
+  getSubjectsService,
+  deleteSubjectService,
+  updateSubjectService,
+} = require("../../services/academic/subject.service");
 
 /**
  * @desc Create Subject
@@ -8,7 +14,12 @@ const { createSubjectService, getAllSubjectsService, getSubjectsService, deleteS
  **/
 exports.createSubjectController = async (req, res) => {
   try {
-    await createSubjectService(req.body, req.params.programId, req.userAuth.id, res);
+    await createSubjectService(
+      req.body,
+      req.params.programId,
+      req.userAuth.id,
+      res
+    );
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }

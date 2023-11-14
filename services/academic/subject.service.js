@@ -1,9 +1,9 @@
 // Import necessary models
 const Subject = require("../../models/Academic/subject.model");
 // const ClassLevel = require("../../models/Academic/class.model");
-const Program = require('../../models/Academic/program.model');
+const Program = require("../../models/Academic/program.model");
 // Import responseStatus handler
-const responseStatus = require('../../handlers/responseStatus.handler');
+const responseStatus = require("../../handlers/responseStatus.handler");
 
 /**
  * Create Subject service.
@@ -17,32 +17,33 @@ const responseStatus = require('../../handlers/responseStatus.handler');
  * @returns {Object} - The response object indicating success or failure.
  */
 exports.createSubjectService = async (data, programId, userId) => {
-    const { name, description, academicTerm } = data;
+  const { name, description, academicTerm } = data;
 
-    // Find the program
-    const programFound = await Program.findById(programId);
-    if (!programFound) return responseStatus(res, 402, "failed", "Program not found");
+  // Find the program
+  const programFound = await Program.findById(programId);
+  if (!programFound)
+    return responseStatus(res, 402, "failed", "Program not found");
 
-    // Check if the Subject already exists
-    const SubjectFound = await Subject.findOne({ name });
-    if (SubjectFound) {
-        return responseStatus(res, 402, "failed", "Subject already exists");
-    }
+  // Check if the Subject already exists
+  const SubjectFound = await Subject.findOne({ name });
+  if (SubjectFound) {
+    return responseStatus(res, 402, "failed", "Subject already exists");
+  }
 
-    // Create the Subject
-    const SubjectCreated = await Subject.create({
-        name,
-        description,
-        academicTerm,
-        createdBy: userId,
-    });
+  // Create the Subject
+  const SubjectCreated = await Subject.create({
+    name,
+    description,
+    academicTerm,
+    createdBy: userId,
+  });
 
-    // Push the object ID to program
-    programFound.subjects.push(SubjectCreated._id);
-    await programFound.save();
+  // Push the object ID to program
+  programFound.subjects.push(SubjectCreated._id);
+  await programFound.save();
 
-    // Send the response
-    return responseStatus(res, 200, "success", SubjectCreated);
+  // Send the response
+  return responseStatus(res, 200, "success", SubjectCreated);
 };
 
 /**
@@ -51,7 +52,7 @@ exports.createSubjectService = async (data, programId, userId) => {
  * @returns {Array} - An array of all Subjects.
  */
 exports.getAllSubjectsService = async () => {
-    return await Subject.find();
+  return await Subject.find();
 };
 
 /**
@@ -61,7 +62,7 @@ exports.getAllSubjectsService = async () => {
  * @returns {Object} - The Subject object.
  */
 exports.getSubjectsService = async (id) => {
-    return await Subject.findById(id);
+  return await Subject.findById(id);
 };
 
 /**
@@ -76,30 +77,30 @@ exports.getSubjectsService = async (id) => {
  * @returns {Object} - The response object indicating success or failure.
  */
 exports.updateSubjectService = async (data, id, userId) => {
-    const { name, description, academicTerm } = data;
+  const { name, description, academicTerm } = data;
 
-    // Check if the updated name already exists
-    const classFound = await Subject.findOne({ name });
-    if (classFound) {
-        return responseStatus(res, 402, "failed", "Subject already exists");
+  // Check if the updated name already exists
+  const classFound = await Subject.findOne({ name });
+  if (classFound) {
+    return responseStatus(res, 402, "failed", "Subject already exists");
+  }
+
+  // Update the Subject
+  const Subjects = await Subject.findByIdAndUpdate(
+    id,
+    {
+      name,
+      description,
+      academicTerm,
+      createdBy: userId,
+    },
+    {
+      new: true,
     }
+  );
 
-    // Update the Subject
-    const Subjects = await Subject.findByIdAndUpdate(
-        id,
-        {
-            name,
-            description,
-            academicTerm,
-            createdBy: userId,
-        },
-        {
-            new: true,
-        }
-    );
-
-    // Send the response
-    return responseStatus(res, 200, "success", Subjects);
+  // Send the response
+  return responseStatus(res, 200, "success", Subjects);
 };
 
 /**
@@ -109,5 +110,5 @@ exports.updateSubjectService = async (data, id, userId) => {
  * @returns {Object} - The deleted Subject object.
  */
 exports.deleteSubjectService = async (id) => {
-    return await Subject.findByIdAndDelete(id);
+  return await Subject.findByIdAndDelete(id);
 };

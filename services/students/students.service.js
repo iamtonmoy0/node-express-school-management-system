@@ -1,10 +1,13 @@
-const { hashPassword, isPassMatched } = require('../../handlers/passHash.handler');
-const Student = require('../../models/Students/students.model');
-const Exam = require('../../models/Academic/exams.model');
-const Results = require('../../models/Academic/results.model');
-const generateToken = require('../../utils/tokenGenerator');
-const responseStatus = require('../../handlers/responseStatus.handler');
-const { resultCalculate } = require('../../functions/resultCalculate.function');
+const {
+  hashPassword,
+  isPassMatched,
+} = require("../../handlers/passHash.handler");
+const Student = require("../../models/Students/students.model");
+const Exam = require("../../models/Academic/exams.model");
+const Results = require("../../models/Academic/results.model");
+const generateToken = require("../../utils/tokenGenerator");
+const responseStatus = require("../../handlers/responseStatus.handler");
+const { resultCalculate } = require("../../functions/resultCalculate.function");
 
 /**
  * Admin registration service for creating a new student.
@@ -16,23 +19,23 @@ const { resultCalculate } = require('../../functions/resultCalculate.function');
  * @param {Object} res - The Express response object.
  * @returns {Object} - The response object indicating success or failure.
  */
-exports.adminRegisterStudentService=async(data, res)=>{
+exports.adminRegisterStudentService = async (data, res) => {
+  const { name, email, password } = data;
+  //check if teacher already exists
+  const student = await Student.findOne({ email });
+  if (student)
+    return responseStatus(res, 402, "failed", "Student already enrolled");
 
-	const { name, email, password } = data;
-	//check if teacher already exists
-	const student = await Student.findOne({ email });
-	if (student) return responseStatus(res,402,"failed","Student already enrolled");
-	
-	//Hash password
-	const hashedPassword = await hashPassword(password);
-	// create
-	const studentRegistered = await Student.create({
-	  name,
-	  email,
-	  password: hashedPassword,
-	});
-return  responseStatus(res,200,"success",studentRegistered);;
-}
+  //Hash password
+  const hashedPassword = await hashPassword(password);
+  // create
+  const studentRegistered = await Student.create({
+    name,
+    email,
+    password: hashedPassword,
+  });
+  return responseStatus(res, 200, "success", studentRegistered);
+};
 /**
  * Student login service.
  *
@@ -42,20 +45,21 @@ return  responseStatus(res,200,"success",studentRegistered);;
  * @param {Object} res - The Express response object.
  * @returns {Object} - The response object indicating success or failure.
  */
-exports.studentLoginService = async(data, res)=>{
+exports.studentLoginService = async (data, res) => {
+  const { email, password } = data;
+  //find the  user
+  const student = await Student.findOne({ email }).select("-password ");
+  if (!student)
+    return responseStatus(res, 402, "failed", "Invalid login credentials");
 
-	const { email, password } = data;
-	//find the  user
-	const student = await Student.findOne({ email }).select("-password ");
-	if (!student) return responseStatus(res,402,"failed","Invalid login credentials"); 
-	
-	//verify the password
-	const isMatched = await isPassMatched(password, student?.password);
-	if (!isMatched) return responseStatus(res,401,"failed","Invalid login credentials"); 
-	
-	 const responseData = {student,token:generateToken(student._id)}
-	 return responseStatus(res,200,"success", responseData);	
-}
+  //verify the password
+  const isMatched = await isPassMatched(password, student?.password);
+  if (!isMatched)
+    return responseStatus(res, 401, "failed", "Invalid login credentials");
+
+  const responseData = { student, token: generateToken(student._id) };
+  return responseStatus(res, 200, "success", responseData);
+};
 /**
  * Get student profile service.
  *
@@ -63,21 +67,21 @@ exports.studentLoginService = async(data, res)=>{
  * @param {Object} res - The Express response object.
  * @returns {Object} - The response object indicating success or failure.
  */
-exports.getStudentsProfileService = async(id , res)=>{
-	const student = await Student.findById(id).select(
-		"-password -createdAt -updatedAt"
-	  );
-	  if (!student) return responseStatus(res,402,"failed","Student not found"); 
-	  return responseStatus(res,200,'success',student)
-}
+exports.getStudentsProfileService = async (id, res) => {
+  const student = await Student.findById(id).select(
+    "-password -createdAt -updatedAt"
+  );
+  if (!student) return responseStatus(res, 402, "failed", "Student not found");
+  return responseStatus(res, 200, "success", student);
+};
 /**
  * Get all students service (for admin use).
  *
  * @returns {Array} - An array of all students.
  */
-exports.getAllStudentsByAdminService = async()=>{
-	return await Student.find();
-}
+exports.getAllStudentsByAdminService = async () => {
+  return await Student.find();
+};
 /**
  * Get a single student by admin.
  *
@@ -85,11 +89,11 @@ exports.getAllStudentsByAdminService = async()=>{
  * @param {Object} res - The Express response object.
  * @returns {Object} - The response object indicating success or failure.
  */
-exports.getStudentByAdminService=async(studentID, res)=>{
-	  const student = await Student.findById(studentID);
-	  if (!student) return responseStatus(res,402,'failed',"Student not found");
-	  return responseStatus(res,200,'success',student) 
-}
+exports.getStudentByAdminService = async (studentID, res) => {
+  const student = await Student.findById(studentID);
+  if (!student) return responseStatus(res, 402, "failed", "Student not found");
+  return responseStatus(res, 200, "success", student);
+};
 /**
  * Student update profile service.
  *
@@ -98,17 +102,16 @@ exports.getStudentByAdminService=async(studentID, res)=>{
  * @param {Object} res - The Express response object.
  * @returns {Object} - The response object indicating success or failure.
  */
-exports.studentUpdateProfileService=async(data,userId, res)=>{
-	const { email, password } = data;
+exports.studentUpdateProfileService = async (data, userId, res) => {
+  const { email, password } = data;
   //if email is taken
   const emailExist = await Student.findOne({ email });
-  if (emailExist) return responseStatus(res,402,'failed', "This email is taken/exist");
+  if (emailExist)
+    return responseStatus(res, 402, "failed", "This email is taken/exist");
 
-  
   //hash password
   //check if user is updating password
 
-  
   if (password) {
     //update
     const student = await Student.findByIdAndUpdate(
@@ -122,7 +125,7 @@ exports.studentUpdateProfileService=async(data,userId, res)=>{
         runValidators: true,
       }
     );
-  return responseStatus(res,200,'success', student);
+    return responseStatus(res, 200, "success", student);
   } else {
     //update
     const student = await Student.findByIdAndUpdate(
@@ -135,9 +138,9 @@ exports.studentUpdateProfileService=async(data,userId, res)=>{
         runValidators: true,
       }
     );
-  return  responseStatus(res,200,'success', student);
+    return responseStatus(res, 200, "success", student);
   }
-}
+};
 /**
  * Admin update Student service.
  *
@@ -146,13 +149,13 @@ exports.studentUpdateProfileService=async(data,userId, res)=>{
  * @param {Object} res - The Express response object.
  * @returns {Object} - The response object indicating success or failure.
  */
-exports.adminUpdateStudentService=async(data,studentId,res)=>{
-	const { classLevels, academicYear, program, name, email, prefectName } =
-    data;
+exports.adminUpdateStudentService = async (data, studentId, res) => {
+  const { classLevels, academicYear, program, name, email, prefectName } = data;
 
   //find the student by id
-  const studentFound = await Student.findById(studentId , res);
-  if (!studentFound) return responseStatus(res,402,'failed', "Student not found"); 
+  const studentFound = await Student.findById(studentId, res);
+  if (!studentFound)
+    return responseStatus(res, 402, "failed", "Student not found");
   //update
   const studentUpdated = await Student.findByIdAndUpdate(
     studentId,
@@ -173,8 +176,8 @@ exports.adminUpdateStudentService=async(data,studentId,res)=>{
     }
   );
   //send response
-return responseStatus(res,200,'success', studentUpdated); 
-}
+  return responseStatus(res, 200, "success", studentUpdated);
+};
 /**
  * Student write exam service.
  *
@@ -184,32 +187,37 @@ return responseStatus(res,200,'success', studentUpdated);
  * @param {Object} res - The Express response object.
  * @returns {void}
  */
-exports.studentWriteExamService = async(data,studentId,examId,res)=>{
-  const {answers} = data
+exports.studentWriteExamService = async (data, studentId, examId, res) => {
+  const { answers } = data;
   // find the student
   const student = await Student.findById(studentId);
-  if(!student) return responseStatus(res,404,"failed","Student not found")
+  if (!student) return responseStatus(res, 404, "failed", "Student not found");
   // finding the exam
-const findExam = await Exam.findById(examId)
-if(!findExam) return responseStatus(res,404,"failed",'Exam not found')
+  const findExam = await Exam.findById(examId);
+  if (!findExam) return responseStatus(res, 404, "failed", "Exam not found");
 
-// getting questions
-const questions = findExam?.questions;
-// checking is students answered all the questions
-if(questions.length !== answers.length) return responseStatus(res,406,"failed","You have not answered all the questions")
-// calculating results
-const result = await resultCalculate(questions,answers,findExam)
-// creating results
-const createResult = await Results.create({
-  studentId:student._id,
-  exam:findExam._id,
-  score:result.score,
-  grade:result.grade,
-  passMark:findExam.passMark,
-  status:result.status,
-  remarks:result.remarks,
-
-})
-// TODO:need to add some changed in future
-return responseStatus(res,200,"success","Answer Submitted");
-}
+  // getting questions
+  const questions = findExam?.questions;
+  // checking is students answered all the questions
+  if (questions.length !== answers.length)
+    return responseStatus(
+      res,
+      406,
+      "failed",
+      "You have not answered all the questions"
+    );
+  // calculating results
+  const result = await resultCalculate(questions, answers, findExam);
+  // creating results
+  const createResult = await Results.create({
+    studentId: student._id,
+    exam: findExam._id,
+    score: result.score,
+    grade: result.grade,
+    passMark: findExam.passMark,
+    status: result.status,
+    remarks: result.remarks,
+  });
+  // TODO:need to add some changed in future
+  return responseStatus(res, 200, "success", "Answer Submitted");
+};

@@ -1,13 +1,12 @@
 const mongoose = require("mongoose");
-const {ObjectId} = mongoose.Schema;
-
+const { ObjectId } = mongoose.Schema;
 
 const academicTermSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
-      index:true,
+      index: true,
     },
     description: {
       type: String,
@@ -19,7 +18,7 @@ const academicTermSchema = new mongoose.Schema(
       default: "3 months",
     },
     createdBy: {
-      type:ObjectId,
+      type: ObjectId,
       ref: "Admin",
       required: true,
     },

@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
-const {ObjectId} = mongoose.Schema;
+const { ObjectId } = mongoose.Schema;
 
 const academicYearSchema = new mongoose.Schema(
   {
     name: {
       type: String,
       required: true,
-      index:true
+      index: true,
     },
     fromYear: {
       type: Date,
@@ -21,24 +21,24 @@ const academicYearSchema = new mongoose.Schema(
       default: false,
     },
     createdBy: {
-      type:ObjectId,
+      type: ObjectId,
       ref: "Admin",
       required: true,
     },
     students: [
       {
-        type:ObjectId,
+        type: ObjectId,
         ref: "Student",
       },
     ],
     teachers: [
       {
-        type:ObjectId,
+        type: ObjectId,
         ref: "Teacher",
       },
     ],
-  
-},{
+  },
+  {
     timestamps: true,
   }
 );
