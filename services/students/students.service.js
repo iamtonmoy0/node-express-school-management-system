@@ -230,6 +230,8 @@ exports.studentWriteExamService = async (data, studentId, examId, res) => {
     status: result.status,
     remarks: result.remarks,
   });
-  // TODO:need to add some changed in future
+  // updating student's total scores and number of attempts
+  Student.examResults.push(createResult._id)
+  await Student.save()
   return responseStatus(res, 200, "success", "Answer Submitted");
 };

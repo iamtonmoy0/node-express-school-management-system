@@ -46,7 +46,11 @@ const examResultSchema = new mongoose.Schema(
       type: Number,
       // required: true,
     },
-
+    teacher: {
+      type: ObjectId,
+      ref: "Teacher",
+      required: true,
+    },
     subject: {
       type: ObjectId,
       ref: "Subject",
