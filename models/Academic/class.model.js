@@ -12,7 +12,7 @@ const ClassLevelSchema = new mongoose.Schema(
       type: String,
     },
     createdBy: {
-      type: mongoose.ObjectId,
+      type: ObjectId,
       ref: "Admin",
       required: true,
     },

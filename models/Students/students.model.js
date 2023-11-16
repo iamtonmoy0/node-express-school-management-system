@@ -36,20 +36,13 @@ const studentSchema = new mongoose.Schema(
       type: String,
       default: "student",
     },
-    //Classes are from level 1 to 6
-    //keep track of the class level the student is in
-    classLevels: [
+    currentClassLevels: [
       {
         type: ObjectId,
         ref: "ClassLevel",
       },
     ],
-    currentClassLevel: {
-      type: String,
-      default: function () {
-        return this.classLevels[this.classLevels.length - 1];
-      },
-    },
+ 
     academicYear: {
       type: ObjectId,
       ref: "AcademicYear",
@@ -58,30 +51,15 @@ const studentSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
-
     examResults: [
       {
         type: ObjectId,
         ref: "ExamResult",
       },
     ],
-
     program: {
       type: ObjectId,
       ref: "Program",
-    },
-
-    isPromotedToLevel200: {
-      type: Boolean,
-      default: false,
-    },
-    isPromotedToLevel300: {
-      type: Boolean,
-      default: false,
-    },
-    isPromotedToLevel400: {
-      type: Boolean,
-      default: false,
     },
     isGraduated: {
       type: Boolean,
@@ -98,6 +76,7 @@ const studentSchema = new mongoose.Schema(
     prefectName: {
       type: String,
     },
+    // both are commented for future update
     // behaviorReport: [
     //   {
     //     type: ObjectId,

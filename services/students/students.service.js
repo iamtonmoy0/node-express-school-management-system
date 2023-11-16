@@ -196,6 +196,18 @@ exports.studentWriteExamService = async (data, studentId, examId, res) => {
   const findExam = await Exam.findById(examId);
   if (!findExam) return responseStatus(res, 404, "failed", "Exam not found");
 
+  // checking if the student already attended the exam
+  const alreadyExamTaken = await Results.findOne({ student: student._id });
+  if (alreadyExamTaken)
+    return responseStatus(res, 400, "failed", "Already written the exam!");
+  //checking if the student is suspended or withdrawn
+  if (student.isSuspended || student.isWithdrawn)
+    return responseStatus(
+      res,
+      401,
+      "failed",
+      "You are eligible to attend this exam"
+    );
   // getting questions
   const questions = findExam?.questions;
   // checking is students answered all the questions
@@ -218,6 +230,8 @@ exports.studentWriteExamService = async (data, studentId, examId, res) => {
     status: result.status,
     remarks: result.remarks,
   });
-  // TODO:need to add some changed in future
+  // updating student's total scores and number of attempts
+  Student.examResults.push(createResult._id)
+  await Student.save()
   return responseStatus(res, 200, "success", "Answer Submitted");
 };
