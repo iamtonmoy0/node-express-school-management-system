@@ -74,6 +74,8 @@ Navigate to the project directory:
 │   │   ├── teacher.controller.js
 |   ├── students/
 |   │   ├── students.controller.js
+├── functions/
+│   │   ├──resultCalculate.function.js
 ├── handlers/
 │   │   ├── passHash.handler.js
 │   │   ├── responseStatus.handler.js
