@@ -1,7 +1,6 @@
 const http = require("http");
 const app = require("./app/app");
 require("dotenv").config();
-const { readdirSync } = require("fs");
 require("colors");
 // database connection
 require("./config/dbConnect");

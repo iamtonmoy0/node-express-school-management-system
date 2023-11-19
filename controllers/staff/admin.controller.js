@@ -10,12 +10,11 @@ const {
 /**
  * @desc Register Admin
  * @route POST /api/v1/admin/register
- * @access Private
+ * @access Private(admin)
  **/
 exports.registerAdminController = async (req, res) => {
   try {
-    const result = await registerAdminService(req.body);
-    responseStatus(res, 201, "success", result);
+    await registerAdminService(req.body, res);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }
@@ -23,13 +22,12 @@ exports.registerAdminController = async (req, res) => {
 
 /**
  * @desc Login Admin
- * @route POST /api/v1/admins/login
+ * @route POST /api/v1/admin/login
  * @access Private
  **/
 exports.loginAdminController = async (req, res) => {
   try {
-    const result = await loginAdminService(req.body);
-    responseStatus(res, 201, "success", result);
+    await loginAdminService(req.body, res);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }
@@ -56,8 +54,7 @@ exports.getAdminsController = async (req, res) => {
  **/
 exports.getAdminProfileController = async (req, res) => {
   try {
-    const result = await getSingleProfileService(req.userAuth.id);
-    responseStatus(res, 201, "success", result);
+    await getSingleProfileService(req.userAuth.id, res);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }
