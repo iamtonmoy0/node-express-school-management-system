@@ -3,6 +3,7 @@ const {
   hashPassword,
   isPassMatched,
 } = require("../../handlers/passHash.handler");
+const responseStatus = require("../../handlers/responseStatus.handler");
 const Admin = require("../../models/Staff/admin.model");
 const generateToken = require("../../utils/tokenGenerator");
 const verifyToken = require("../../utils/verifyToken");
@@ -16,20 +17,20 @@ const verifyToken = require("../../utils/verifyToken");
  * @param {string} data.password - The password of the admin.
  * @returns {Object} - The created admin object or an error message.
  */
-exports.registerAdminService = async (data) => {
+exports.registerAdminService = async (data,res) => {
   const { name, email, password } = data;
 
   // Check if admin with the same email already exists
   const isAdminExist = await Admin.findOne({ email });
-  if (isAdminExist) return "Email already in use! Please sign in.";
+  if (isAdminExist) return responseStatus(res, 401, "failed", "Email Already in use");;
 
   // Create a new admin
-  const result = await Admin.create({
+   await Admin.create({
     name,
     email,
     password: hashPassword(password),
   });
-  return result;
+  return responseStatus(res, 201, "success","Registration Successful" );
 };
 
 /**
@@ -40,12 +41,12 @@ exports.registerAdminService = async (data) => {
  * @param {string} data.password - The password of the admin.
  * @returns {Object} - The admin user, token, and verification status or an error message.
  */
-exports.loginAdminService = async (data) => {
+exports.loginAdminService = async (data, res) => {
   const { email, password } = data;
-
   // Find the admin user by email
   const user = await Admin.findOne({ email });
-  if (!user) return "Invalid login credentials";
+  if (!user)
+    return responseStatus(res, 405, "failed", "Invalid login credentials");
 
   // Check if the provided password is valid
   const isPassValid = await isPassMatched(password, user.password);
@@ -53,12 +54,25 @@ exports.loginAdminService = async (data) => {
   if (isPassValid) {
     // Generate a token and verify it
     const token = generateToken(user._id);
-    const verify = verifyToken(token);
-
+    // const verify = verifyToken(token);
+    const result = {
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        academicTerms:user.academicTerms,
+        programs:user.programs,
+        academicYears:user.academicYears,
+        classLevels:user.classLevels,
+        students:user.students
+      },
+      token,
+    };
     // Return user, token, and verification status
-    return { user, token, verify };
+    return responseStatus(res, 200, "success", result);
   } else {
-    return "Invalid login credentials";
+    return responseStatus(res, 405, "failed", "Invalid login credentials");
   }
 };
 
@@ -77,13 +91,13 @@ exports.getAdminsService = async () => {
  * @param {string} id - The ID of the admin user.
  * @returns {Object} - The admin user profile or an error message.
  */
-exports.getSingleProfileService = async (id) => {
-  const user = await Admin.findOne({ _id: id });
+exports.getSingleProfileService = async (id,res) => {
+  const user = await Admin.findOne({ _id: id }).select("-password -createdAt -updatedAt");
 
   if (!user) {
-    return "Admin not found";
+    return responseStatus(res, 201, "failed", "Admin doesn't exist ");;
   } else {
-    return user;
+    return responseStatus(res, 201, "success", user);;
   }
 };
 
