@@ -1,13 +1,15 @@
 const express = require("express");
 const morgan = require("morgan");
 const routeSync = require("../handlers/routeSync.handler");
+const cors = require('cors')
 
 // Initialize the Express application
 const app = express();
-
 // Middleware
 app.use(express.json());
 app.use(morgan("dev")); // Log requests to the console (Express 4)
+// Initialize cors 
+app.use(cors())
 
 // Initialize staff route
 routeSync(app, "staff");
