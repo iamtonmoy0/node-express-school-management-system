@@ -67,8 +67,7 @@ exports.getAdminProfileController = async (req, res) => {
  **/
 exports.updateAdminController = async (req, res) => {
   try {
-    const result = await updateAdminService(req.userAuth.id, req.body);
-    responseStatus(res, 201, "success", result);
+    await updateAdminService(req.userAuth.id, req.body, res);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }
