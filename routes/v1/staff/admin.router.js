@@ -18,7 +18,9 @@ const isLoggedIn = require("../../../middlewares/isLoggedIn");
 const isAdmin = require("../../../middlewares/isAdmin");
 
 // register
-adminRouter.route("/admin/register").post(registerAdminController);
+adminRouter
+  .route("/admin/register")
+  .post(isLoggedIn, isAdmin, registerAdminController);
 //  login
 adminRouter.route("/admin/login").post(loginAdminController);
 // get all admin

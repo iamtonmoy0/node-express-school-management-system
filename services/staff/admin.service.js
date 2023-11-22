@@ -85,7 +85,7 @@ exports.loginAdminService = async (data, res) => {
  * @returns {Array} - An array of all admin users.
  */
 exports.getAdminsService = async () => {
-  return Admin.find({});
+  return Admin.find({}).select("-password -createdAt -updatedAt");
 };
 
 /**
