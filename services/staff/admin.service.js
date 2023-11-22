@@ -6,7 +6,6 @@ const {
 const responseStatus = require("../../handlers/responseStatus.handler");
 const Admin = require("../../models/Staff/admin.model");
 const generateToken = require("../../utils/tokenGenerator");
-// const verifyToken = require("../../utils/verifyToken");
 
 /**
  * Register admin service.
@@ -15,23 +14,25 @@ const generateToken = require("../../utils/tokenGenerator");
  * @param {string} data.name - The name of the admin.
  * @param {string} data.email - The email of the admin.
  * @param {string} data.password - The password of the admin.
- * @returns {Object} - The created admin object or an error message.
+ * @returns {void} - The created admin object or an error message.
  */
 exports.registerAdminService = async (data, res) => {
   const { name, email, password } = data;
 
   // Check if admin with the same email already exists
   const isAdminExist = await Admin.findOne({ email });
-  if (isAdminExist)
-    return responseStatus(res, 401, "failed", "Email Already in use");
 
-  // Create a new admin
-  await Admin.create({
-    name,
-    email,
-    password: hashPassword(password),
-  });
-  return responseStatus(res, 201, "success", "Registration Successful");
+  if (isAdminExist) {
+    return responseStatus(res, 401, "failed", "Email Already in use");
+  } else {
+    // Create a new admin
+    await Admin.create({
+      name,
+      email,
+      password: await hashPassword(password),
+    });
+    return responseStatus(res, 201, "success", "Registration Successful!");
+  }
 };
 
 /**
@@ -55,7 +56,6 @@ exports.loginAdminService = async (data, res) => {
   if (isPassValid) {
     // Generate a token and verify it
     const token = generateToken(user._id);
-    // const verify = verifyToken(token);
     const result = {
       user: {
         _id: user._id,
@@ -64,8 +64,10 @@ exports.loginAdminService = async (data, res) => {
         role: user.role,
         academicTerms: user.academicTerms,
         programs: user.programs,
+        yearGroups:user.yearGroups,
         academicYears: user.academicYears,
         classLevels: user.classLevels,
+        teachers:user.teachers,
         students: user.students,
       },
       token,
