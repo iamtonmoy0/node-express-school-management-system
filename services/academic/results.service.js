@@ -13,7 +13,20 @@ exports.studentCheckExamResultService = async (examId, studentId, res) => {
   if (!student) return responseStatus(res, 404, "failed", "Student not found");
 
   // Finding the result for the given exam and student
-  const result = await Results.findOne({ exam: examId, student: studentId });
+  const result = await Results.findOne({
+    exam: examId,
+    student: studentId,
+  })
+    .populate({
+      path: "exam",
+      populate: {
+        path: "questions",
+      },
+    })
+    .populate("classLevel")
+    .populate("subject")
+    .populate("academicTerm")
+    .populate("academicYear");
 
   // Checking if the result is published
   if (!result?.isPublished)
@@ -42,5 +55,16 @@ exports.getAllExamResultsService = async (classId, teacherId, res) => {
     return responseStatus(res, 200, "success", result);
   } else {
     return responseStatus(res, 401, "fail", "Unauthorized access");
+  }
+};
+/**
+ * Admin publishes the exam result
+ * @param {}
+ */
+exports.adminPublishResultService = async (examId,res) => {
+  // Finding the exam
+  const exam = await Results.findById(examId);
+  if(!exam){
+    return responseStatus(res, 404, "fail", "Exam not found")
   }
 };

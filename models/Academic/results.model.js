@@ -28,6 +28,11 @@ const examResultSchema = new mongoose.Schema(
       required: true,
       default: 50,
     },
+    answeredQuestions:[
+      {
+        type:Object
+      }
+    ],
     //failed/Passed
     status: {
       type: String,

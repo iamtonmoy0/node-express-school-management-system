@@ -67,8 +67,7 @@ exports.getAdminProfileController = async (req, res) => {
  **/
 exports.updateAdminController = async (req, res) => {
   try {
-    const result = await updateAdminService(req.userAuth.id, req.body);
-    responseStatus(res, 201, "success", result);
+    await updateAdminService(req.userAuth.id, req.body, res);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }
@@ -148,38 +147,6 @@ exports.adminUnWithdrawTeacherController = (req, res) => {
     res.status(201).json({
       status: "success",
       data: "admin un-withdraw teacher",
-    });
-  } catch (error) {
-    responseStatus(res, 400, "failed", error.message);
-  }
-};
-
-/**
- * @desc Admin publishes exam result
- * @route PUT /api/v1/admins/publish/result/:id
- * @access Private
- **/
-exports.adminPublishResultsController = (req, res) => {
-  try {
-    res.status(201).json({
-      status: "success",
-      data: "admin publish exam",
-    });
-  } catch (error) {
-    responseStatus(res, 400, "failed", error.message);
-  }
-};
-
-/**
- * @desc Admin un-publishes exam result
- * @route PUT /api/v1/admins/unpublish/result/:id
- * @access Private
- **/
-exports.adminUnPublishResultsController = (req, res) => {
-  try {
-    res.status(201).json({
-      status: "success",
-      data: "admin unpublish exam",
     });
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);

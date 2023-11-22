@@ -6,7 +6,7 @@ const {
 const responseStatus = require("../../handlers/responseStatus.handler");
 const Admin = require("../../models/Staff/admin.model");
 const generateToken = require("../../utils/tokenGenerator");
-const verifyToken = require("../../utils/verifyToken");
+// const verifyToken = require("../../utils/verifyToken");
 
 /**
  * Register admin service.
@@ -17,20 +17,21 @@ const verifyToken = require("../../utils/verifyToken");
  * @param {string} data.password - The password of the admin.
  * @returns {Object} - The created admin object or an error message.
  */
-exports.registerAdminService = async (data,res) => {
+exports.registerAdminService = async (data, res) => {
   const { name, email, password } = data;
 
   // Check if admin with the same email already exists
   const isAdminExist = await Admin.findOne({ email });
-  if (isAdminExist) return responseStatus(res, 401, "failed", "Email Already in use");;
+  if (isAdminExist)
+    return responseStatus(res, 401, "failed", "Email Already in use");
 
   // Create a new admin
-   await Admin.create({
+  await Admin.create({
     name,
     email,
     password: hashPassword(password),
   });
-  return responseStatus(res, 201, "success","Registration Successful" );
+  return responseStatus(res, 201, "success", "Registration Successful");
 };
 
 /**
@@ -61,11 +62,11 @@ exports.loginAdminService = async (data, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
-        academicTerms:user.academicTerms,
-        programs:user.programs,
-        academicYears:user.academicYears,
-        classLevels:user.classLevels,
-        students:user.students
+        academicTerms: user.academicTerms,
+        programs: user.programs,
+        academicYears: user.academicYears,
+        classLevels: user.classLevels,
+        students: user.students,
       },
       token,
     };
@@ -91,13 +92,15 @@ exports.getAdminsService = async () => {
  * @param {string} id - The ID of the admin user.
  * @returns {Object} - The admin user profile or an error message.
  */
-exports.getSingleProfileService = async (id,res) => {
-  const user = await Admin.findOne({ _id: id }).select("-password -createdAt -updatedAt");
+exports.getSingleProfileService = async (id, res) => {
+  const user = await Admin.findOne({ _id: id }).select(
+    "-password -createdAt -updatedAt"
+  );
 
   if (!user) {
-    return responseStatus(res, 201, "failed", "Admin doesn't exist ");;
+    return responseStatus(res, 201, "failed", "Admin doesn't exist ");
   } else {
-    return responseStatus(res, 201, "success", user);;
+    return responseStatus(res, 201, "success", user);
   }
 };
 
@@ -111,7 +114,7 @@ exports.getSingleProfileService = async (id,res) => {
  * @param {string} data.password - The updated password of the admin.
  * @returns {Object} - The updated admin object or an error message.
  */
-exports.updateAdminService = async (id, data) => {
+exports.updateAdminService = async (id, data, res) => {
   const { email, name, password } = data;
 
   // Check if the updated email already exists
@@ -122,18 +125,19 @@ exports.updateAdminService = async (id, data) => {
 
   if (password) {
     // If password is provided, update it
-    return await Admin.findByIdAndUpdate(
+    const updateResult = await Admin.findByIdAndUpdate(
       id,
       { name, email, password: await hashPassword(password) },
       { new: true }
-    );
+    ).select("-password -createdAt -updatedAt");
+    return responseStatus(res, 201, "success", updateResult);
   } else {
     // If no password provided, update only email and name
     const findAdminAndUpdate = await Admin.findByIdAndUpdate(
       id,
       { email, name },
       { new: true }
-    );
-    return findAdminAndUpdate;
+    ).select("-password -createdAt -updatedAt");
+    return responseStatus(res, 201, "success", findAdminAndUpdate);
   }
 };
