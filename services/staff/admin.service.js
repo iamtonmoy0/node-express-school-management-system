@@ -6,7 +6,7 @@ const {
 const responseStatus = require("../../handlers/responseStatus.handler");
 const Admin = require("../../models/Staff/admin.model");
 const generateToken = require("../../utils/tokenGenerator");
-const verifyToken = require("../../utils/verifyToken");
+// const verifyToken = require("../../utils/verifyToken");
 
 /**
  * Register admin service.

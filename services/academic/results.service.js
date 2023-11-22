@@ -13,7 +13,20 @@ exports.studentCheckExamResultService = async (examId, studentId, res) => {
   if (!student) return responseStatus(res, 404, "failed", "Student not found");
 
   // Finding the result for the given exam and student
-  const result = await Results.findOne({ exam: examId, student: studentId });
+  const result = await Results.findOne({
+    exam: examId,
+    student: studentId,
+  })
+    .populate({
+      path: "exam",
+      populate: {
+        path: "questions",
+      },
+    })
+    .populate("classLevel")
+    .populate("subject")
+    .populate("academicTerm")
+    .populate("academicYear");
 
   // Checking if the result is published
   if (!result?.isPublished)
