@@ -223,15 +223,20 @@ exports.studentWriteExamService = async (data, studentId, examId, res) => {
   // creating results
   const createResult = await Results.create({
     studentId: student._id,
+    teacher: findExam.createdBy,
     exam: findExam._id,
     score: result.score,
     grade: result.grade,
     passMark: findExam.passMark,
     status: result.status,
     remarks: result.remarks,
+    answeredQuestions: result.answeredQuestions,
+    classLevel: findExam.classLevel,
+    academicTerm: findExam.academicTerm,
+    academicYear: findExam.academicYear,
   });
   // updating student's total scores and number of attempts
-  Student.examResults.push(createResult._id)
-  await Student.save()
+  Student.examResults.push(createResult._id);
+  await Student.save();
   return responseStatus(res, 200, "success", "Answer Submitted");
 };
