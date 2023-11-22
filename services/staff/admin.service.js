@@ -62,13 +62,6 @@ exports.loginAdminService = async (data, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
-        academicTerms: user.academicTerms,
-        programs: user.programs,
-        yearGroups:user.yearGroups,
-        academicYears: user.academicYears,
-        classLevels: user.classLevels,
-        teachers:user.teachers,
-        students: user.students,
       },
       token,
     };

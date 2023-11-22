@@ -62,7 +62,7 @@ exports.getAdminProfileController = async (req, res) => {
 
 /**
  * @desc Update admin
- * @route PUT /api/v1/admins/:id
+ * @route PUT /api/v1/admin/:id
  * @access Private
  **/
 exports.updateAdminController = async (req, res) => {

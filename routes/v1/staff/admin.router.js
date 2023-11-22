@@ -29,7 +29,7 @@ adminRouter.route("/admins").get(isLoggedIn, isAdmin, getAdminsController);
 adminRouter.route("/admin/profile").get(isLoggedIn, getAdminProfileController);
 // update/delete admin
 adminRouter
-  .route("/admins/:id")
+  .route("/admin/:id")
   .put(isLoggedIn, isAdmin, updateAdminController)
   .delete(deleteAdminController);
 // admin suspend a teacher
