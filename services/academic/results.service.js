@@ -57,3 +57,14 @@ exports.getAllExamResultsService = async (classId, teacherId, res) => {
     return responseStatus(res, 401, "fail", "Unauthorized access");
   }
 };
+/**
+ * Admin publishes the exam result
+ * @param {}
+ */
+exports.adminPublishResultService = async (examId,res) => {
+  // Finding the exam
+  const exam = await Results.findById(examId);
+  if(!exam){
+    return responseStatus(res, 404, "fail", "Exam not found")
+  }
+};
