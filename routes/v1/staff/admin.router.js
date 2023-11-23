@@ -18,7 +18,9 @@ const isLoggedIn = require("../../../middlewares/isLoggedIn");
 const isAdmin = require("../../../middlewares/isAdmin");
 
 // register
-adminRouter.route("/admin/register").post(registerAdminController);
+adminRouter
+  .route("/admin/register")
+  .post(isLoggedIn, isAdmin, registerAdminController);
 //  login
 adminRouter.route("/admin/login").post(loginAdminController);
 // get all admin
@@ -27,7 +29,7 @@ adminRouter.route("/admins").get(isLoggedIn, isAdmin, getAdminsController);
 adminRouter.route("/admin/profile").get(isLoggedIn, getAdminProfileController);
 // update/delete admin
 adminRouter
-  .route("/admins/:id")
+  .route("/admin/:id")
   .put(isLoggedIn, isAdmin, updateAdminController)
   .delete(deleteAdminController);
 // admin suspend a teacher
