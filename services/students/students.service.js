@@ -2,6 +2,7 @@ const {
   hashPassword,
   isPassMatched,
 } = require("../../handlers/passHash.handler");
+const Admin = require("../../models/Staff/admin.model");
 const Student = require("../../models/Students/students.model");
 const Exam = require("../../models/Academic/exams.model");
 const Results = require("../../models/Academic/results.model");
@@ -19,8 +20,13 @@ const { resultCalculate } = require("../../functions/resultCalculate.function");
  * @param {Object} res - The Express response object.
  * @returns {Object} - The response object indicating success or failure.
  */
-exports.adminRegisterStudentService = async (data, res) => {
+exports.adminRegisterStudentService = async (data, adminId, res) => {
   const { name, email, password } = data;
+  // finding admin
+  const admin = await Admin.findById(adminId);
+  if (!admin) {
+    return responseStatus(res, 405, "failed", "Unauthorized access!");
+  }
   //check if teacher already exists
   const student = await Student.findOne({ email });
   if (student)
@@ -34,6 +40,9 @@ exports.adminRegisterStudentService = async (data, res) => {
     email,
     password: hashedPassword,
   });
+  // saving to admin
+  admin.students.push(studentRegistered._id);
+  await admin.save();
   return responseStatus(res, 200, "success", studentRegistered);
 };
 /**

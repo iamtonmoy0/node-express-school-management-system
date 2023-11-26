@@ -17,7 +17,7 @@ const {
  **/
 exports.adminRegisterStudentController = async (req, res) => {
   try {
-    await adminRegisterStudentService(req.body, res);
+    await adminRegisterStudentService(req.body, req.userAuth.id, res);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }
