@@ -88,9 +88,15 @@ exports.getAdminsService = async () => {
  * @returns {Object} - The admin user profile or an error message.
  */
 exports.getSingleProfileService = async (id, res) => {
-  const user = await Admin.findOne({ _id: id }).select(
-    "-password -createdAt -updatedAt"
-  );
+  const user = await Admin.findOne({ _id: id })
+    .select("-password -createdAt -updatedAt")
+    .populate("academicTerms")
+    .populate("programs")
+    .populate("academicYears")
+    .populate("yearGroups")
+    .populate("teachers")
+    .populate("classLevel")
+    .populate("students");
 
   if (!user) {
     return responseStatus(res, 201, "failed", "Admin doesn't exist ");
