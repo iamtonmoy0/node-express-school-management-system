@@ -56,7 +56,7 @@ exports.getStudentProfileController = async (req, res) => {
  **/
 exports.getAllStudentsByAdminController = async (req, res) => {
   try {
-    await getStudentByAdminService(req.userAuth.id, res);
+    await getAllStudentsByAdminService(req.userAuth.id, res);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }
