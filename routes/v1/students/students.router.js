@@ -20,15 +20,15 @@ const {
 
 // Create Student by Admin
 studentsRouter
-  .route("students/admin/register")
+  .route("/students/admin/register")
   .post(isLoggedIn, isAdmin, adminRegisterStudentController);
 
 // Student Login
-studentsRouter.route("students/login").post(studentLoginController);
+studentsRouter.route("/students/login").post(studentLoginController);
 
 // Get Student Profile
 studentsRouter
-  .route("students/profile")
+  .route("/students/profile")
   .get(isLoggedIn, isStudent, getStudentProfileController);
 
 // Get All Students by Admin

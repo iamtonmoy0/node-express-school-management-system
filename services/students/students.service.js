@@ -89,7 +89,8 @@ exports.getStudentsProfileService = async (id, res) => {
  * @returns {Array} - An array of all students.
  */
 exports.getAllStudentsByAdminService = async () => {
-  return await Student.find();
+  const result = await Student.find({});
+  return responseStatus(res, 200, "success", result);
 };
 /**
  * Get a single student by admin.
