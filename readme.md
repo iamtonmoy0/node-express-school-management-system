@@ -113,7 +113,6 @@ Navigate to the project directory:
 │   |   │   ├── programs.router.js
 │   |   │   ├── questions.router.js
 │   |   │   ├── results.router.js
-│   |   │   ├── students.router.js
 │   |   │   ├── subject.router.js
 │   |   │   ├── yearGroup.router.js
 │   |   ├── staff/
