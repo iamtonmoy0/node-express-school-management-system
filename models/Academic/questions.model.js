@@ -30,6 +30,7 @@ const questionSchema = new mongoose.Schema(
     correctAnswer: {
       type: String,
       required: true,
+      select: false,
     },
     isCorrect: {
       type: Boolean,

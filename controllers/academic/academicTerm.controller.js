@@ -14,7 +14,7 @@ const {
  **/
 exports.createAcademicTermController = async (req, res) => {
   try {
-    createAcademicTermService(req.body, req.userAuth.id, res);
+    await createAcademicTermService(req.body, req.userAuth.id, res);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }

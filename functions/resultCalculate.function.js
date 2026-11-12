@@ -2,11 +2,14 @@ exports.resultCalculate = async (questions, answers, exam) => {
   //Build report object
   let correctAnswers = 0;
   let wrongAnswers = 0;
-  let status = ""; //failed/passed
+  let status = "failed";
   let grade = 0;
   let remarks = "";
   let score = 0;
-  let answeredQuestions = [];
+  const answeredQuestions = [];
+  if (!Array.isArray(answers) || answers.length !== questions.length || questions.length === 0) {
+    throw new Error("Answers must be provided for every exam question");
+  }
   //  looping through all the questions and finding the answers
   for (let i = 0; i < questions.length; i++) {
     // single question
@@ -15,37 +18,32 @@ exports.resultCalculate = async (questions, answers, exam) => {
     if (question.correctAnswer === answers[i]) {
       correctAnswers++;
       score++;
-      question.isCorrect = true;
     } else {
       wrongAnswers++;
     }
   }
   // calculating the percentage of correct answers
-  totalQuestions = questions.length;
   grade = (correctAnswers / questions.length) * 100;
-  answeredQuestions = questions.map((question) => {
-    return {
+  questions.forEach((question, index) => {
+    const isCorrect = question.correctAnswer === answers[index];
+    answeredQuestions.push({
       question: question.question,
-      correctAnswer: question.correctAnswer,
-      isCorrect: question.isCorrect,
-    };
+      answer: answers[index],
+      isCorrect,
+    });
   });
   //calculate status
   if (grade >= exam.passMark) {
-    status = "Pass";
+    status = "passed";
   } else {
-    status = "Fail";
+    status = "failed";
   }
 
   //Remarks
   if (grade >= 80) {
     remarks = "Excellent";
-  } else if (grade >= 70) {
-    remarks = "Very Good";
   } else if (grade >= 60) {
     remarks = "Good";
-  } else if (grade >= 50) {
-    remarks = "Fair";
   } else {
     remarks = "Poor";
   }

@@ -15,6 +15,7 @@ const teacherSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+      select: false,
     },
     dateEmployed: {
       type: Date,

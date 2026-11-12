@@ -69,7 +69,7 @@ exports.getAllStudentsByAdminController = async (req, res) => {
  **/
 exports.getStudentByAdminController = async (req, res) => {
   try {
-    const result = await getStudentByAdminService(req.userAuth.id);
+    const result = await getStudentByAdminService(req.params.studentId, res);
     responseStatus(res, 200, "success", result);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
@@ -96,7 +96,7 @@ exports.studentUpdateProfileController = async (req, res) => {
  **/
 exports.adminUpdateStudentController = async (req, res) => {
   try {
-    await adminUpdateStudentService(req.body, req.params.studentId);
+    await adminUpdateStudentService(req.body, req.params.studentId, res);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }

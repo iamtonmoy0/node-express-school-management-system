@@ -14,7 +14,7 @@ const responseStatus = require("../../handlers/responseStatus.handler");
  * @param {string} userId - The ID of the user creating the program.
  * @returns {Object} - The response object indicating success or failure.
  */
-exports.createProgramService = async (data, userId) => {
+exports.createProgramService = async (data, userId, res) => {
   const { name, description } = data;
 
   // Check if the program already exists
@@ -69,11 +69,11 @@ exports.getProgramsService = async (id) => {
  * @param {string} userId - The ID of the user updating the program.
  * @returns {Object} - The response object indicating success or failure.
  */
-exports.updateProgramService = async (data, id, userId) => {
+exports.updateProgramService = async (data, id, userId, res) => {
   const { name, description } = data;
 
   // Check if the updated name already exists
-  const classFound = await ClassLevel.findOne({ name });
+  const classFound = await Program.findOne({ name, _id: { $ne: id } });
   if (classFound) {
     return responseStatus(res, 402, "failed", "Program already exists");
   }

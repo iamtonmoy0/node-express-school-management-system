@@ -1,4 +1,7 @@
 const responseStatus = require("../../handlers/responseStatus.handler");
+const Admin = require("../../models/Staff/admin.model");
+const Teacher = require("../../models/Staff/teachers.model");
+const { adminPublishResultService } = require("../../services/academic/results.service");
 const {
   registerAdminService,
   getAdminsService,
@@ -78,12 +81,11 @@ exports.updateAdminController = async (req, res) => {
  * @route DELETE /api/v1/admins/:id
  * @access Private
  **/
-exports.deleteAdminController = (req, res) => {
+exports.deleteAdminController = async (req, res) => {
   try {
-    res.status(201).json({
-      status: "success",
-      data: "delete admin",
-    });
+    const admin = await Admin.findByIdAndDelete(req.params.id).select("-password");
+    if (!admin) return responseStatus(res, 404, "failed", "Admin not found");
+    return responseStatus(res, 200, "success", admin);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }
@@ -94,12 +96,9 @@ exports.deleteAdminController = (req, res) => {
  * @route PUT /api/v1/admins/suspend/teacher/:id
  * @access Private
  **/
-exports.adminSuspendTeacherController = (req, res) => {
+exports.adminSuspendTeacherController = async (req, res) => {
   try {
-    res.status(201).json({
-      status: "success",
-      data: "admin suspend teacher",
-    });
+    return await setTeacherStatus(req, res, { isSuspended: true });
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }
@@ -110,12 +109,9 @@ exports.adminSuspendTeacherController = (req, res) => {
  * @route PUT /api/v1/admins/unsuspend/teacher/:id
  * @access Private
  **/
-exports.adminUnSuspendTeacherController = (req, res) => {
+exports.adminUnSuspendTeacherController = async (req, res) => {
   try {
-    res.status(201).json({
-      status: "success",
-      data: "admin unsuspend teacher",
-    });
+    return await setTeacherStatus(req, res, { isSuspended: false });
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }
@@ -126,12 +122,9 @@ exports.adminUnSuspendTeacherController = (req, res) => {
  * @route PUT /api/v1/admins/withdraw/teacher/:id
  * @access Private
  **/
-exports.adminWithdrawTeacherController = (req, res) => {
+exports.adminWithdrawTeacherController = async (req, res) => {
   try {
-    res.status(201).json({
-      status: "success",
-      data: "admin withdraw teacher",
-    });
+    return await setTeacherStatus(req, res, { isWithdrawn: true });
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }
@@ -142,12 +135,9 @@ exports.adminWithdrawTeacherController = (req, res) => {
  * @route PUT /api/v1/admins/unwithdraw/teacher/:id
  * @access Private
  **/
-exports.adminUnWithdrawTeacherController = (req, res) => {
+exports.adminUnWithdrawTeacherController = async (req, res) => {
   try {
-    res.status(201).json({
-      status: "success",
-      data: "admin un-withdraw teacher",
-    });
+    return await setTeacherStatus(req, res, { isWithdrawn: false });
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }
@@ -158,12 +148,9 @@ exports.adminUnWithdrawTeacherController = (req, res) => {
  * @route PUT /api/v1/admins/publish/result/:id
  * @access Private
  **/
-exports.adminPublishResultsController = (req, res) => {
+exports.adminPublishResultsController = async (req, res) => {
   try {
-    res.status(201).json({
-      status: "success",
-      data: "admin publish exam",
-    });
+    return await adminPublishResultService(req.params.id, res, true);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }
@@ -174,13 +161,16 @@ exports.adminPublishResultsController = (req, res) => {
  * @route PUT /api/v1/admins/unpublish/result/:id
  * @access Private
  **/
-exports.adminUnPublishResultsController = (req, res) => {
+exports.adminUnPublishResultsController = async (req, res) => {
   try {
-    res.status(201).json({
-      status: "success",
-      data: "admin unpublish exam",
-    });
+    return await adminPublishResultService(req.params.id, res, false);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }
+};
+
+const setTeacherStatus = async (req, res, updates) => {
+  const teacher = await Teacher.findByIdAndUpdate(req.params.id, updates, { new: true }).select("-password");
+  if (!teacher) return responseStatus(res, 404, "failed", "Teacher not found");
+  return responseStatus(res, 200, "success", teacher);
 };

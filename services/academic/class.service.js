@@ -12,7 +12,7 @@ const responseStatus = require("../../handlers/responseStatus.handler");
  * @param {string} userId - The ID of the user creating the class.
  * @returns {Object} - The response object indicating success or failure.
  */
-exports.createClassLevelService = async (data, userId) => {
+exports.createClassLevelService = async (data, userId, res) => {
   const { name, description } = data;
 
   // Check if the class already exists
@@ -67,11 +67,11 @@ exports.getClassLevelsService = async (id) => {
  * @param {string} userId - The ID of the user updating the class.
  * @returns {Object} - The response object indicating success or failure.
  */
-exports.updateClassLevelService = async (data, id, userId) => {
+exports.updateClassLevelService = async (data, id, userId, res) => {
   const { name, description } = data;
 
   // Check if the updated name already exists
-  const classFound = await ClassLevel.findOne({ name });
+  const classFound = await ClassLevel.findOne({ name, _id: { $ne: id } });
   if (classFound) {
     return responseStatus(res, 400, "failed", "Class already exists");
   }

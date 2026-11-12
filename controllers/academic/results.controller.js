@@ -56,8 +56,9 @@ exports.adminPublishResultsController = async (req, res) => {
  * @route PUT /api/v1/admin/unpublish/result/:examId
  * @access Private
  **/
-exports.adminUnPublishResultsController = (req, res) => {
+exports.adminUnPublishResultsController = async (req, res) => {
   try {
+    await adminPublishResultService(req.params.id, res, false);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }

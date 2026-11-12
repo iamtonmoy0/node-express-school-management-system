@@ -10,6 +10,7 @@ const {
   adminWithdrawTeacherController,
   adminUnWithdrawTeacherController,
   adminUnPublishResultsController,
+  adminPublishResultsController,
   getAdminProfileController,
 } = require("../../../controllers/staff/admin.controller");
 const adminRouter = express.Router();
@@ -31,30 +32,30 @@ adminRouter.route("/admin/profile").get(isLoggedIn, getAdminProfileController);
 adminRouter
   .route("/admin/:id")
   .put(isLoggedIn, isAdmin, updateAdminController)
-  .delete(deleteAdminController);
+  .delete(isLoggedIn, isAdmin, deleteAdminController);
 // admin suspend a teacher
 adminRouter
   .route("/admins/suspend/teacher/:id")
-  .put(adminSuspendTeacherController);
+  .put(isLoggedIn, isAdmin, adminSuspendTeacherController);
 // admin unsuspend a teacher
 adminRouter
   .route("/admins/unsuspend/teacher/:id")
-  .put(adminUnSuspendTeacherController);
+  .put(isLoggedIn, isAdmin, adminUnSuspendTeacherController);
 //  admin withdraws a teacher
 adminRouter
   .route("/admins/withdraw/teacher/:id")
-  .put(adminWithdrawTeacherController);
+  .put(isLoggedIn, isAdmin, adminWithdrawTeacherController);
 // admin un-withdraws a teacher
 adminRouter
   .route("/admins/unwithdraw/teacher/:id")
-  .put(adminUnWithdrawTeacherController);
+  .put(isLoggedIn, isAdmin, adminUnWithdrawTeacherController);
 // admin publish result
 adminRouter
   .route("/admins/publish/result/:id")
-  .put(adminUnPublishResultsController);
+  .put(isLoggedIn, isAdmin, adminPublishResultsController);
 // admin un-publish result
 adminRouter
   .route("/admins/unpublish/result/:id")
-  .put(adminUnPublishResultsController);
+  .put(isLoggedIn, isAdmin, adminUnPublishResultsController);
 
 module.exports = adminRouter;

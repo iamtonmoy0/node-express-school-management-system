@@ -14,7 +14,7 @@ const responseStatus = require("../../handlers/responseStatus.handler");
  * @param {string} userId - The ID of the user creating the academic term.
  * @returns {Object} - The response object indicating success or failure.
  */
-exports.createAcademicTermService = async (data, userId) => {
+exports.createAcademicTermService = async (data, userId, res) => {
   const { name, description, duration } = data;
 
   // Check if the academic term already exists
@@ -70,11 +70,11 @@ exports.getAcademicTermService = async (id) => {
  * @param {string} userId - The ID of the user updating the academic term.
  * @returns {Object} - The response object indicating success or failure.
  */
-exports.updateAcademicTermService = async (data, academicId, userId) => {
+exports.updateAcademicTermService = async (data, academicId, userId, res) => {
   const { name, description, duration } = data;
 
   // Check if the updated name already exists
-  const createAcademicTermFound = await AcademicTerm.findOne({ name });
+  const createAcademicTermFound = await AcademicTerm.findOne({ name, _id: { $ne: academicId } });
   if (createAcademicTermFound) {
     return responseStatus(res, 402, "failed", "Academic term already exists");
   }

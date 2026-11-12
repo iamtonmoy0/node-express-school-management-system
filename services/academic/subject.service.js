@@ -16,7 +16,7 @@ const responseStatus = require("../../handlers/responseStatus.handler");
  * @param {string} userId - The ID of the user creating the Subject.
  * @returns {Object} - The response object indicating success or failure.
  */
-exports.createSubjectService = async (data, programId, userId) => {
+exports.createSubjectService = async (data, programId, userId, res) => {
   const { name, description, academicTerm } = data;
 
   // Find the program
@@ -76,11 +76,11 @@ exports.getSubjectsService = async (id) => {
  * @param {string} userId - The ID of the user updating the Subject.
  * @returns {Object} - The response object indicating success or failure.
  */
-exports.updateSubjectService = async (data, id, userId) => {
+exports.updateSubjectService = async (data, id, userId, res) => {
   const { name, description, academicTerm } = data;
 
   // Check if the updated name already exists
-  const classFound = await Subject.findOne({ name });
+  const classFound = await Subject.findOne({ name, _id: { $ne: id } });
   if (classFound) {
     return responseStatus(res, 402, "failed", "Subject already exists");
   }

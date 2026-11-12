@@ -21,7 +21,7 @@ const responseStatus = require("../../handlers/responseStatus.handler");
  * @param {string} teacherId - The ID of the teacher creating the exam.
  * @returns {Object} - The response object indicating success or failure.
  */
-exports.createExamService = async (data, teacherId) => {
+exports.createExamService = async (data, teacherId, res) => {
   const {
     name,
     description,
@@ -33,6 +33,9 @@ exports.createExamService = async (data, teacherId) => {
     duration,
     examDate,
     examTime,
+    academicYear,
+    classLevel,
+    examType,
   } = data;
 
   // Find the teacher
@@ -57,6 +60,9 @@ exports.createExamService = async (data, teacherId) => {
     duration,
     examDate,
     examTime,
+    academicYear,
+    classLevel,
+    examType,
     createdBy: teacherExist._id,
   });
 
@@ -73,8 +79,8 @@ exports.createExamService = async (data, teacherId) => {
  *
  * @returns {Array} - An array of all exams.
  */
-exports.getAllExamService = async () => {
-  return await Exams.find();
+exports.getAllExamService = async (teacherId) => {
+  return Exams.find({ createdBy: teacherId }).select("-questions");
 };
 
 /**
@@ -83,8 +89,8 @@ exports.getAllExamService = async () => {
  * @param {string} id - The ID of the exam.
  * @returns {Object} - The exam object.
  */
-exports.getExamByIdService = async (id) => {
-  return await Exams.findById(id);
+exports.getExamByIdService = async (id, teacherId) => {
+  return Exams.findOne({ _id: id, createdBy: teacherId });
 };
 
 /**
@@ -106,49 +112,24 @@ exports.getExamByIdService = async (id) => {
  * @param {string} examId - The ID of the exam to be updated.
  * @returns {Object} - The response object indicating success or failure.
  */
-exports.updateExamService = async (data, examId) => {
-  const {
-    name,
-    description,
-    subject,
-    program,
-    academicTerm,
-    duration,
-    examDate,
-    examTime,
-    examType,
-    createdBy,
-    academicYear,
-    classLevel,
-  } = data;
+exports.updateExamService = async (data, examId, res, teacherId) => {
+  const { createdBy, ...updates } = data;
 
   // Check if the updated name already exists
-  const examFound = await Exams.findOne({ name });
+  const examFound = updates.name && await Exams.findOne({ name: updates.name, _id: { $ne: examId } });
   if (examFound) {
     return responseStatus(res, 402, "failed", "Exam already exists");
   }
 
   // Update the exam
-  const examUpdated = await Exams.findByIdAndUpdate(
-    examId,
-    {
-      name,
-      description,
-      subject,
-      program,
-      academicTerm,
-      duration,
-      examDate,
-      examTime,
-      examType,
-      createdBy,
-      academicYear,
-      classLevel,
-    },
+  const examUpdated = await Exams.findOneAndUpdate(
+    { _id: examId, ...(teacherId ? { createdBy: teacherId } : {}) },
+    { $set: updates },
     {
       new: true,
     }
   );
+  if (!examUpdated) return responseStatus(res, 404, "failed", "Exam not found");
 
   // Send the response
   return responseStatus(res, 200, "success", examUpdated);

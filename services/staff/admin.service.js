@@ -46,7 +46,7 @@ exports.registerAdminService = async (data, res) => {
 exports.loginAdminService = async (data, res) => {
   const { email, password } = data;
   // Find the admin user by email
-  const user = await Admin.findOne({ email });
+  const user = await Admin.findOne({ email }).select("+password");
   if (!user)
     return responseStatus(res, 405, "failed", "Invalid login credentials");
 
@@ -119,7 +119,7 @@ exports.updateAdminService = async (id, data, res) => {
   const { email, name, password } = data;
 
   // Check if the updated email already exists
-  const emailTaken = await Admin.findOne({ email });
+  const emailTaken = await Admin.findOne({ email, _id: { $ne: id } });
   if (emailTaken) {
     return "Email is already in use";
   }

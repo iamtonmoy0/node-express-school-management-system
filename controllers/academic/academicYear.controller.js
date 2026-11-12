@@ -55,7 +55,7 @@ exports.getAcademicYearController = async (req, res) => {
  **/
 exports.updateAcademicYearController = async (req, res) => {
   try {
-    await updateAcademicYearService(req.body, req.params.id, req.userAuth.id);
+    await updateAcademicYearService(req.body, req.params.id, req.userAuth.id, res);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }

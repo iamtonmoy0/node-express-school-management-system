@@ -25,11 +25,12 @@ exports.createQuestionsService = async (data, examId, teacherId, res) => {
   const exam = await Exam.findById(examId);
   // If exam not found
   if (!exam) return responseStatus(res, 404, "failed", "Exam not found");
+  if (String(exam.createdBy) !== String(teacherId)) return responseStatus(res, 403, "failed", "You can only add questions to your own exams");
 
   // Finding duplicate question
   const isQuestion = await Questions.findOne({ question });
-  if (!isQuestion)
-    return responseStatus(res, 405, "failed", "This Question already exists");
+  if (isQuestion)
+    return responseStatus(res, 409, "failed", "This question already exists");
 
   // Create question
   const createQuestions = await Questions.create({
@@ -54,7 +55,7 @@ exports.createQuestionsService = async (data, examId, teacherId, res) => {
  * @returns {Array} - An array of all questions.
  */
 exports.getAllQuestionsService = async () => {
-  return await Questions.find();
+  return Questions.find().select("-correctAnswer -isCorrect -createdBy");
 };
 
 /**
@@ -64,7 +65,7 @@ exports.getAllQuestionsService = async () => {
  * @returns {Object} - The question object.
  */
 exports.getQuestionsByIdService = async (questionId) => {
-  return await Questions.findById(questionId);
+  return Questions.findById(questionId).select("-correctAnswer -isCorrect -createdBy");
 };
 
 /**
@@ -86,13 +87,13 @@ exports.updateQuestionsService = async (data, questionId, userId, res) => {
   const { question, optionA, optionB, optionC, optionD, correctAnswer } = data;
 
   // Check if the updated question already exists
-  const questionFound = await Questions.findOne({ question });
+  const questionFound = await Questions.findOne({ question, _id: { $ne: questionId } });
   if (questionFound)
     return responseStatus(res, 401, "failed", "Question already exists");
 
   // Update the question
-  const questionCreate = await Questions.findByIdAndUpdate(
-    questionId,
+  const questionCreate = await Questions.findOneAndUpdate(
+    { _id: questionId, createdBy: userId },
     {
       question,
       optionA,

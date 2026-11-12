@@ -1,5 +1,6 @@
 // Import necessary models
 const AcademicYear = require("../../models/Academic/academicYear.model");
+const Admin = require("../../models/Staff/admin.model");
 // Import responseStatus handler
 const responseStatus = require("../../handlers/responseStatus.handler");
 
@@ -13,7 +14,7 @@ const responseStatus = require("../../handlers/responseStatus.handler");
  * @param {string} userId - The ID of the user creating the academic year.
  * @returns {Object} - The response object indicating success or failure.
  */
-exports.createAcademicYearService = async (data, userId) => {
+exports.createAcademicYearService = async (data, userId, res) => {
   const { name, fromYear, toYear } = data;
 
   // Check if the academic year already exists
@@ -29,11 +30,11 @@ exports.createAcademicYearService = async (data, userId) => {
     toYear,
     createdBy: userId,
   });
-
-  // Push the academic year into the admin's academicYears array
   const admin = await Admin.findById(userId);
-  admin.academicYears.push(academicYearCreated._id);
-  await admin.save();
+  if (admin) {
+    admin.academicYears.push(academicYearCreated._id);
+    await admin.save();
+  }
 
   // Send the response
   return responseStatus(res, 201, "success", academicYearCreated);
@@ -69,11 +70,11 @@ exports.getAcademicYearService = async (id) => {
  * @param {string} userId - The ID of the user updating the academic year.
  * @returns {Object} - The response object indicating success or failure.
  */
-exports.updateAcademicYearService = async (data, academicId, userId) => {
+exports.updateAcademicYearService = async (data, academicId, userId, res) => {
   const { name, fromYear, toYear } = data;
 
   // Check if the updated name already exists
-  const createAcademicYearFound = await AcademicYear.findOne({ name });
+  const createAcademicYearFound = await AcademicYear.findOne({ name, _id: { $ne: academicId } });
   if (createAcademicYearFound) {
     return responseStatus(res, 402, "failed", "Academic year already exists");
   }

@@ -28,7 +28,7 @@ exports.adminRegisterStudentService = async (data, adminId, res) => {
     return responseStatus(res, 405, "failed", "Unauthorized access!");
   }
   //check if teacher already exists
-  const student = await Student.findOne({ email });
+  const student = await Student.findOne({ email }).select("+password");
   if (student)
     return responseStatus(res, 402, "failed", "Student already enrolled");
 
@@ -43,6 +43,7 @@ exports.adminRegisterStudentService = async (data, adminId, res) => {
   // saving to admin
   admin.students.push(studentRegistered._id);
   await admin.save();
+  studentRegistered.password = undefined;
   return responseStatus(res, 200, "success", studentRegistered);
 };
 /**
@@ -57,7 +58,7 @@ exports.adminRegisterStudentService = async (data, adminId, res) => {
 exports.studentLoginService = async (data, res) => {
   const { email, password } = data;
   //find the  user
-  const student = await Student.findOne({ email }).select("-password ");
+  const student = await Student.findOne({ email }).select("+password");
   if (!student)
     return responseStatus(res, 402, "failed", "Invalid login credentials");
 
@@ -66,6 +67,7 @@ exports.studentLoginService = async (data, res) => {
   if (!isMatched)
     return responseStatus(res, 401, "failed", "Invalid login credentials");
 
+  student.password = undefined;
   const responseData = { student, token: generateToken(student._id) };
   return responseStatus(res, 200, "success", responseData);
 };
@@ -88,8 +90,8 @@ exports.getStudentsProfileService = async (id, res) => {
  *
  * @returns {Array} - An array of all students.
  */
-exports.getAllStudentsByAdminService = async () => {
-  const result = await Student.find({});
+exports.getAllStudentsByAdminService = async (_adminId, res) => {
+  const result = await Student.find({}).select("-password");
   return responseStatus(res, 200, "success", result);
 };
 /**
@@ -100,7 +102,7 @@ exports.getAllStudentsByAdminService = async () => {
  * @returns {Object} - The response object indicating success or failure.
  */
 exports.getStudentByAdminService = async (studentID, res) => {
-  const student = await Student.findById(studentID);
+  const student = await Student.findById(studentID).select("-password");
   if (!student) return responseStatus(res, 402, "failed", "Student not found");
   return responseStatus(res, 200, "success", student);
 };
@@ -115,7 +117,7 @@ exports.getStudentByAdminService = async (studentID, res) => {
 exports.studentUpdateProfileService = async (data, userId, res) => {
   const { email, password } = data;
   //if email is taken
-  const emailExist = await Student.findOne({ email });
+  const emailExist = email && await Student.findOne({ email, _id: { $ne: userId } });
   if (emailExist)
     return responseStatus(res, 402, "failed", "This email is taken/exist");
 
@@ -135,6 +137,7 @@ exports.studentUpdateProfileService = async (data, userId, res) => {
         runValidators: true,
       }
     );
+    if (student) student.password = undefined;
     return responseStatus(res, 200, "success", student);
   } else {
     //update
@@ -148,6 +151,7 @@ exports.studentUpdateProfileService = async (data, userId, res) => {
         runValidators: true,
       }
     );
+    if (student) student.password = undefined;
     return responseStatus(res, 200, "success", student);
   }
 };
@@ -163,7 +167,7 @@ exports.adminUpdateStudentService = async (data, studentId, res) => {
   const { classLevels, academicYear, program, name, email, prefectName } = data;
 
   //find the student by id
-  const studentFound = await Student.findById(studentId, res);
+  const studentFound = await Student.findById(studentId);
   if (!studentFound)
     return responseStatus(res, 402, "failed", "Student not found");
   //update
@@ -177,15 +181,14 @@ exports.adminUpdateStudentService = async (data, studentId, res) => {
         program,
         prefectName,
       },
-      $addToSet: {
-        classLevels,
-      },
+      ...(classLevels && { $addToSet: { currentClassLevels: { $each: Array.isArray(classLevels) ? classLevels : [classLevels] } } }),
     },
     {
       new: true,
     }
   );
   //send response
+  if (studentUpdated) studentUpdated.password = undefined;
   return responseStatus(res, 200, "success", studentUpdated);
 };
 /**
@@ -207,7 +210,7 @@ exports.studentWriteExamService = async (data, studentId, examId, res) => {
   if (!findExam) return responseStatus(res, 404, "failed", "Exam not found");
 
   // checking if the student already attended the exam
-  const alreadyExamTaken = await Results.findOne({ student: student._id });
+  const alreadyExamTaken = await Results.findOne({ student: student._id, exam: examId });
   if (alreadyExamTaken)
     return responseStatus(res, 400, "failed", "Already written the exam!");
   //checking if the student is suspended or withdrawn
@@ -219,9 +222,9 @@ exports.studentWriteExamService = async (data, studentId, examId, res) => {
       "You are eligible to attend this exam"
     );
   // getting questions
-  const questions = findExam?.questions;
+  const questions = (await findExam.populate({ path: "questions", select: "+correctAnswer" })).questions;
   // checking is students answered all the questions
-  if (questions.length !== answers.length)
+  if (!Array.isArray(answers) || questions.length !== answers.length)
     return responseStatus(
       res,
       406,
@@ -232,7 +235,7 @@ exports.studentWriteExamService = async (data, studentId, examId, res) => {
   const result = await resultCalculate(questions, answers, findExam);
   // creating results
   const createResult = await Results.create({
-    studentId: student._id,
+    student: student._id,
     teacher: findExam.createdBy,
     exam: findExam._id,
     score: result.score,
@@ -246,7 +249,7 @@ exports.studentWriteExamService = async (data, studentId, examId, res) => {
     academicYear: findExam.academicYear,
   });
   // updating student's total scores and number of attempts
-  Student.examResults.push(createResult._id);
-  await Student.save();
+  student.examResults.push(createResult._id);
+  await student.save();
   return responseStatus(res, 200, "success", "Answer Submitted");
 };

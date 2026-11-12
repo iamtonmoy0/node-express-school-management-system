@@ -15,7 +15,7 @@ const responseStatus = require("../../handlers/responseStatus.handler");
  * @param {Object} res - Express response object
  * @returns {Object} - Response object indicating success or failure
  */
-exports.createTeacherServices = async (data, adminId, res) => {
+exports.createTeacherService = async (data, adminId, res) => {
   const { name, email, password } = data;
 
   // Check if the teacher already exists
@@ -41,6 +41,7 @@ exports.createTeacherServices = async (data, adminId, res) => {
   admin.teachers.push(createTeacher._id);
   await admin.save();
 
+  createTeacher.password = undefined;
   return responseStatus(res, 200, "success", createTeacher);
 };
 
@@ -53,7 +54,7 @@ exports.teacherLoginService = async (data, res) => {
   const { email, password } = data;
 
   // Checking if the teacher exists
-  const teacherFound = await Teacher.findOne({ email });
+  const teacherFound = await Teacher.findOne({ email }).select("+password");
 
   if (!teacherFound)
     return responseStatus(res, 402, "failed", "Invalid login credentials");
@@ -63,9 +64,11 @@ exports.teacherLoginService = async (data, res) => {
 
   if (!isMatched)
     return responseStatus(res, 401, "failed", "Invalid login credentials");
+  if (teacherFound.isWithdrawn || teacherFound.isSuspended)
+    return responseStatus(res, 403, "failed", "Teacher account is inactive");
 
   const response = {
-    teacher: teacherFound,
+    teacher: await Teacher.findById(teacherFound._id).select("-password"),
     token: generateToken(teacherFound._id),
   };
 
@@ -77,7 +80,7 @@ exports.teacherLoginService = async (data, res) => {
  * @returns {Array} - Array of all teacher objects
  */
 exports.getAllTeachersService = async () => {
-  return await Teacher.find();
+  return Teacher.find().select("-password");
 };
 
 /**

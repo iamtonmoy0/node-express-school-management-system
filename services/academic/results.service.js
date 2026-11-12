@@ -9,27 +9,19 @@ const Results = require("../../models/Academic/results.model");
  */
 exports.studentCheckExamResultService = async (examId, studentId, res) => {
   // Checking if the student exists
-  let student = await Results.findOne({ student: studentId });
-  if (!student) return responseStatus(res, 404, "failed", "Student not found");
-
-  // Finding the result for the given exam and student
   const result = await Results.findOne({
     exam: examId,
     student: studentId,
   })
-    .populate({
-      path: "exam",
-      populate: {
-        path: "questions",
-      },
-    })
+    .populate("exam")
     .populate("classLevel")
     .populate("subject")
     .populate("academicTerm")
     .populate("academicYear");
 
   // Checking if the result is published
-  if (!result?.isPublished)
+  if (!result) return responseStatus(res, 404, "failed", "Result not found");
+  if (!result.isPublished)
     return responseStatus(
       res,
       400,
@@ -48,23 +40,17 @@ exports.studentCheckExamResultService = async (examId, studentId, res) => {
  */
 exports.getAllExamResultsService = async (classId, teacherId, res) => {
   // Finding all results for the given class
-  const result = await Results.find({ classLevel: classId });
+  const result = await Results.find({ classLevel: classId, teacher: teacherId });
 
   // Checking if the teacher has access to the results
-  if (result.teacher === teacherId) {
-    return responseStatus(res, 200, "success", result);
-  } else {
-    return responseStatus(res, 401, "fail", "Unauthorized access");
-  }
+  return responseStatus(res, 200, "success", result);
 };
 /**
  * Admin publishes the exam result
  * @param {}
  */
-exports.adminPublishResultService = async (examId,res) => {
-  // Finding the exam
-  const exam = await Results.findById(examId);
-  if(!exam){
-    return responseStatus(res, 404, "fail", "Exam not found")
-  }
+exports.adminPublishResultService = async (examId, res, isPublished = true) => {
+  const results = await Results.updateMany({ exam: examId }, { $set: { isPublished } });
+  if (!results.matchedCount) return responseStatus(res, 404, "failed", "Exam results not found");
+  return responseStatus(res, 200, "success", { updated: results.modifiedCount, isPublished });
 };

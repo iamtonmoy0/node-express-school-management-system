@@ -1,6 +1,6 @@
 const responseStatus = require("../../handlers/responseStatus.handler");
 const {
-  createExamService,
+  createQuestionsService,
   getAllQuestionsService,
   getQuestionsByIdService,
   updateQuestionsService,
@@ -13,7 +13,7 @@ const {
  **/
 exports.createQuestionsController = async (req, res) => {
   try {
-    await createExamService(req.body, req.params.examId, req.userAuth.id, res);
+    await createQuestionsService(req.body, req.params.examId, req.userAuth.id, res);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }
@@ -54,7 +54,7 @@ exports.getQuestionByIdController = async (req, res) => {
  **/
 exports.updateQuestionController = async (req, res) => {
   try {
-    await updateQuestionsService(req.body, req.params.id, res);
+    await updateQuestionsService(req.body, req.params.id, req.userAuth.id, res);
   } catch (error) {
     responseStatus(res, 400, "failed", error.message);
   }

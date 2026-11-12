@@ -38,7 +38,7 @@ studentsRouter
 
 // Get Single Student by Admin
 studentsRouter
-  .route("/:studentId/admin")
+  .route("/students/:studentId/admin")
   .get(isLoggedIn, isAdmin, getStudentByAdminController);
 
 // Update Student Profile by Student

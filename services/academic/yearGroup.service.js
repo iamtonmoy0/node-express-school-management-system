@@ -13,7 +13,7 @@ const responseStatus = require("../../handlers/responseStatus.handler");
  * @param {string} userId - The ID of the user creating the YearGroup.
  * @returns {Object} - The response object indicating success or failure.
  */
-exports.createYearGroupService = async (data, userId) => {
+exports.createYearGroupService = async (data, userId, res) => {
   const { name, academicYear } = data;
 
   // Check if the YearGroup already exists
@@ -68,11 +68,11 @@ exports.getYearGroupsService = async (id) => {
  * @param {string} userId - The ID of the user updating the YearGroup.
  * @returns {Object} - The response object indicating success or failure.
  */
-exports.updateYearGroupService = async (data, id, userId) => {
+exports.updateYearGroupService = async (data, id, userId, res) => {
   const { name, academicYear } = data;
 
   // Check if the updated name already exists
-  const classFound = await YearGroup.findOne({ name });
+  const classFound = await YearGroup.findOne({ name, _id: { $ne: id } });
   if (classFound) {
     return responseStatus(res, 402, "failed", "Year Group already exists");
   }
